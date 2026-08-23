@@ -37,3 +37,35 @@ def test_duplicate_module_membership_is_an_error(tmp_path: Path) -> None:
     assert any(
         issue.code == "DUPLICATE_MODULE_MEMBERSHIP" for issue in report.errors
     )
+
+
+def test_invalid_rule_json_is_an_error(tmp_path: Path) -> None:
+    data_directory = tmp_path / "processed"
+    shutil.copytree(PROCESSED_DATA, data_directory)
+    rules_path = data_directory / "rules.csv"
+    rules_path.write_text(
+        rules_path.read_text(encoding="utf-8").replace(
+            '"{""must_be_taken_with_target"":true,""required_for_target_credit"":true}"',
+            '"not json"',
+            1,
+        ),
+        encoding="utf-8",
+    )
+
+    report = validate_processed_data(data_directory)
+
+    assert any(issue.code == "INVALID_CONDITION_JSON" for issue in report.errors)
+
+
+def test_invalid_module_code_is_an_error(tmp_path: Path) -> None:
+    data_directory = tmp_path / "processed"
+    shutil.copytree(PROCESSED_DATA, data_directory)
+    modules_path = data_directory / "modules.csv"
+    modules_path.write_text(
+        modules_path.read_text(encoding="utf-8").replace("CHEM1051A", "INVALID", 1),
+        encoding="utf-8",
+    )
+
+    report = validate_processed_data(data_directory)
+
+    assert any(issue.code == "INVALID_MODULE_CODE" for issue in report.errors)
