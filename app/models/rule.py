@@ -1,0 +1,1 @@
+"""Rule domain model."""

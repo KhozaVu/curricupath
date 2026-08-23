@@ -1,0 +1,1 @@
+"""CurricuPath application package."""
