@@ -1,1 +1,102 @@
-
+programme_code,programme_name,year_of_study,course_code,course_name,nqf_credits,nqf_level,requirement_type,selection_group,selection_count,source_id,handbook_page
+EFA03,Electrical Engineering,1,CHEM1051A,Engineering Chemistry,12,5,compulsory,,,EBE_2026,46
+EFA03,Electrical Engineering,1,FEBE1000A,Introduction to the Engineering Profession,12,5,compulsory,,,EBE_2026,46
+EFA03,Electrical Engineering,1,FEBE1002A,Engineering Analysis and Design IA,12,5,compulsory,,,EBE_2026,46
+EFA03,Electrical Engineering,1,FEBE1004A,Engineering Analysis and Design IB,12,5,compulsory,,,EBE_2026,46
+EFA03,Electrical Engineering,1,MATH1048A,Engineering Mathematics IA,15,5,compulsory,,,EBE_2026,46
+EFA03,Electrical Engineering,1,MATH1049A,Engineering Mathematics IB,15,5,compulsory,,,EBE_2026,46
+EFA03,Electrical Engineering,1,PHYS1032A,Engineering Physics IA,18,5,compulsory,,,EBE_2026,46
+EFA03,Electrical Engineering,1,PHYS1033A,Engineering Physics IB,18,5,compulsory,,,EBE_2026,46
+EFA03,Electrical Engineering,1,PHYS1034A,Applied Physics I,12,5,compulsory,,,EBE_2026,46
+EFA03,Electrical Engineering,1,AFRL1003A,Elementary IsiZulu Language and Culture IA,18,5,elective_pool,year_1_humanities_elective,1,EBE_2026,46
+EFA03,Electrical Engineering,1,AFRL1005A,Elementary Sesotho Language and Culture IA,18,5,elective_pool,year_1_humanities_elective,1,EBE_2026,46
+EFA03,Electrical Engineering,1,INTR1012A,The International Relations of South Africa and Africa,18,5,elective_pool,year_1_humanities_elective,1,EBE_2026,46
+EFA03,Electrical Engineering,1,POLS1007A,Introduction to Political Studies,18,5,elective_pool,year_1_humanities_elective,1,EBE_2026,46
+EFA03,Electrical Engineering,1,SOCL1013A,Southern Africa in the Era of Globalisation,18,5,elective_pool,year_1_humanities_elective,1,EBE_2026,46
+EFA03,Electrical Engineering,1,SOCL1014A,Identity and Society,18,5,elective_pool,year_1_humanities_elective,1,EBE_2026,46
+EFA03,Electrical Engineering,1,PHIL1002A,Introduction to Ethics I,18,5,elective_pool,year_1_humanities_elective,1,EBE_2026,46
+EFA03,Electrical Engineering,1,PHIL1003A,Introduction to Philosophy: Knowledge and Reality,18,5,elective_pool,year_1_humanities_elective,1,EBE_2026,46
+EFA03,Electrical Engineering,1,HIST1011A,Global Encounters and Contemporary Realities IA,18,5,elective_pool,year_1_humanities_elective,1,EBE_2026,46
+EFA03,Electrical Engineering,2,COMS2004A,Data Structures and Algorithms,18,6,compulsory,,,EBE_2026,46
+EFA03,Electrical Engineering,2,ELEN2003A,Electric and Magnetic Systems,18,6,compulsory,,,EBE_2026,46
+EFA03,Electrical Engineering,2,ELEN2005A,Signals and Systems I,12,6,compulsory,,,EBE_2026,46
+EFA03,Electrical Engineering,2,ELEN2016A,Electronics I,16,6,compulsory,,,EBE_2026,46
+EFA03,Electrical Engineering,2,ELEN2017A,Electric Circuits,12,6,compulsory,,,EBE_2026,46
+EFA03,Electrical Engineering,2,ELEN2020A,Software Development I,16,6,compulsory,,,EBE_2026,46
+EFA03,Electrical Engineering,2,ELEN2021A,Microprocessors,14,6,compulsory,,,EBE_2026,46
+EFA03,Electrical Engineering,2,MATH2014A,Mathematics II,33,6,compulsory,,,EBE_2026,46
+EFA03,Electrical Engineering,2,PHYS2007A,Physics II (Electrical),15,6,compulsory,,,EBE_2026,46
+EFA03,Electrical Engineering,2,ELEN1998A,Vacation Work I (Electrical),0,N/A,required_non_credit,,,EBE_2026,46
+EFA04,Information Engineering,1,CHEM1051A,Engineering Chemistry,12,5,compulsory,,,EBE_2026,46
+EFA04,Information Engineering,1,FEBE1000A,Introduction to the Engineering Profession,12,5,compulsory,,,EBE_2026,46
+EFA04,Information Engineering,1,FEBE1002A,Engineering Analysis and Design IA,12,5,compulsory,,,EBE_2026,46
+EFA04,Information Engineering,1,FEBE1004A,Engineering Analysis and Design IB,12,5,compulsory,,,EBE_2026,46
+EFA04,Information Engineering,1,MATH1048A,Engineering Mathematics IA,15,5,compulsory,,,EBE_2026,46
+EFA04,Information Engineering,1,MATH1049A,Engineering Mathematics IB,15,5,compulsory,,,EBE_2026,46
+EFA04,Information Engineering,1,PHYS1032A,Engineering Physics IA,18,5,compulsory,,,EBE_2026,46
+EFA04,Information Engineering,1,PHYS1033A,Engineering Physics IB,18,5,compulsory,,,EBE_2026,46
+EFA04,Information Engineering,1,PHYS1034A,Applied Physics I,12,5,compulsory,,,EBE_2026,46
+EFA04,Information Engineering,1,AFRL1003A,Elementary IsiZulu Language and Culture IA,18,5,elective_pool,year_1_humanities_elective,1,EBE_2026,46
+EFA04,Information Engineering,1,AFRL1005A,Elementary Sesotho Language and Culture IA,18,5,elective_pool,year_1_humanities_elective,1,EBE_2026,46
+EFA04,Information Engineering,1,INTR1012A,The International Relations of South Africa and Africa,18,5,elective_pool,year_1_humanities_elective,1,EBE_2026,46
+EFA04,Information Engineering,1,POLS1007A,Introduction to Political Studies,18,5,elective_pool,year_1_humanities_elective,1,EBE_2026,46
+EFA04,Information Engineering,1,SOCL1013A,Southern Africa in the Era of Globalisation,18,5,elective_pool,year_1_humanities_elective,1,EBE_2026,46
+EFA04,Information Engineering,1,SOCL1014A,Identity and Society,18,5,elective_pool,year_1_humanities_elective,1,EBE_2026,46
+EFA04,Information Engineering,1,PHIL1002A,Introduction to Ethics I,18,5,elective_pool,year_1_humanities_elective,1,EBE_2026,46
+EFA04,Information Engineering,1,PHIL1003A,Introduction to Philosophy: Knowledge and Reality,18,5,elective_pool,year_1_humanities_elective,1,EBE_2026,46
+EFA04,Information Engineering,1,HIST1011A,Global Encounters and Contemporary Realities IA,18,5,elective_pool,year_1_humanities_elective,1,EBE_2026,46
+EFA04,Information Engineering,2,COMS2004A,Data Structures and Algorithms,18,6,compulsory,,,EBE_2026,46
+EFA04,Information Engineering,2,ELEN2003A,Electric and Magnetic Systems,18,6,compulsory,,,EBE_2026,46
+EFA04,Information Engineering,2,ELEN2005A,Signals and Systems I,12,6,compulsory,,,EBE_2026,46
+EFA04,Information Engineering,2,ELEN2016A,Electronics I,16,6,compulsory,,,EBE_2026,46
+EFA04,Information Engineering,2,ELEN2017A,Electric Circuits,12,6,compulsory,,,EBE_2026,46
+EFA04,Information Engineering,2,ELEN2020A,Software Development I,16,6,compulsory,,,EBE_2026,46
+EFA04,Information Engineering,2,ELEN2021A,Microprocessors,14,6,compulsory,,,EBE_2026,46
+EFA04,Information Engineering,2,MATH2014A,Mathematics II,33,6,compulsory,,,EBE_2026,46
+EFA04,Information Engineering,2,PHYS2007A,Physics II (Electrical),15,6,compulsory,,,EBE_2026,46
+EFA04,Information Engineering,2,ELEN1998A,Vacation Work I (Electrical),0,N/A,required_non_credit,,,EBE_2026,46
+EFA03,Electrical Engineering,3,ELEN3000A,Electromagnetic Engineering,12,7,compulsory,,,EBE_2026,47
+EFA03,Electrical Engineering,3,ELEN3002A,Electronics II,15,7,compulsory,,,EBE_2026,47
+EFA03,Electrical Engineering,3,ELEN3003A,Power Engineering,15,7,compulsory,,,EBE_2026,47
+EFA03,Electrical Engineering,3,ELEN3007A,Probabilistic Systems Analysis,12,7,compulsory,,,EBE_2026,47
+EFA03,Electrical Engineering,3,ELEN3009A,Software Development II,18,7,compulsory,,,EBE_2026,47
+EFA03,Electrical Engineering,3,ELEN3012A,Signals and Systems IIA,12,7,compulsory,,,EBE_2026,47
+EFA03,Electrical Engineering,3,ELEN3013A,Signals and Systems IIB,9,7,compulsory,,,EBE_2026,47
+EFA03,Electrical Engineering,3,ELEN3016A,Control I,18,7,compulsory,,,EBE_2026,47
+EFA03,Electrical Engineering,3,ELEN3017A,Electrical Engineering Design,15,7,compulsory,,,EBE_2026,47
+EFA03,Electrical Engineering,3,ELEN3018A,Economics of Design,12,7,compulsory,,,EBE_2026,47
+EFA03,Electrical Engineering,3,MATH3025A,Mathematical Methods,15,7,compulsory,,,EBE_2026,47
+EFA03,Electrical Engineering,4,ELEN4000A,Electrical Engineering Design II,24,8,compulsory,,,EBE_2026,47
+EFA03,Electrical Engineering,4,ELEN4002A,Electrical Engineering Laboratory,33,8,compulsory,,,EBE_2026,47
+EFA03,Electrical Engineering,4,ELEN4006A,Measurement Systems,15,8,compulsory,,,EBE_2026,47
+EFA03,Electrical Engineering,4,ELEN4019A,Selected Topics in Sociology,12,8,compulsory,,,EBE_2026,47
+EFA03,Electrical Engineering,4,MECN4020A,Systems Management and Integration,12,8,compulsory,,,EBE_2026,47
+EFA03,Electrical Engineering,4,ELEN4001A,High Frequency Techniques,15,8,elective_pool,year_4_electives,3,EBE_2026,47
+EFA03,Electrical Engineering,4,ELEN4003A,High Voltage Engineering,15,8,elective_pool,year_4_electives,3,EBE_2026,47
+EFA03,Electrical Engineering,4,ELEN4014A,Electromechanical Conversion,15,8,elective_pool,year_4_electives,3,EBE_2026,47
+EFA03,Electrical Engineering,4,ELEN4016A,Control II,15,8,elective_pool,year_4_electives,3,EBE_2026,47
+EFA03,Electrical Engineering,4,ELEN4018A,Power Systems,15,8,elective_pool,year_4_electives,3,EBE_2026,47
+EFA03,Electrical Engineering,4,ELEN4023A,Renewable Energy,15,8,elective_pool,year_4_electives,3,EBE_2026,47
+EFA04,Information Engineering,3,APPM3021A,Computational Mathematics,15,7,compulsory,,,EBE_2026,48
+EFA04,Information Engineering,3,ELEN3002A,Electronics II,15,7,compulsory,,,EBE_2026,48
+EFA04,Information Engineering,3,ELEN3007A,Probabilistic Systems Analysis,12,7,compulsory,,,EBE_2026,48
+EFA04,Information Engineering,3,ELEN3009A,Software Development II,18,7,compulsory,,,EBE_2026,48
+EFA04,Information Engineering,3,ELEN3012A,Signals and Systems IIA,12,7,compulsory,,,EBE_2026,48
+EFA04,Information Engineering,3,ELEN3013A,Signals and Systems IIB,9,7,compulsory,,,EBE_2026,48
+EFA04,Information Engineering,3,ELEN3015A,Data and Information Management,18,7,compulsory,,,EBE_2026,48
+EFA04,Information Engineering,3,ELEN3016A,Control I,18,7,compulsory,,,EBE_2026,48
+EFA04,Information Engineering,3,ELEN3017A,Electrical Engineering Design,15,7,compulsory,,,EBE_2026,48
+EFA04,Information Engineering,3,ELEN3018A,Economics of Design,12,7,compulsory,,,EBE_2026,48
+EFA04,Information Engineering,3,ELEN3024A,Communication Fundamentals,12,7,compulsory,,,EBE_2026,48
+EFA04,Information Engineering,4,ELEN4006A,Measurement Systems,15,8,compulsory,,,EBE_2026,48
+EFA04,Information Engineering,4,ELEN4011A,Information Engineering Design,24,8,compulsory,,,EBE_2026,48
+EFA04,Information Engineering,4,ELEN4012A,Information Engineering Laboratory,33,8,compulsory,,,EBE_2026,48
+EFA04,Information Engineering,4,ELEN4019A,Selected Topics in Sociology,12,8,compulsory,,,EBE_2026,48
+EFA04,Information Engineering,4,MECN4020A,Systems Management and Integration,12,8,compulsory,,,EBE_2026,48
+EFA04,Information Engineering,4,ELEN4010A,Software Development III,15,8,elective_pool,year_4_electives,3,EBE_2026,48
+EFA04,Information Engineering,4,ELEN4016A,Control II,15,8,elective_pool,year_4_electives,3,EBE_2026,48
+EFA04,Information Engineering,4,ELEN4017A,Network Fundamentals,15,8,elective_pool,year_4_electives,3,EBE_2026,48
+EFA04,Information Engineering,4,ELEN4020A,Data Intensive Computing in Data Science,15,8,elective_pool,year_4_electives,3,EBE_2026,48
+EFA04,Information Engineering,4,ELEN4022A,Full Stack Quantum Computing,15,8,elective_pool,year_4_electives,3,EBE_2026,48
+EFA04,Information Engineering,4,ELEN4024A,Secure Computing,15,8,elective_pool,year_4_electives,3,EBE_2026,48
+EFA04,Information Engineering,4,ELEN4025A,Introduction to Machine Learning,15,8,elective_pool,year_4_electives,3,EBE_2026,48

@@ -1,1 +1,66 @@
-
+rule_id,scope,rule_type,target_course_code,condition_json,source_id,handbook_page,notes
+DEF_COREQUISITE,ALL,definition,,"{""must_be_taken_with_target"":true,""required_for_target_credit"":true}",EBE_2026,8,Formal handbook definition.
+DEF_PREREQUISITE,ALL,definition,,"{""credit_required_before_target_registration"":true}",EBE_2026,10,Formal handbook definition.
+PROGRAMME_EFA03,EFA03,programme_definition,,"{""programme_name"":""Electrical Engineering"",""plan_code"":""EPAELC20"",""nqf_exit_level"":8,""total_nqf_credits"":592}",EBE_2026,46,Electrical Engineering branch.
+PROGRAMME_EFA04,EFA04,programme_definition,,"{""programme_name"":""Information Engineering"",""plan_code"":""EPAINF20"",""nqf_exit_level"":8,""total_nqf_credits"":601}",EBE_2026,47,Information Engineering branch.
+BRANCH_SELECTION,EFA03|EFA04,programme_selection,,"{""at_start_of_year"":3,""select_exactly"":1,""options"":[""EFA03"",""EFA04""]}",EBE_2026,47,Students elect a branch at the beginning of third year.
+SELECT_EFA03_Y4,EFA03,selection_count,,"{""selection_group"":""year_4_electives"",""select_exactly"":3}",EBE_2026,47,Five compulsory courses plus three electives.
+SELECT_EFA04_Y4,EFA04,selection_count,,"{""selection_group"":""year_4_electives"",""select_exactly"":3}",EBE_2026,48,Five compulsory courses plus three electives.
+SELECT_Y1_HUMANITIES,EFA03|EFA04,selection_count,,"{""selection_group"":""year_1_humanities_elective"",""select_exactly"":1}",EBE_2026,46,One first-year humanities/language course is required.
+PRE_ELEN2003,ALL_EFA03_EFA04,prerequisite,ELEN2003A,"{""all_of"":[{""any_of"":[""MATH1042A"",""MATH1048A""]},{""any_of"":[""MATH1043A"",""MATH1049A""]},""PHYS1032A"",""PHYS1033A""]}",EBE_2026,80,
+CORE_ELEN2003,ALL_EFA03_EFA04,corequisite,ELEN2003A,"{""all_of"":[""ELEN2017A""]}",EBE_2026,80,
+PRE_ELEN2005,ALL_EFA03_EFA04,prerequisite,ELEN2005A,"{""all_of"":[{""any_of"":[""MATH1042A"",""MATH1048A""]},{""any_of"":[""MATH1043A"",""MATH1049A""]},""PHYS1014A"",""PHYS1032A"",""PHYS1033A""]}",EBE_2026,80,PHYS1014A is in the prerequisite table but not an EFA03/EFA04 membership.
+CORE_ELEN2005,ALL_EFA03_EFA04,corequisite,ELEN2005A,"{""all_of"":[""ELEN2017A"",""ELEN2020A""]}",EBE_2026,80,
+PRE_ELEN2016,ALL_EFA03_EFA04,prerequisite,ELEN2016A,"{""all_of"":[{""any_of"":[""MATH1042A"",""MATH1048A""]},{""any_of"":[""MATH1043A"",""MATH1049A""]},""PHYS1032A"",""PHYS1033A""]}",EBE_2026,81,
+CORE_ELEN2016,ALL_EFA03_EFA04,corequisite,ELEN2016A,"{""all_of"":[""ELEN2017A""]}",EBE_2026,81,
+PRE_ELEN2017,ALL_EFA03_EFA04,prerequisite,ELEN2017A,"{""all_of"":[{""any_of"":[""MATH1042A"",""MATH1048A""]},{""any_of"":[""MATH1043A"",""MATH1049A""]},""PHYS1032A"",""PHYS1033A""]}",EBE_2026,81,
+PRE_ELEN2020,ALL_EFA03_EFA04,prerequisite,ELEN2020A,"{""all_of"":[{""any_of"":[""MATH1042A"",""MATH1048A""]},{""any_of"":[""MATH1043A"",""MATH1049A""]},""PHYS1032A"",""PHYS1033A""]}",EBE_2026,80,
+CORE_ELEN2020,ALL_EFA03_EFA04,corequisite,ELEN2020A,"{""all_of"":[""ELEN2017A"",""COMS2004A""]}",EBE_2026,80,
+PRE_ELEN2021,ALL_EFA03_EFA04,prerequisite,ELEN2021A,"{""all_of"":[{""any_of"":[""MATH1042A"",""MATH1048A""]},{""any_of"":[""MATH1043A"",""MATH1049A""]}]}",EBE_2026,80,
+CORE_ELEN2021,ALL_EFA03_EFA04,corequisite,ELEN2021A,"{""any_of"":[{""all_of"":[""ELEN2020A"",""ELEN2016A""]},{""all_of"":[""COMS1015A"",""COMS1018A""]}]}",EBE_2026,81,
+PRE_ELEN3000,EFA03,prerequisite,ELEN3000A,"{""all_of"":[""MATH2014A""]}",EBE_2026,81,
+CORE_ELEN3000,EFA03,corequisite,ELEN3000A,"{""all_of"":[""MATH3025A""]}",EBE_2026,81,
+PRE_ELEN3002,ALL_EFA03_EFA04,prerequisite,ELEN3002A,"{""all_of"":[""ELEN2005A"",""ELEN2016A"",""MATH2014A""]}",EBE_2026,81,The table labels MATH2014A as Mathematics I; course code retained.
+PRE_ELEN3003,EFA03,prerequisite,ELEN3003A,"{""all_of"":[""ELEN2003A"",""MATH2014A""]}",EBE_2026,81,
+PRE_ELEN3007,ALL_EFA03_EFA04,prerequisite,ELEN3007A,"{""all_of"":[""MATH2014A""]}",EBE_2026,81,
+CORE_ELEN3007,ALL_EFA03_EFA04,corequisite,ELEN3007A,"{""any_of"":[""APPM3021A"",""MATH3025A""]}",EBE_2026,81,
+PRE_ELEN3009,ALL_EFA03_EFA04,prerequisite,ELEN3009A,"{""all_of"":[""ELEN2020A"",""ELEN2021A""]}",EBE_2026,81,
+PRE_ELEN3012,ALL_EFA03_EFA04,prerequisite,ELEN3012A,"{""all_of"":[""ELEN2005A"",""MATH2014A""]}",EBE_2026,82,The table labels MATH2014A as Mathematics I; course code retained.
+PRE_ELEN3013,ALL_EFA03_EFA04,prerequisite,ELEN3013A,"{""all_of"":[""ELEN2020A"",""ELEN2005A"",""MATH2014A""]}",EBE_2026,82,The table labels MATH2014A as Mathematics I; course code retained.
+CORE_ELEN3013,ALL_EFA03_EFA04,corequisite,ELEN3013A,"{""all_of"":[""ELEN3012A""]}",EBE_2026,82,
+PRE_ELEN3015,EFA04,prerequisite,ELEN3015A,"{""all_of"":[""ELEN2020A"",""ELEN2005A""]}",EBE_2026,82,
+CORE_ELEN3015,EFA04,corequisite,ELEN3015A,"{""all_of"":[""APPM3021A""]}",EBE_2026,82,
+PRE_ELEN3016,ALL_EFA03_EFA04,prerequisite,ELEN3016A,"{""all_of"":[""ELEN2005A"",""MATH2014A""]}",EBE_2026,82,
+CORE_ELEN3016,ALL_EFA03_EFA04,corequisite,ELEN3016A,"{""all_of"":[""ELEN3012A"",""ELEN3013A""]}",EBE_2026,82,
+PRE_ELEN3017,ALL_EFA03_EFA04,prerequisite,ELEN3017A,"{""all_of"":[""ELEN3002A"",""ELEN3012A"",""ELEN3013A"",""ELEN3016A"",""ELEN3009A"",""ELEN3007A"",{""any_of"":[{""all_of"":[""ELEN3000A"",""ELEN3003A""]},{""all_of"":[""ELEN3015A"",""ELEN3024A""]}]}]}",EBE_2026,82,Option-dependent third-year design prerequisite.
+PRE_ELEN3018,ALL_EFA03_EFA04,prerequisite,ELEN3018A,"{""all_of"":[""ELEN2020A"",""ELEN2016A""]}",EBE_2026,83,
+PRE_ELEN3024,EFA04,prerequisite,ELEN3024A,"{""all_of"":[""ELEN2005A""]}",EBE_2026,83,
+CORE_ELEN3024,EFA04,corequisite,ELEN3024A,"{""all_of"":[""ELEN3007A"",""ELEN3012A""]}",EBE_2026,83,
+PRE_MATH3025,EFA03,prerequisite,MATH3025A,"{""all_of"":[""MATH2014A""]}",EBE_2026,85,
+CORE_MATH3025,EFA03,corequisite,MATH3025A,"{""all_of"":[""ELEN3000A"",""ELEN3007A""]}",EBE_2026,85,
+PRE_APPM3021,EFA04,prerequisite,APPM3021A,"{""all_of"":[""MATH2014A""]}",EBE_2026,78,
+CORE_APPM3021,EFA04,corequisite,APPM3021A,"{""all_of"":[""ELEN3015A""]}",EBE_2026,78,
+PRE_ELEN4000,EFA03,prerequisite,ELEN4000A,"{""all_courses_in_programme_year"":{""programme"":""EFA03"",""year"":3}}",EBE_2026,83,
+PRE_ELEN4001,EFA03,prerequisite,ELEN4001A,"{""all_of"":[""ELEN3000A"",""MATH3025A""]}",EBE_2026,83,
+PRE_ELEN4002,EFA03,prerequisite,ELEN4002A,"{""all_courses_in_programme_year"":{""programme"":""EFA03"",""year"":3}}",EBE_2026,83,
+PRE_ELEN4003,EFA03,prerequisite,ELEN4003A,"{""all_of"":[""ELEN3000A"",""ELEN3003A""]}",EBE_2026,83,
+PRE_ELEN4006_EFA03,EFA03,prerequisite,ELEN4006A,"{""all_courses_in_programme_year"":{""programme"":""EFA03"",""year"":3}}",EBE_2026,83,Handbook states all third-year courses.
+PRE_ELEN4006_EFA04,EFA04,prerequisite,ELEN4006A,"{""all_courses_in_programme_year"":{""programme"":""EFA04"",""year"":3}}",EBE_2026,83,Handbook states all third-year courses.
+PRE_ELEN4010,EFA04,prerequisite,ELEN4010A,"{""all_of"":[""ELEN3009A""]}",EBE_2026,83,
+PRE_ELEN4011,EFA04,prerequisite,ELEN4011A,"{""all_courses_in_programme_year"":{""programme"":""EFA04"",""year"":3}}",EBE_2026,83,
+PRE_ELEN4012,EFA04,prerequisite,ELEN4012A,"{""all_courses_in_programme_year"":{""programme"":""EFA04"",""year"":3}}",EBE_2026,83,
+PRE_ELEN4014,EFA03,prerequisite,ELEN4014A,"{""all_of"":[""ELEN3003A""]}",EBE_2026,83,
+PRE_ELEN4016,ALL_EFA03_EFA04,prerequisite,ELEN4016A,"{""all_of"":[""ELEN3012A"",""ELEN3013A"",""ELEN3016A""]}",EBE_2026,83,
+PRE_ELEN4017,EFA04,prerequisite,ELEN4017A,"{""all_of"":[""ELEN3024A""]}",EBE_2026,83,
+PRE_ELEN4018,EFA03,prerequisite,ELEN4018A,"{""all_of"":[""ELEN3000A"",""ELEN3003A""]}",EBE_2026,84,
+PRE_ELEN4019,ALL_EFA03_EFA04,prerequisite,ELEN4019A,"{""all_of"":[""ELEN3018A""]}",EBE_2026,84,
+PRE_ELEN4020,EFA04,prerequisite,ELEN4020A,"{""all_of"":[""ELEN3009A""]}",EBE_2026,84,
+PRE_ELEN4022,EFA04,prerequisite,ELEN4022A,"{""all_of"":[""ELEN3009A""]}",EBE_2026,84,
+PRE_ELEN4023,EFA03,prerequisite,ELEN4023A,"{""all_of"":[""ELEN3003A""]}",EBE_2026,84,
+PRE_ELEN4024,EFA04,prerequisite,ELEN4024A,"{""all_of"":[""ELEN3009A"",""APPM3021A""]}",EBE_2026,84,
+PRE_ELEN4025,EFA04,prerequisite,ELEN4025A,"{""all_of"":[""ELEN3009A"",""APPM3021A""]}",EBE_2026,84,
+CORE_MECN4020,EFA03|EFA04,corequisite,MECN4020A,"{""any_of"":[""MECN4034A"",""MECN4035A"",""ELEN4002A"",""ELEN4012A""]}",EBE_2026,92,
+PROGRESS_TO_YEAR_2,BSC_ENG,progression,YEAR_2,"{""all_courses_in_prior_years_completed_through"":1}",EBE_2026,56,Senate may permit a special curriculum within credit and rule restrictions.
+PROGRESS_TO_YEAR_3,BSC_ENG,progression,YEAR_3,"{""all_courses_in_prior_years_completed_through"":2}",EBE_2026,56,Senate may permit a special curriculum within credit and rule restrictions.
+PROGRESS_TO_YEAR_4,BSC_ENG,progression,YEAR_4,"{""all_courses_in_prior_years_completed_through"":3}",EBE_2026,56,Senate may permit a special curriculum within credit and rule restrictions.
+EXCLUSION_BSC_ENG,BSC_ENG,exclusion,,"{""all_of"":[{""repeated_courses_must_pass"":true},{""minimum_aggregate_percent"":45}]}",EBE_2026,59,Minimum study requirement for renewal of registration.
