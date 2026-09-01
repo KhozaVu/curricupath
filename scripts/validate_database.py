@@ -18,10 +18,11 @@ from app.data.validators import ValidationReport, validate_processed_data
 def main() -> None:
     """Print a concise audit report and fail with a non-zero exit on errors."""
 
-    print("Loading curriculum data...\n")
-    print(f"Modules: {_record_count('modules.csv')} records")
-    print(f"Rules: {_record_count('rules.csv')} records")
-    print(f"Sources: {_record_count('sources.csv')} record(s)\n")
+    print("Curriculum datasets")
+    print("-------------------")
+    print(f"Sources: {_record_count('sources.csv'):>2}")
+    print(f"Modules: {_record_count('modules.csv'):>2}")
+    print(f"Rules:   {_record_count('rules.csv'):>2}\n")
 
     report = validate_processed_data(PROCESSED_DATA)
     _print_check("Module codes valid", report, {"INVALID_MODULE_CODE"})
@@ -32,13 +33,13 @@ def main() -> None:
     _print_check("Selection groups valid", report, {"MISSING_SELECTION_RULE"})
     _print_check("No critical duplicates", report, {"DUPLICATE_MODULE_MEMBERSHIP", "DUPLICATE_SOURCE_ID"})
 
-    if report.warnings:
-        print("\nWarnings:")
-        for warning in report.warnings:
-            print(f"! [{warning.code}] {warning.message}")
+    print(f"\nErrors:   {len(report.errors)}")
+    print(f"Warnings: {len(report.warnings)}")
+    for warning in report.warnings:
+        print(f"! [{warning.code}] {warning.message}")
 
     report.raise_for_errors()
-    print("\nCurriculum validation passed.")
+    print("\nVALIDATION PASSED")
 
 
 def _record_count(filename: str) -> int:

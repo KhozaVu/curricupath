@@ -69,3 +69,48 @@ def test_invalid_module_code_is_an_error(tmp_path: Path) -> None:
     report = validate_processed_data(data_directory)
 
     assert any(issue.code == "INVALID_MODULE_CODE" for issue in report.errors)
+
+
+def test_missing_module_column_is_a_validation_error(tmp_path: Path) -> None:
+    data_directory = tmp_path / "processed"
+    shutil.copytree(PROCESSED_DATA, data_directory)
+    modules_path = data_directory / "modules.csv"
+    modules_path.write_text(
+        modules_path.read_text(encoding="utf-8").replace(
+            "course_code", "module_code", 1
+        ),
+        encoding="utf-8",
+    )
+
+    report = validate_processed_data(data_directory)
+
+    assert any(issue.code == "MISSING_COLUMN" for issue in report.errors)
+
+
+def test_duplicate_rule_id_is_an_error(tmp_path: Path) -> None:
+    data_directory = tmp_path / "processed"
+    shutil.copytree(PROCESSED_DATA, data_directory)
+    rules_path = data_directory / "rules.csv"
+    content = rules_path.read_text(encoding="utf-8")
+    rules_path.write_text(
+        content + content.splitlines()[1] + "\n",
+        encoding="utf-8",
+    )
+
+    report = validate_processed_data(data_directory)
+
+    assert any(issue.code == "DUPLICATE_RULE_ID" for issue in report.errors)
+
+
+def test_invalid_nqf_credits_is_an_error(tmp_path: Path) -> None:
+    data_directory = tmp_path / "processed"
+    shutil.copytree(PROCESSED_DATA, data_directory)
+    modules_path = data_directory / "modules.csv"
+    modules_path.write_text(
+        modules_path.read_text(encoding="utf-8").replace(",12,5,", ",not-a-number,5,", 1),
+        encoding="utf-8",
+    )
+
+    report = validate_processed_data(data_directory)
+
+    assert any(issue.code == "INVALID_NQF_CREDITS" for issue in report.errors)
