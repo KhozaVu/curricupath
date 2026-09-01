@@ -1,1 +1,20 @@
-
+alias,canonical_tag,tag_type
+ml,machine_learning,interest
+machine learning,machine_learning,interest
+ai,artificial_intelligence,interest
+artificial intelligence,artificial_intelligence,interest
+comms,communications,interest
+communication systems,communications,interest
+telecoms,communications,interest
+telecommunications,communications,interest
+networks,networking,interest
+networking,networking,interest
+cyber security,cybersecurity,interest
+cybersecurity,cybersecurity,interest
+control systems,control,interest
+control,control,interest
+software development,software,interest
+programming,software,interest
+coding,software,interest
+data science,data_science,career
+embedded systems,embedded_systems,career
