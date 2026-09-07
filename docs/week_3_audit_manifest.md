@@ -7,13 +7,13 @@
 
 | Dataset | Records | Audit result |
 | --- | ---: | --- |
-| Sources | 21 | All verified |
+| Sources | 25 | All verified |
 | Curriculum modules | 101 | Validated against the 2026 EBE handbook |
 | Curriculum rules | 65 | Valid JSON and source-backed |
 | External rule references | 17 | Verified and documented |
-| Public courses | 20 | All verified, available, and recommendable |
+| Public courses | 24 | All verified, available, and recommendable |
 
-The public catalogue retains three providers: Coursera, FutureLearn, and Udemy. It covers programming/data/AI, electronics/control, communications, and career skills, with both beginner and intermediate offerings.
+The public catalogue retains three providers: Coursera, FutureLearn, and Udemy. It covers programming/data/AI, electronics/control, communications, and career skills, with both beginner and intermediate offerings. Its electronics/control coverage includes five circuit-focused courses, including DC and AC circuit analysis.
 
 ## Resolution Record
 

@@ -60,6 +60,19 @@ def test_week_three_catalogue_has_twenty_verified_recommendable_courses() -> Non
     )
 
 
+def test_catalogue_has_multiple_electrical_circuit_courses() -> None:
+    with (PROCESSED_DATA / "courses.csv").open(newline="", encoding="utf-8") as csv_file:
+        courses = list(csv.DictReader(csv_file))
+
+    circuit_courses = [
+        course
+        for course in courses
+        if "electric_circuits" in course["interest_tags"].split(";")
+    ]
+
+    assert len(circuit_courses) >= 4
+
+
 def test_unknown_course_source_is_an_error(tmp_path: Path) -> None:
     data_directory = tmp_path / "processed"
     shutil.copytree(PROCESSED_DATA, data_directory)
