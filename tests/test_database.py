@@ -16,8 +16,8 @@ def test_initial_curriculum_data_has_no_errors() -> None:
     report = validate_processed_data(PROCESSED_DATA)
 
     assert report.is_valid
-    assert any(
-        issue.code == "EXTERNAL_COURSE_REFERENCE" for issue in report.warnings
+    assert not any(
+        issue.code == "MISSING_EXTERNAL_REFERENCE_AUDIT" for issue in report.errors
     )
 
 
@@ -114,3 +114,21 @@ def test_invalid_nqf_credits_is_an_error(tmp_path: Path) -> None:
     report = validate_processed_data(data_directory)
 
     assert any(issue.code == "INVALID_NQF_CREDITS" for issue in report.errors)
+
+
+def test_invalid_source_verification_status_is_an_error(tmp_path: Path) -> None:
+    data_directory = tmp_path / "processed"
+    shutil.copytree(PROCESSED_DATA, data_directory)
+    sources_path = data_directory / "sources.csv"
+    sources_path.write_text(
+        sources_path.read_text(encoding="utf-8").replace(
+            ",verified,", ",unreviewed,", 1
+        ),
+        encoding="utf-8",
+    )
+
+    report = validate_processed_data(data_directory)
+
+    assert any(
+        issue.code == "INVALID_VERIFICATION_STATUS" for issue in report.errors
+    )

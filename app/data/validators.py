@@ -13,7 +13,12 @@ from urllib.parse import urlparse
 
 COURSE_CODE_PATTERN = re.compile(r"^[A-Z]{4}\d{4}A?$")
 PROGRAMME_CODE_PATTERN = re.compile(r"^EFA\d{2}$")
-REQUIRED_DATASETS = ("sources.csv", "modules.csv", "rules.csv")
+REQUIRED_DATASETS = (
+    "sources.csv",
+    "modules.csv",
+    "rules.csv",
+    "external_references.csv",
+)
 MODULE_REQUIREMENT_TYPES = {"compulsory", "elective_pool", "required_non_credit"}
 RULE_TYPES = {
     "corequisite",
@@ -32,6 +37,11 @@ SOURCE_REQUIRED_FIELDS = (
     "edition_year",
     "document_type",
     "authority_level",
+    "verification_status",
+    "authority",
+    "locator",
+    "review_date",
+    "verification_notes",
 )
 MODULE_REQUIRED_FIELDS = (
     "programme_code",
@@ -46,6 +56,14 @@ MODULE_REQUIRED_FIELDS = (
     "handbook_page",
 )
 RULE_REQUIRED_FIELDS = ("rule_id", "scope", "rule_type", "condition_json", "source_id", "handbook_page")
+EXTERNAL_REFERENCE_REQUIRED_FIELDS = (
+    "reference",
+    "rule_id",
+    "status",
+    "verified_source_id",
+    "interpretation",
+    "action",
+)
 COURSE_REQUIRED_FIELDS = (
     "course_id",
     "title",
@@ -66,6 +84,18 @@ COURSE_REQUIRED_FIELDS = (
     "source_id",
     "access_date",
 )
+COURSE_AUDIT_REQUIRED_FIELDS = (
+    "course_id",
+    "source_id",
+    "availability_status",
+    "verification_status",
+    "recommendation_status",
+    "audited_title",
+    "audited_provider",
+    "audit_date",
+    "notes",
+)
+ALIAS_REQUIRED_FIELDS = ("alias", "canonical_tag", "tag_type")
 COURSE_EXPRESSION_KEYS = {"all_of", "any_of", "all_courses_in_programme_year"}
 COURSE_CATEGORIES = {
     "programming_data_ai",
@@ -75,6 +105,14 @@ COURSE_CATEGORIES = {
 }
 COURSE_WORKLOADS = {"light", "moderate", "heavy"}
 COURSE_LEVELS = {"beginner", "intermediate"}
+VALID_VERIFICATION_STATES = {
+    "verified",
+    "incomplete",
+    "disputed",
+    "superseded",
+}
+COURSE_AVAILABILITY_STATES = {"available", "unavailable", "unknown"}
+COURSE_RECOMMENDATION_STATES = {"recommendable", "excluded"}
 
 
 @dataclass(frozen=True)
@@ -125,10 +163,17 @@ def validate_processed_data(data_directory: Path | str) -> ValidationReport:
     sources = datasets["sources.csv"]
     modules = datasets["modules.csv"]
     rules = datasets["rules.csv"]
+    external_references = datasets["external_references.csv"]
 
     _validate_headers("sources.csv", sources, SOURCE_REQUIRED_FIELDS, issues)
     _validate_headers("modules.csv", modules, MODULE_REQUIRED_FIELDS, issues)
     _validate_headers("rules.csv", rules, RULE_REQUIRED_FIELDS, issues)
+    _validate_headers(
+        "external_references.csv",
+        external_references,
+        EXTERNAL_REFERENCE_REQUIRED_FIELDS,
+        issues,
+    )
     _validate_sources(sources, processed_directory, issues)
 
     source_ids = {row.get("source_id", "") for row in sources}
@@ -205,17 +250,6 @@ def validate_processed_data(data_directory: Path | str) -> ValidationReport:
                     )
                 )
 
-            for course_code in _referenced_course_codes(condition):
-                if course_code not in module_codes:
-                    issues.append(
-                        ValidationIssue(
-                            "warning",
-                            "EXTERNAL_COURSE_REFERENCE",
-                            f"{rule_id} references {course_code}, outside the "
-                            "current EFA03/EFA04 module memberships.",
-                        )
-                    )
-
         if rule_type == "selection_count":
             group = condition.get("selection_group")
             if isinstance(group, str):
@@ -230,6 +264,15 @@ def validate_processed_data(data_directory: Path | str) -> ValidationReport:
             )
         )
 
+    _validate_external_references(
+        external_references,
+        rules,
+        source_ids,
+        module_codes,
+        sources,
+        issues,
+    )
+
     return ValidationReport(tuple(issues))
 
 
@@ -239,13 +282,20 @@ def validate_course_data(data_directory: Path | str) -> ValidationReport:
     processed_directory = Path(data_directory)
     sources = _load_csv(processed_directory / "sources.csv")
     courses = _load_csv(processed_directory / "courses.csv")
+    course_audit = _load_csv(processed_directory / "course_audit.csv")
+    aliases = _load_csv(processed_directory / "aliases.csv")
     issues: list[ValidationIssue] = []
 
     _validate_headers("sources.csv", sources, SOURCE_REQUIRED_FIELDS, issues)
     _validate_headers("courses.csv", courses, COURSE_REQUIRED_FIELDS, issues)
+    _validate_headers(
+        "course_audit.csv", course_audit, COURSE_AUDIT_REQUIRED_FIELDS, issues
+    )
+    _validate_headers("aliases.csv", aliases, ALIAS_REQUIRED_FIELDS, issues)
     _validate_sources(sources, processed_directory, issues)
 
     sources_by_id = {source.get("source_id", ""): source for source in sources}
+    canonical_tags = {alias.get("canonical_tag", "") for alias in aliases}
     course_ids: set[str] = set()
     for course in courses:
         course_id = course.get("course_id", "<unknown>")
@@ -255,7 +305,9 @@ def validate_course_data(data_directory: Path | str) -> ValidationReport:
                 ValidationIssue("error", "DUPLICATE_COURSE_ID", f"Duplicate course_id {course_id}.")
             )
         course_ids.add(course_id)
-        _validate_course(course, sources_by_id, issues)
+        _validate_course(course, sources_by_id, canonical_tags, issues)
+
+    _validate_course_audit(course_audit, courses, sources_by_id, issues)
 
     return ValidationReport(tuple(issues))
 
@@ -306,6 +358,27 @@ def _validate_sources(
                     f"Source {source_id} must have a local_path or a valid url.",
                 )
             )
+
+        verification_status = source.get("verification_status", "")
+        if verification_status not in VALID_VERIFICATION_STATES:
+            issues.append(
+                ValidationIssue(
+                    "error",
+                    "INVALID_VERIFICATION_STATUS",
+                    f"Source {source_id} has invalid verification_status "
+                    f"{verification_status!r}.",
+                )
+            )
+
+        if not _is_valid_date(source.get("review_date", "")):
+            issues.append(
+                ValidationIssue(
+                    "error",
+                    "INVALID_SOURCE_REVIEW_DATE",
+                    f"Source {source_id} has invalid review_date "
+                    f"{source.get('review_date', '')!r}.",
+                )
+            )
         if local_path:
             source_path = processed_directory.parent.parent / local_path
             if not source_path.exists():
@@ -330,6 +403,7 @@ def _validate_sources(
 def _validate_course(
     course: dict[str, str],
     sources_by_id: dict[str, dict[str, str]],
+    canonical_tags: set[str],
     issues: list[ValidationIssue],
 ) -> None:
     course_id = course.get("course_id", "<unknown>")
@@ -361,11 +435,243 @@ def _validate_course(
         issues.append(_unknown_source_issue("course", course_id, source_id))
     elif source.get("document_type") != "public_course_provider":
         issues.append(ValidationIssue("error", "INVALID_COURSE_SOURCE", f"Course {course_id} must reference a public_course_provider source."))
+    for field in ("interest_tags", "career_tags"):
+        for tag in _split_tags(course.get(field, "")):
+            if tag not in canonical_tags:
+                issues.append(
+                    ValidationIssue(
+                        "error",
+                        "UNKNOWN_CONTROLLED_TAG",
+                        f"Course {course_id} has {field} tag {tag!r}, which is not "
+                        "defined in aliases.csv.",
+                    )
+                )
+
+
+def _validate_external_references(
+    external_references: list[dict[str, str]],
+    rules: list[dict[str, str]],
+    source_ids: set[str],
+    module_codes: set[str],
+    sources: list[dict[str, str]],
+    issues: list[ValidationIssue],
+) -> None:
+    """Require a verified audit record for each prerequisite outside modules.csv."""
+
+    rule_conditions: dict[str, object] = {}
+    for rule in rules:
+        try:
+            rule_conditions[rule.get("rule_id", "")] = json.loads(
+                rule.get("condition_json", "")
+            )
+        except json.JSONDecodeError:
+            continue
+
+    required = {
+        (rule_id, course_code)
+        for rule_id, condition in rule_conditions.items()
+        for course_code in _referenced_course_codes(condition)
+        if course_code not in module_codes
+    }
+    audited: set[tuple[str, str]] = set()
+    sources_by_id = {source.get("source_id", ""): source for source in sources}
+    for record in external_references:
+        reference = record.get("reference", "")
+        rule_id = record.get("rule_id", "")
+        _validate_required_fields(
+            "external reference",
+            f"{rule_id}/{reference}",
+            record,
+            EXTERNAL_REFERENCE_REQUIRED_FIELDS,
+            issues,
+        )
+        key = (rule_id, reference)
+        if key in audited:
+            issues.append(
+                ValidationIssue(
+                    "error",
+                    "DUPLICATE_EXTERNAL_REFERENCE_AUDIT",
+                    f"Duplicate external reference audit for {rule_id}/{reference}.",
+                )
+            )
+        audited.add(key)
+        if key not in required:
+            issues.append(
+                ValidationIssue(
+                    "error",
+                    "INVALID_EXTERNAL_REFERENCE_AUDIT",
+                    f"External reference audit {rule_id}/{reference} does not match a "
+                    "reference outside modules.csv.",
+                )
+            )
+        if record.get("status") != "verified":
+            issues.append(
+                ValidationIssue(
+                    "error",
+                    "UNRESOLVED_EXTERNAL_REFERENCE",
+                    f"External reference {rule_id}/{reference} is "
+                    f"{record.get('status', '<missing>')}.",
+                )
+            )
+        source_id = record.get("verified_source_id", "")
+        source = sources_by_id.get(source_id)
+        if source_id not in source_ids:
+            issues.append(_unknown_source_issue("external reference", rule_id, source_id))
+        elif source is not None and source.get("verification_status") != "verified":
+            issues.append(
+                ValidationIssue(
+                    "error",
+                    "UNVERIFIED_EXTERNAL_REFERENCE_SOURCE",
+                    f"External reference {rule_id}/{reference} uses unverified "
+                    f"source {source_id}.",
+                )
+            )
+
+    for rule_id, reference in sorted(required - audited):
+        issues.append(
+            ValidationIssue(
+                "error",
+                "MISSING_EXTERNAL_REFERENCE_AUDIT",
+                f"Rule {rule_id} references external module {reference} without "
+                "a verified audit record.",
+            )
+        )
+
+
+def _validate_course_audit(
+    course_audit: list[dict[str, str]],
+    courses: list[dict[str, str]],
+    sources_by_id: dict[str, dict[str, str]],
+    issues: list[ValidationIssue],
+) -> None:
+    """Keep course availability and source verification records aligned."""
+
+    courses_by_id = {course.get("course_id", ""): course for course in courses}
+    audited_course_ids: set[str] = set()
+    for record in course_audit:
+        course_id = record.get("course_id", "")
+        _validate_required_fields(
+            "course audit", course_id, record, COURSE_AUDIT_REQUIRED_FIELDS, issues
+        )
+        if course_id in audited_course_ids:
+            issues.append(
+                ValidationIssue(
+                    "error",
+                    "DUPLICATE_COURSE_AUDIT",
+                    f"Duplicate course audit for {course_id}.",
+                )
+            )
+        audited_course_ids.add(course_id)
+        course = courses_by_id.get(course_id)
+        if course is None:
+            issues.append(
+                ValidationIssue(
+                    "error",
+                    "UNKNOWN_AUDITED_COURSE",
+                    f"Course audit references unknown course {course_id}.",
+                )
+            )
+            continue
+        if record.get("source_id") != course.get("source_id"):
+            issues.append(
+                ValidationIssue(
+                    "error",
+                    "COURSE_AUDIT_SOURCE_MISMATCH",
+                    f"Course audit {course_id} does not match the course source_id.",
+                )
+            )
+        if record.get("availability_status") not in COURSE_AVAILABILITY_STATES:
+            issues.append(
+                ValidationIssue(
+                    "error",
+                    "INVALID_COURSE_AVAILABILITY",
+                    f"Course audit {course_id} has invalid availability_status "
+                    f"{record.get('availability_status', '')!r}.",
+                )
+            )
+        if record.get("verification_status") not in VALID_VERIFICATION_STATES:
+            issues.append(
+                ValidationIssue(
+                    "error",
+                    "INVALID_COURSE_AUDIT_STATUS",
+                    f"Course audit {course_id} has invalid verification_status "
+                    f"{record.get('verification_status', '')!r}.",
+                )
+            )
+        if record.get("recommendation_status") not in COURSE_RECOMMENDATION_STATES:
+            issues.append(
+                ValidationIssue(
+                    "error",
+                    "INVALID_COURSE_RECOMMENDATION_STATUS",
+                    f"Course audit {course_id} has invalid recommendation_status "
+                    f"{record.get('recommendation_status', '')!r}.",
+                )
+            )
+        if not _is_valid_date(record.get("audit_date", "")):
+            issues.append(
+                ValidationIssue(
+                    "error",
+                    "INVALID_COURSE_AUDIT_DATE",
+                    f"Course audit {course_id} has invalid audit_date "
+                    f"{record.get('audit_date', '')!r}.",
+                )
+            )
+
+        source = sources_by_id.get(record.get("source_id", ""))
+        if source is not None and (
+            record.get("verification_status")
+            != source.get("verification_status")
+        ):
+            issues.append(
+                ValidationIssue(
+                    "error",
+                    "COURSE_AUDIT_STATUS_MISMATCH",
+                    f"Course audit {course_id} does not match its source "
+                    "verification_status.",
+                )
+            )
+        if record.get("verification_status") == "superseded" and record.get(
+            "availability_status"
+        ) != "unavailable":
+            issues.append(
+                ValidationIssue(
+                    "error",
+                    "SUPERSEDED_COURSE_AVAILABLE",
+                    f"Superseded course {course_id} cannot be marked available.",
+                )
+            )
+        if record.get("recommendation_status") == "recommendable" and (
+            record.get("verification_status") != "verified"
+            or record.get("availability_status") != "available"
+            or source is None
+            or source.get("verification_status") != "verified"
+        ):
+            issues.append(
+                ValidationIssue(
+                    "error",
+                    "UNSUPPORTED_RECOMMENDABLE_COURSE",
+                    f"Course {course_id} is recommendable without a verified, "
+                    "available provider record.",
+                )
+            )
+
+    for course_id in sorted(set(courses_by_id) - audited_course_ids):
+        issues.append(
+            ValidationIssue(
+                "error",
+                "MISSING_COURSE_AUDIT",
+                f"Course {course_id} has no audit record.",
+            )
+        )
 
 
 def _is_valid_url(value: str) -> bool:
     parsed = urlparse(value)
     return parsed.scheme in {"http", "https"} and bool(parsed.netloc)
+
+
+def _split_tags(value: str) -> tuple[str, ...]:
+    return tuple(tag.strip() for tag in value.split(";") if tag.strip())
 
 
 def _is_valid_date(value: str) -> bool:

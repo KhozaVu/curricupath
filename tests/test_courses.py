@@ -34,6 +34,17 @@ def test_week_two_course_coverage_requirements_are_met() -> None:
     assert {course["level"] for course in courses} == {"beginner", "intermediate"}
 
 
+def test_every_course_has_an_audit_record() -> None:
+    with (PROCESSED_DATA / "courses.csv").open(newline="", encoding="utf-8") as csv_file:
+        course_ids = {row["course_id"] for row in csv.DictReader(csv_file)}
+    with (PROCESSED_DATA / "course_audit.csv").open(
+        newline="", encoding="utf-8"
+    ) as csv_file:
+        audited_course_ids = {row["course_id"] for row in csv.DictReader(csv_file)}
+
+    assert audited_course_ids == course_ids
+
+
 def test_unknown_course_source_is_an_error(tmp_path: Path) -> None:
     data_directory = tmp_path / "processed"
     shutil.copytree(PROCESSED_DATA, data_directory)
@@ -60,3 +71,41 @@ def test_invalid_rating_is_an_error(tmp_path: Path) -> None:
     report = validate_course_data(data_directory)
 
     assert any(issue.code == "INVALID_COURSE_RATING" for issue in report.errors)
+
+
+def test_unverified_course_cannot_remain_recommendable(tmp_path: Path) -> None:
+    data_directory = tmp_path / "processed"
+    shutil.copytree(PROCESSED_DATA, data_directory)
+    sources_path = data_directory / "sources.csv"
+    sources_path.write_text(
+        sources_path.read_text(encoding="utf-8").replace(
+            ",verified,Coursera,Machine Learning Specialization; rating section,2026-09-07,",
+            ",incomplete,Coursera,Machine Learning Specialization; rating section,2026-09-07,",
+            1,
+        ),
+        encoding="utf-8",
+    )
+
+    report = validate_course_data(data_directory)
+
+    assert any(
+        issue.code == "UNSUPPORTED_RECOMMENDABLE_COURSE" for issue in report.errors
+    )
+
+
+def test_noncanonical_preference_tag_is_an_error(tmp_path: Path) -> None:
+    data_directory = tmp_path / "processed"
+    shutil.copytree(PROCESSED_DATA, data_directory)
+    courses_path = data_directory / "courses.csv"
+    courses_path.write_text(
+        courses_path.read_text(encoding="utf-8").replace(
+            "machine_learning;artificial_intelligence", "ML;artificial_intelligence", 1
+        ),
+        encoding="utf-8",
+    )
+
+    report = validate_course_data(data_directory)
+
+    assert any(
+        issue.code == "UNKNOWN_CONTROLLED_TAG" for issue in report.errors
+    )
