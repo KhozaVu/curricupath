@@ -6,7 +6,9 @@ import csv
 import json
 import re
 from dataclasses import dataclass
+from datetime import date
 from pathlib import Path
+from urllib.parse import urlparse
 
 
 COURSE_CODE_PATTERN = re.compile(r"^[A-Z]{4}\d{4}A?$")
@@ -23,7 +25,14 @@ RULE_TYPES = {
     "progression",
     "selection_count",
 }
-SOURCE_REQUIRED_FIELDS = ("source_id", "title", "edition_year", "document_type", "local_path")
+SOURCE_REQUIRED_FIELDS = (
+    "source_id",
+    "title",
+    "publisher",
+    "edition_year",
+    "document_type",
+    "authority_level",
+)
 MODULE_REQUIRED_FIELDS = (
     "programme_code",
     "programme_name",
@@ -37,7 +46,35 @@ MODULE_REQUIRED_FIELDS = (
     "handbook_page",
 )
 RULE_REQUIRED_FIELDS = ("rule_id", "scope", "rule_type", "condition_json", "source_id", "handbook_page")
+COURSE_REQUIRED_FIELDS = (
+    "course_id",
+    "title",
+    "provider",
+    "category",
+    "description",
+    "outcomes",
+    "topic_tags",
+    "interest_tags",
+    "career_tags",
+    "workload",
+    "format",
+    "level",
+    "provider_url",
+    "rating_mean",
+    "rating_count",
+    "rating_scale",
+    "source_id",
+    "access_date",
+)
 COURSE_EXPRESSION_KEYS = {"all_of", "any_of", "all_courses_in_programme_year"}
+COURSE_CATEGORIES = {
+    "programming_data_ai",
+    "electronics_control",
+    "communications",
+    "career_skills",
+}
+COURSE_WORKLOADS = {"light", "moderate", "heavy"}
+COURSE_LEVELS = {"beginner", "intermediate"}
 
 
 @dataclass(frozen=True)
@@ -196,6 +233,33 @@ def validate_processed_data(data_directory: Path | str) -> ValidationReport:
     return ValidationReport(tuple(issues))
 
 
+def validate_course_data(data_directory: Path | str) -> ValidationReport:
+    """Audit public course records and their source-backed ratings."""
+
+    processed_directory = Path(data_directory)
+    sources = _load_csv(processed_directory / "sources.csv")
+    courses = _load_csv(processed_directory / "courses.csv")
+    issues: list[ValidationIssue] = []
+
+    _validate_headers("sources.csv", sources, SOURCE_REQUIRED_FIELDS, issues)
+    _validate_headers("courses.csv", courses, COURSE_REQUIRED_FIELDS, issues)
+    _validate_sources(sources, processed_directory, issues)
+
+    sources_by_id = {source.get("source_id", ""): source for source in sources}
+    course_ids: set[str] = set()
+    for course in courses:
+        course_id = course.get("course_id", "<unknown>")
+        _validate_required_fields("course", course_id, course, COURSE_REQUIRED_FIELDS, issues)
+        if course_id in course_ids:
+            issues.append(
+                ValidationIssue("error", "DUPLICATE_COURSE_ID", f"Duplicate course_id {course_id}.")
+            )
+        course_ids.add(course_id)
+        _validate_course(course, sources_by_id, issues)
+
+    return ValidationReport(tuple(issues))
+
+
 def _load_csv(path: Path) -> list[dict[str, str]]:
     if not path.exists():
         raise FileNotFoundError(f"Required curriculum dataset is missing: {path}")
@@ -232,15 +296,84 @@ def _validate_sources(
                 )
             )
 
-        source_path = processed_directory.parent.parent / source.get("local_path", "")
-        if not source_path.exists():
+        local_path = source.get("local_path", "").strip()
+        url = source.get("url", "").strip()
+        if not local_path and not _is_valid_url(url):
             issues.append(
                 ValidationIssue(
                     "error",
-                    "SOURCE_FILE_MISSING",
-                    f"{source_id} is not available at {source_path}.",
+                    "MISSING_SOURCE_REFERENCE",
+                    f"Source {source_id} must have a local_path or a valid url.",
                 )
             )
+        if local_path:
+            source_path = processed_directory.parent.parent / local_path
+            if not source_path.exists():
+                issues.append(
+                    ValidationIssue(
+                        "error",
+                        "SOURCE_FILE_MISSING",
+                        f"{source_id} is not available at {source_path}.",
+                    )
+                )
+        if url and not _is_valid_url(url):
+            issues.append(
+                ValidationIssue("error", "INVALID_SOURCE_URL", f"Source {source_id} has invalid url {url!r}.")
+            )
+        access_date = source.get("access_date", "").strip()
+        if url and not _is_valid_date(access_date):
+            issues.append(
+                ValidationIssue("error", "INVALID_SOURCE_ACCESS_DATE", f"Source {source_id} has invalid access_date {access_date!r}.")
+            )
+
+
+def _validate_course(
+    course: dict[str, str],
+    sources_by_id: dict[str, dict[str, str]],
+    issues: list[ValidationIssue],
+) -> None:
+    course_id = course.get("course_id", "<unknown>")
+    if course.get("category", "") not in COURSE_CATEGORIES:
+        issues.append(ValidationIssue("error", "INVALID_COURSE_CATEGORY", f"Course {course_id} has invalid category {course.get('category', '')!r}."))
+    if course.get("workload", "") not in COURSE_WORKLOADS:
+        issues.append(ValidationIssue("error", "INVALID_COURSE_WORKLOAD", f"Course {course_id} has invalid workload {course.get('workload', '')!r}."))
+    if course.get("format", "") != "online":
+        issues.append(ValidationIssue("error", "INVALID_COURSE_FORMAT", f"Course {course_id} must use the online format."))
+    if course.get("level", "") not in COURSE_LEVELS:
+        issues.append(ValidationIssue("error", "INVALID_COURSE_LEVEL", f"Course {course_id} has invalid level {course.get('level', '')!r}."))
+    if not _is_valid_url(course.get("provider_url", "")):
+        issues.append(ValidationIssue("error", "INVALID_PROVIDER_URL", f"Course {course_id} has an invalid provider_url."))
+    if not _is_valid_date(course.get("access_date", "")):
+        issues.append(ValidationIssue("error", "INVALID_COURSE_ACCESS_DATE", f"Course {course_id} has invalid access_date {course.get('access_date', '')!r}."))
+
+    try:
+        rating_mean = float(course.get("rating_mean", ""))
+        rating_count = int(course.get("rating_count", ""))
+        rating_scale = int(course.get("rating_scale", ""))
+    except ValueError:
+        rating_mean, rating_count, rating_scale = -1.0, -1, -1
+    if rating_scale != 5 or not 0 <= rating_mean <= rating_scale or rating_count < 1:
+        issues.append(ValidationIssue("error", "INVALID_COURSE_RATING", f"Course {course_id} must have a 1-5 verified rating and positive review count."))
+
+    source_id = course.get("source_id", "")
+    source = sources_by_id.get(source_id)
+    if source is None:
+        issues.append(_unknown_source_issue("course", course_id, source_id))
+    elif source.get("document_type") != "public_course_provider":
+        issues.append(ValidationIssue("error", "INVALID_COURSE_SOURCE", f"Course {course_id} must reference a public_course_provider source."))
+
+
+def _is_valid_url(value: str) -> bool:
+    parsed = urlparse(value)
+    return parsed.scheme in {"http", "https"} and bool(parsed.netloc)
+
+
+def _is_valid_date(value: str) -> bool:
+    try:
+        date.fromisoformat(value)
+    except ValueError:
+        return False
+    return True
 
 
 def _programme_codes(

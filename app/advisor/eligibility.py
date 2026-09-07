@@ -1,4 +1,4 @@
-+"""Deterministic eligibility gates for curriculum recommendations."""
+"""Deterministic eligibility gates for curriculum recommendations."""
 
 from __future__ import annotations
 
