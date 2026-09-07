@@ -45,6 +45,21 @@ def test_every_course_has_an_audit_record() -> None:
     assert audited_course_ids == course_ids
 
 
+def test_week_three_catalogue_has_twenty_verified_recommendable_courses() -> None:
+    with (PROCESSED_DATA / "course_audit.csv").open(
+        newline="", encoding="utf-8"
+    ) as csv_file:
+        audit_records = list(csv.DictReader(csv_file))
+
+    assert len(audit_records) >= 20
+    assert all(
+        record["availability_status"] == "available"
+        and record["verification_status"] == "verified"
+        and record["recommendation_status"] == "recommendable"
+        for record in audit_records
+    )
+
+
 def test_unknown_course_source_is_an_error(tmp_path: Path) -> None:
     data_directory = tmp_path / "processed"
     shutil.copytree(PROCESSED_DATA, data_directory)

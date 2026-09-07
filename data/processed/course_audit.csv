@@ -3,13 +3,13 @@ CRS001,SRC_COUR_001,available,verified,recommendable,Machine Learning Specializa
 CRS002,SRC_COUR_002,available,verified,recommendable,Python for Data Science and Machine Learning Bootcamp,Udemy,2026-09-07,Title provider URL availability rating mean and scale matched; rating count updated to 160555.
 CRS003,SRC_COUR_003,available,verified,recommendable,Introduction to Telecommunication networks,Udemy,2026-09-07,Title provider URL availability rating mean and scale matched; rating count updated to 85.
 CRS004,SRC_COUR_004,available,verified,recommendable,Complete Introduction to Telecom Networking and Structured Cabling,Udemy,2026-09-07,Title provider URL availability rating mean count and scale matched.
-CRS005,SRC_COUR_005,unknown,incomplete,excluded,Control System Engineering Made Simple,Udemy,2026-09-07,Provider availability and rating record could not be independently confirmed; excluded pending replacement or verification.
+CRS005,SRC_COUR_005,available,verified,recommendable,Control Systems: From Mathematical Modelling to PID Control,Udemy,2026-09-07,Replacement course title provider URL availability rating mean count and scale matched.
 CRS006,SRC_COUR_006,available,verified,recommendable,Electrical Control & Protection Systems,Udemy,2026-09-07,Title availability rating mean count and scale matched provider page.
-CRS007,SRC_COUR_007,unknown,incomplete,excluded,Computer Networking for Beginners Crash Course,Udemy,2026-09-07,Provider availability and rating record could not be independently confirmed; excluded pending replacement or verification.
+CRS007,SRC_COUR_007,available,verified,recommendable,Introduction to Computer Networking - Beginner Crash Course,Udemy,2026-09-07,Replacement course title provider URL availability rating mean count and scale matched.
 CRS008,SRC_COUR_008,available,verified,recommendable,Learn Basics of Telecommunication Networks,Udemy,2026-09-07,Title rating mean count and scale matched provider page after title correction.
-CRS009,SRC_COUR_009,unavailable,superseded,excluded,Begin Programming: Build Your First Mobile Game,FutureLearn,2026-09-07,Course page says the course is not currently running.
-CRS010,SRC_COUR_010,unknown,incomplete,excluded,Learn to Code for the Web,FutureLearn,2026-09-07,Current provider availability and rating record could not be independently confirmed; excluded pending replacement or verification.
-CRS011,SRC_COUR_011,unknown,incomplete,excluded,Intermediate Python,FutureLearn,2026-09-07,Current provider availability and rating record could not be independently confirmed; excluded pending replacement or verification.
+CRS009,SRC_COUR_009,available,verified,recommendable,Computer Programming for Everyone,FutureLearn,2026-09-07,Replacement course title provider URL availability rating mean count and scale matched.
+CRS010,SRC_COUR_010,available,verified,recommendable,How to Get Into Web Development,FutureLearn,2026-09-07,Replacement course title provider URL availability rating mean count and scale matched.
+CRS011,SRC_COUR_011,available,verified,recommendable,An Introduction to Programming Using Python,FutureLearn,2026-09-07,Replacement course title provider URL availability rating mean count and scale matched.
 CRS012,SRC_COUR_012,available,verified,recommendable,Software Development Basics,FutureLearn,2026-09-07,Title provider URL availability rating mean count and scale matched.
 CRS013,SRC_COUR_013,available,verified,recommendable,Introduction to Cyber Security,FutureLearn,2026-09-07,Title provider URL availability rating mean count and scale matched.
 CRS014,SRC_COUR_014,available,verified,recommendable,Get Ready for a Masters in Data Science and AI,FutureLearn,2026-09-07,Title provider URL availability rating mean count and scale matched.
