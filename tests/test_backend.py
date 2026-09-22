@@ -125,7 +125,7 @@ def test_health_and_catalogue_endpoints() -> None:
     assert 'id="root"' in page.text
     assert "CSV engine online" not in page.text
     assert 'type="module"' in page.text
-    assert 'src="/assets/app.js?v=20260919-1"' in page.text
+    assert 'src="/assets/app.js?v=20260922-2"' in page.text
     assert client.get("/assets/app.js").status_code == 200
     assert client.get("/assets/app.css").status_code == 200
     assert client.get("/health").json() == {"status": "ok"}
