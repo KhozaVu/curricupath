@@ -1,0 +1,120 @@
+{
+  "evaluation_version": "curricupath-eval-2026-09-15-v2",
+  "created_date": "2026-09-15",
+  "freeze_status": "data_and_draft_cases_frozen_pending_review_and_git_commit",
+  "open_day": "2026-10-14",
+  "scope": [
+    "EFA03",
+    "EFA04",
+    "verified_public_courses"
+  ],
+  "git": {
+    "base_commit": "9faf15ae54f3ab0bca5af4ed355cdbc6778cf3ec",
+    "working_tree_clean": false,
+    "reproducibility_note": "The processed data snapshot is identified by the catalogue fingerprint and per-file SHA-256 hashes. Commit the reviewed working tree before final evaluation runs."
+  },
+  "catalogue": {
+    "fingerprint": "018260bd8fa3ffe83c04932e0a3d37044a9182e9269d280432511f0f03be2b8f",
+    "sources": 78,
+    "programme_profiles": 2,
+    "distinct_modules": 61,
+    "curriculum_memberships": 101,
+    "rules": 66,
+    "external_references": 17,
+    "module_offerings": 49,
+    "missing_cbos": 14,
+    "public_courses": 24,
+    "course_audits": 24,
+    "aliases": 44,
+    "document_chunks": 72,
+    "embedded_chunks": 72
+  },
+  "accepted_evidence_gaps": {
+    "policy": "Missing CBO facts remain explicitly unknown and must not be inferred. Verified handbook curriculum facts may still be used for these modules.",
+    "missing_cbo_codes": [
+      "AFRL1003A",
+      "AFRL1005A",
+      "CHEM1051A",
+      "HIST1011A",
+      "INTR1012A",
+      "MATH1048A",
+      "PHIL1002A",
+      "PHIL1003A",
+      "PHYS1032A",
+      "PHYS1033A",
+      "POLS1007A",
+      "SOCL1013A",
+      "SOCL1014A"
+    ],
+    "partial_evidence_codes": [
+      "MATH3025A"
+    ],
+    "partial_evidence_note": "MATH3025A has a course-information screenshot supporting staff, timetable, and assessment details, but not complete scope, outcomes, materials, or a verified offering year."
+  },
+  "validation": {
+    "command": "py scripts/validate_database.py",
+    "errors": 0,
+    "warnings": 0,
+    "result": "passed"
+  },
+  "tests": {
+    "command": "py -m pytest -q",
+    "passed": 195,
+    "failed": 0,
+    "warnings": 15,
+    "result": "passed"
+  },
+  "evaluation_datasets": {
+    "rule_cases": 150,
+    "anchor_cases_pending_academic_review": 15,
+    "intent_cases": 100,
+    "grounding_cases": 56,
+    "review_state": "draft",
+    "review_note": "Software checks establish structure and regression consistency only. Academic anchors, expected intents, and expected facts remain pending independent review."
+  },
+  "runtime": {
+    "python": "3.12.7",
+    "postgresql": "16.15",
+    "pgvector": "0.8.6",
+    "fastapi": "0.141.1",
+    "sqlalchemy": "2.0.52",
+    "psycopg": "3.3.5",
+    "alembic": "1.19.2",
+    "numpy": "2.5.3",
+    "catalogue_backend": "postgresql"
+  },
+  "embeddings": {
+    "provider": "huggingface",
+    "model": "BAAI/bge-small-en-v1.5",
+    "dimension": 384,
+    "selected_during_freeze": 0,
+    "embedded_during_freeze": 0,
+    "note": "All 72 compatible vectors were preserved during the transactional catalogue rebuild."
+  },
+  "ranker": {
+    "participant_facing_release_mode": "deterministic",
+    "experimental_ranker_configuration_detected": true,
+    "experimental_artifact_loaded": false,
+    "reason": "The experimental artifact catalogue fingerprint does not match the frozen catalogue.",
+    "required_action_before_participant_use": "Disable experimental ranker settings or retain the verified automatic deterministic fallback. Do not claim learned-ranker results for this snapshot without retraining and independent evaluation."
+  },
+  "processed_file_sha256": {
+    "sources.csv": "8a55811084f9b8c36ee7379f89c751a03e9ee5710e7918898d458805d0511c7b",
+    "programme_profiles.csv": "d1142400f983f508cc1aed0d68aa4763c1d5811be3af163ef89dab84444edc5b",
+    "modules.csv": "e3131aa2d68642377b89b7cf415fdcb608cc2810bc9542bf4ced51e679a3cd62",
+    "rules.csv": "416bc87c57e1da7a25f6055bf90d85f8bd8cd50d3a8c7fabfa75d1dc3a801786",
+    "external_references.csv": "4f5ed7ada9553bfe97f5559f59fedf31b80e80a0fa1ddf7cc0c7fd69b60070e7",
+    "cbo_courses.csv": "09595ec6970e837ee45ba8fb43a24d3a367ed8ce9d943bd438c87ab7b88578a5",
+    "missing_cbos.csv": "c77def59f2cae02a886ee09d2377a7823e6cb5a05a77d3594f6726052a1bdc8d",
+    "courses.csv": "3b171154ecb5bb9154c7523f668351d0314fe7e057e971694ee7e66d87ed0e37",
+    "course_audit.csv": "293955609a5f66a7ed9ed27384a6c2d0b29e07608b259fe1789a6304675e1fb4",
+    "aliases.csv": "9abd2e9b81b265cc1fa51015b95b0d57b1ff9e724e3a13478bc0bc6cee894e3e"
+  },
+  "evaluation_file_sha256": {
+    "rule_cases.csv": "4503384e85561a35bdf3a7bf629b3d89c3715b7a5cce6c170c32b6c7ae26dc1a",
+    "intent_cases.csv": "8e0c16c817af8e28827f53129756bdbd6e45fa37a8dd5a5eee40030aa372a292",
+    "grounding_cases.csv": "784cb2c0633dd9c11652e8f3940bb831abf869b6946750af9862fbfdabbf75dc",
+    "data_dictionary.md": "f4efae58631ae6c11f1e3631c70d96f239580f78832c76d70dea37a1025dce9a"
+  },
+  "change_control": "Any processed-data change after this freeze requires validation, transactional rebuild, embedding refresh, a new catalogue fingerprint, a new manifest version, and rerunning affected evaluation blocks."
+}

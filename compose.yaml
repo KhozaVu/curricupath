@@ -1,0 +1,20 @@
+services:
+  database:
+    image: pgvector/pgvector:0.8.6-pg16-trixie
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-curricupath}
+      POSTGRES_USER: ${POSTGRES_USER:-curricupath}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-curricupath_dev}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-curricupath} -d ${POSTGRES_DB:-curricupath}"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+    volumes:
+      - curricupath_postgres:/var/lib/postgresql/data
+    restart: unless-stopped
+
+volumes:
+  curricupath_postgres:

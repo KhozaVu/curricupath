@@ -64,3 +64,4 @@ PROGRESS_TO_YEAR_2,BSC_ENG,progression,YEAR_2,"{""all_courses_in_prior_years_com
 PROGRESS_TO_YEAR_3,BSC_ENG,progression,YEAR_3,"{""all_courses_in_prior_years_completed_through"":2}",EBE_2026,56,Senate may permit a special curriculum within credit and rule restrictions.
 PROGRESS_TO_YEAR_4,BSC_ENG,progression,YEAR_4,"{""all_courses_in_prior_years_completed_through"":3}",EBE_2026,56,Senate may permit a special curriculum within credit and rule restrictions.
 EXCLUSION_BSC_ENG,BSC_ENG,exclusion,,"{""all_of"":[{""repeated_courses_must_pass"":true},{""minimum_aggregate_percent"":45}]}",EBE_2026,59,Minimum study requirement for renewal of registration.
+PRE_MATH1049,ALL_EFA03_EFA04,prerequisite,MATH1049A,"{""all_of"":[""MATH1048A""]}",CBO_MATH1049_2026,1,The 2026 MATH1049A course outline explicitly states MATH1048A as a prerequisite.

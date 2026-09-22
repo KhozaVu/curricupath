@@ -3,6 +3,10 @@ __pycache__/
 .pytest_cache/
 .venv/
 env/
-data/raw/
-!data/raw/
+.env
+node_modules/
+tmp/
+.claude/
+pgvector-master/
+data/raw/*
 !data/raw/.gitkeep

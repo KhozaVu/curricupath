@@ -1,0 +1,143 @@
+{
+  "artifact_version": 1,
+  "baselines": {
+    "test": {
+      "deterministic": {
+        "ndcg_at_3": 0.984579,
+        "ndcg_at_5": 0.973791,
+        "pairwise_accuracy": 0.907234,
+        "precision_at_3": 0.9
+      },
+      "semantic_only": {
+        "ndcg_at_3": 0.945424,
+        "ndcg_at_5": 0.913983,
+        "pairwise_accuracy": 0.910964,
+        "precision_at_3": 0.833333
+      }
+    },
+    "validation": {
+      "deterministic": {
+        "ndcg_at_3": 0.854806,
+        "ndcg_at_5": 0.856358,
+        "pairwise_accuracy": 0.740799,
+        "precision_at_3": 0.8
+      },
+      "semantic_only": {
+        "ndcg_at_3": 0.863342,
+        "ndcg_at_5": 0.820478,
+        "pairwise_accuracy": 0.788849,
+        "precision_at_3": 0.8
+      }
+    }
+  },
+  "catalogue_fingerprint": "eb9efd4068b2efc4e54d3da857ce48af20673ef1c3197f964ec307c279f8e24a",
+  "coefficients": [
+    5.383098517621169,
+    5.399228000289242,
+    1.3711456932891286,
+    13.495951179459908,
+    -0.30753904496273093,
+    0.0,
+    0.0,
+    0.0
+  ],
+  "dependency_versions": {
+    "numpy": "2.5.3",
+    "python": "3.12.7",
+    "scikit_learn": "1.9.0"
+  },
+  "deployment_checks": {
+    "beats_test_deterministic_ndcg_at_3": true,
+    "bootstrap_lower_95_above_zero": false,
+    "human_coefficient_review": false,
+    "positive_test_profile_fraction_at_least_0_6": false,
+    "relevance_coefficients_nonnegative": false,
+    "source_or_eligibility_violations": 0
+  },
+  "deployment_eligible": false,
+  "embedding_dimension": 384,
+  "embedding_model": "BAAI/bge-small-en-v1.5",
+  "feature_order": [
+    "interest_overlap",
+    "career_overlap",
+    "lexical_relevance",
+    "semantic_similarity",
+    "workload_match",
+    "interest_missing",
+    "career_missing",
+    "workload_missing"
+  ],
+  "fit_intercept": false,
+  "judge_agreement": {
+    "judgement_count": 1200,
+    "reason": "Prototype weak labels have no independent second judge.",
+    "status": "not_applicable"
+  },
+  "label_provenance": "prototype_criteria_v1_codex_assisted",
+  "model_checksum": "d7090598d1ec2b1a0bd2c37931beac9131f7c6827e7b4541306996d0f8e1f402",
+  "model_type": "l2_pairwise_logistic",
+  "profile_definition_hash": "d7b347d51a917c44be804290aa4381bb7f2616fd1eaded131941260543a254cd",
+  "random_seed": 26073,
+  "regularization_C": 1.0,
+  "requires_semantic": true,
+  "test_bootstrap_ndcg_at_3_difference": {
+    "lower_95": 0.0,
+    "mean": 0.015421,
+    "positive_profile_fraction": 0.2,
+    "upper_95": 0.038626
+  },
+  "test_metrics": {
+    "ndcg_at_3": 1.0,
+    "ndcg_at_5": 0.990963,
+    "pairwise_accuracy": 0.938667,
+    "precision_at_3": 0.9
+  },
+  "training_label_hash": "0d8f2de096fcab37768b57a1baca1696381d7e57fc3d71c55730b88eb8747ce0",
+  "tuning": {
+    "selected_C": 1.0,
+    "trials": [
+      {
+        "C": 0.01,
+        "metrics": {
+          "ndcg_at_3": 0.854806,
+          "ndcg_at_5": 0.853756,
+          "pairwise_accuracy": 0.758236,
+          "precision_at_3": 0.8
+        }
+      },
+      {
+        "C": 0.1,
+        "metrics": {
+          "ndcg_at_3": 0.874112,
+          "ndcg_at_5": 0.869952,
+          "pairwise_accuracy": 0.783006,
+          "precision_at_3": 0.8
+        }
+      },
+      {
+        "C": 1.0,
+        "metrics": {
+          "ndcg_at_3": 0.880261,
+          "ndcg_at_5": 0.876464,
+          "pairwise_accuracy": 0.788151,
+          "precision_at_3": 0.8
+        }
+      },
+      {
+        "C": 10.0,
+        "metrics": {
+          "ndcg_at_3": 0.880261,
+          "ndcg_at_5": 0.881277,
+          "pairwise_accuracy": 0.793693,
+          "precision_at_3": 0.8
+        }
+      }
+    ]
+  },
+  "validation_metrics": {
+    "ndcg_at_3": 0.880261,
+    "ndcg_at_5": 0.876464,
+    "pairwise_accuracy": 0.788151,
+    "precision_at_3": 0.8
+  }
+}

@@ -1,0 +1,294 @@
+{
+  "created_at": "2026-09-18T22:56:43.683068+00:00",
+  "item_types": {
+    "eligibility": "evaluation_handbook",
+    "grounding": "evaluation_cbo"
+  },
+  "words_per_chunk": 900,
+  "overlap_words": 150,
+  "chunk_count": 621,
+  "corpus_sha256": "accc9f81bf8ded48e9ef9e9369987187bcc9402a3202ae22397614c09898692b",
+  "sources": [
+    {
+      "source_id": "EBE_2026",
+      "status": "extracted",
+      "path": "data/raw/EBE_eBook.pdf",
+      "chunks": 372
+    },
+    {
+      "source_id": "CBO_ELEN1998_2026",
+      "status": "extracted",
+      "path": "data/raw/ELEN1998A - CBO -2026.pdf",
+      "chunks": 6
+    },
+    {
+      "source_id": "CBO_ELEN2003_2024",
+      "status": "extracted",
+      "path": "data/raw/ELEN2003-2024.pdf",
+      "chunks": 4
+    },
+    {
+      "source_id": "CBO_ELEN2005_2024",
+      "status": "extracted",
+      "path": "data/raw/ELEN2005A - 2024.pdf",
+      "chunks": 5
+    },
+    {
+      "source_id": "CBO_ELEN2016_2024",
+      "status": "extracted",
+      "path": "data/raw/ELEN2016A - 2024.pdf",
+      "chunks": 5
+    },
+    {
+      "source_id": "CBO_ELEN2017_2026",
+      "status": "extracted",
+      "path": "data/raw/ELEN2017 - CBO - 2026.pdf",
+      "chunks": 3
+    },
+    {
+      "source_id": "CBO_ELEN2020_2025",
+      "status": "extracted",
+      "path": "data/raw/ELEN2020A CBO - 2025.pdf",
+      "chunks": 9
+    },
+    {
+      "source_id": "CBO_ELEN2021_2026",
+      "status": "extracted",
+      "path": "data/raw/ELEN2021A- CBO - 2026.pdf",
+      "chunks": 7
+    },
+    {
+      "source_id": "CBO_ELEN3000_2025",
+      "status": "extracted",
+      "path": "data/raw/ELEN3000 CBO - 2025.pdf",
+      "chunks": 4
+    },
+    {
+      "source_id": "CBO_ELEN3002_2026",
+      "status": "extracted",
+      "path": "data/raw/ELEN3002 - CBO - 2026.pdf",
+      "chunks": 2
+    },
+    {
+      "source_id": "CBO_ELEN3003_2026",
+      "status": "extracted",
+      "path": "data/raw/ELEN3003 - CBO - 2026.pdf",
+      "chunks": 5
+    },
+    {
+      "source_id": "CBO_ELEN3015_2026",
+      "status": "extracted",
+      "path": "data/raw/ELEN3015- CBO - 2026.pdf",
+      "chunks": 4
+    },
+    {
+      "source_id": "CBO_ELEN3017_2026",
+      "status": "extracted",
+      "path": "data/raw/ELEN3017 - CBO - 2026.pdf",
+      "chunks": 5
+    },
+    {
+      "source_id": "CBO_ELEN4000_ELEN4011_2026",
+      "status": "extracted",
+      "path": "data/raw/ELEN4000 - ELEN4011A -CBO - 2026.pdf",
+      "chunks": 6
+    },
+    {
+      "source_id": "CBO_ELEN4001_2026",
+      "status": "extracted",
+      "path": "data/raw/EKEB4001A - CBO - 2026.pdf",
+      "chunks": 4
+    },
+    {
+      "source_id": "CBO_ELEN4003_2026",
+      "status": "extracted",
+      "path": "data/raw/ELEN4003A - CBO -2026.pdf",
+      "chunks": 4
+    },
+    {
+      "source_id": "CBO_ELEN4006_2026",
+      "status": "extracted",
+      "path": "data/raw/ELEN4006A - CBO - 2026.pdf",
+      "chunks": 5
+    },
+    {
+      "source_id": "CBO_ELEN4010_2026",
+      "status": "extracted",
+      "path": "data/raw/ELEN4010A - CBO -2026.pdf",
+      "chunks": 5
+    },
+    {
+      "source_id": "CBO_ELEN4014_2026",
+      "status": "extracted",
+      "path": "data/raw/ELEN4014A - CBO - 2026.pdf",
+      "chunks": 4
+    },
+    {
+      "source_id": "CBO_ELEN4017_2026",
+      "status": "extracted",
+      "path": "data/raw/ELEN4017 - CBO - 2026.pdf",
+      "chunks": 5
+    },
+    {
+      "source_id": "CBO_ELEN4018_2026",
+      "status": "extracted",
+      "path": "data/raw/ELEN4018A-CBO 2026_.pdf",
+      "chunks": 4
+    },
+    {
+      "source_id": "CBO_ELEN4019_2026",
+      "status": "extracted",
+      "path": "data/raw/ELEN4019 - CBO - 2026.pdf",
+      "chunks": 5
+    },
+    {
+      "source_id": "CBO_ELEN4020_2026",
+      "status": "extracted",
+      "path": "data/raw/ELEN4020A - CBO -2026.pdf",
+      "chunks": 7
+    },
+    {
+      "source_id": "CBO_ELEN4022_2026",
+      "status": "extracted",
+      "path": "data/raw/ELEN4022A - CBO -2026.pdf",
+      "chunks": 5
+    },
+    {
+      "source_id": "CBO_ELEN4023_2026",
+      "status": "extracted",
+      "path": "data/raw/ELEN4023A - CBO - 2026.pdf",
+      "chunks": 4
+    },
+    {
+      "source_id": "CBO_ELEN4024_2026",
+      "status": "extracted",
+      "path": "data/raw/ELEN4024A - CBO - 2026.pdf",
+      "chunks": 5
+    },
+    {
+      "source_id": "CBO_ELEN4025_2026",
+      "status": "extracted",
+      "path": "data/raw/ELEN4025A- CBO- 2026.pdf",
+      "chunks": 4
+    },
+    {
+      "source_id": "CBO_FEBE1000_2026",
+      "status": "extracted",
+      "path": "data/raw/2026 FEBE1000A Course Outline.pdf",
+      "chunks": 6
+    },
+    {
+      "source_id": "CBO_FEBE1002_2026",
+      "status": "extracted",
+      "path": "data/raw/FEBE1002A-Course_outline-2026 (1).pdf",
+      "chunks": 3
+    },
+    {
+      "source_id": "CBO_FEBE1004_2026",
+      "status": "extracted",
+      "path": "data/raw/1. CBO FEBE1004A_(2026).pdf",
+      "chunks": 20
+    },
+    {
+      "source_id": "CBO_MATH1049_2026",
+      "status": "extracted",
+      "path": "data/raw/Math1049 COURSE outline 2026.pdf",
+      "chunks": 4
+    },
+    {
+      "source_id": "CBO_PHYS1034_2026",
+      "status": "extracted",
+      "path": "data/raw/PHYS1034-Mechanics-Statics-Course-Outline.pdf",
+      "chunks": 6
+    },
+    {
+      "source_id": "CBO_APPM3021_2025",
+      "status": "extracted",
+      "path": "data/raw/course_outline APPM3021.pdf",
+      "chunks": 4
+    },
+    {
+      "source_id": "CBO_ELEN3012_2025",
+      "status": "extracted",
+      "path": "data/raw/2025_CBO_ELEN3012 Signals and Systems IIA Final Version.pdf",
+      "chunks": 6
+    },
+    {
+      "source_id": "CBO_ELEN3013_2025",
+      "status": "extracted",
+      "path": "data/raw/2025_Course Brief and Outline _CBO for ELEN3013 Signals and Systems IIB.pdf",
+      "chunks": 5
+    },
+    {
+      "source_id": "CBO_MECN4020_2026",
+      "status": "extracted",
+      "path": "data/raw/MECN4020A-Course_outline-2026.pdf",
+      "chunks": 6
+    },
+    {
+      "source_id": "CBO_COMS2004_2023",
+      "status": "extracted",
+      "path": "data/raw/CBO - COMS2004A - 2023.pdf",
+      "chunks": 6
+    },
+    {
+      "source_id": "CBO_ELEN4016_2024",
+      "status": "extracted",
+      "path": "data/raw/ELEN4016_CB&O_2024.pdf",
+      "chunks": 4
+    },
+    {
+      "source_id": "CBO_ELEN3007_2026",
+      "status": "extracted",
+      "path": "data/raw/ELEN3007A CBO 2026 Final.pdf",
+      "chunks": 6
+    },
+    {
+      "source_id": "CBO_ELEN3009_2026",
+      "status": "extracted",
+      "path": "data/raw/elen3009-cbo-2026.pdf",
+      "chunks": 6
+    },
+    {
+      "source_id": "CBO_ELEN3016_2026",
+      "status": "extracted",
+      "path": "data/raw/ELEN3016 CBO 2026 Final V3 (1).pdf",
+      "chunks": 6
+    },
+    {
+      "source_id": "CBO_ELEN3018_2026",
+      "status": "extracted",
+      "path": "data/raw/ELEN3018A-CBO-2026.pdf",
+      "chunks": 8
+    },
+    {
+      "source_id": "CBO_ELEN3024_2026",
+      "status": "extracted",
+      "path": "data/raw/CBO ELEN3024A 2026 (1).pdf",
+      "chunks": 7
+    },
+    {
+      "source_id": "CBO_ELEN4002_ELEN4012_2026",
+      "status": "extracted",
+      "path": "data/raw/Investigation_Project_CBO_Updated (3).pdf",
+      "chunks": 10
+    },
+    {
+      "source_id": "CBO_MATH2014_2026",
+      "status": "extracted",
+      "path": "data/raw/University of the Witwatersrand, Johannesburg.pdf",
+      "chunks": 4
+    },
+    {
+      "source_id": "CBO_PHYS2007_2026",
+      "status": "extracted",
+      "path": "data/raw/INFO PHYS2007 (2026)_10372791.pdf",
+      "chunks": 6
+    },
+    {
+      "source_id": "CINFO_MATH3025_2026",
+      "status": "skipped_unverified"
+    }
+  ],
+  "database_updated": true
+}

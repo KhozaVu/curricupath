@@ -27,7 +27,10 @@ def main() -> None:
     print(f"Sources: {_record_count('sources.csv'):>2}")
     print(f"Modules: {_record_count('modules.csv'):>2}")
     print(f"Rules:   {_record_count('rules.csv'):>2}")
-    print(f"Courses: {_record_count('courses.csv'):>2}\n")
+    print(f"Courses: {_record_count('courses.csv'):>2}")
+    print(f"CBO rows:{_record_count('cbo_courses.csv'):>3}")
+    print(f"Missing CBOs: {_record_count('missing_cbos.csv'):>2}")
+    print(f"Programme profiles: {_record_count('programme_profiles.csv'):>2}\n")
 
     curriculum_report = validate_processed_data(PROCESSED_DATA)
     course_report = validate_course_data(PROCESSED_DATA)
@@ -39,6 +42,9 @@ def main() -> None:
     _print_check("Corequisite references valid", reports, {"UNKNOWN_RULE_TARGET"})
     _print_check("Selection groups valid", reports, {"MISSING_SELECTION_RULE"})
     _print_check("Course ratings valid", reports, {"INVALID_COURSE_RATING"})
+    _print_check("CBO source and credit data valid", reports, {"UNKNOWN_CBO_MODULE", "INVALID_CBO_SOURCE", "CBO_CREDIT_MISMATCH", "INVALID_NOTIONAL_HOURS"})
+    _print_check("Missing CBO register complete", reports, {"UNTRACKED_MISSING_CBO", "STALE_MISSING_CBO", "CBO_COVERAGE_CONFLICT"})
+    _print_check("Programme profiles source-verified", reports, {"UNKNOWN_PROGRAMME_PROFILE", "INVALID_PROGRAMME_PROFILE_SOURCE", "UNKNOWN_SOURCE"})
     _print_check("No critical duplicates", reports, {"DUPLICATE_MODULE_MEMBERSHIP", "DUPLICATE_SOURCE_ID", "DUPLICATE_COURSE_ID"})
 
     issues = tuple(issue for report in reports for issue in report.issues)

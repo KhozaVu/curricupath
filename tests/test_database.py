@@ -132,3 +132,39 @@ def test_invalid_source_verification_status_is_an_error(tmp_path: Path) -> None:
     assert any(
         issue.code == "INVALID_VERIFICATION_STATUS" for issue in report.errors
     )
+
+
+def test_invalid_cbo_notional_hours_is_an_error(tmp_path: Path) -> None:
+    data_directory = tmp_path / "processed"
+    shutil.copytree(PROCESSED_DATA, data_directory)
+    cbo_path = data_directory / "cbo_courses.csv"
+    cbo_path.write_text(
+        cbo_path.read_text(encoding="utf-8").replace(
+            "ELEN2017A,2026,12,120,", "ELEN2017A,2026,12,12,", 1
+        ),
+        encoding="utf-8",
+    )
+
+    report = validate_processed_data(data_directory)
+
+    assert any(issue.code == "INVALID_NOTIONAL_HOURS" for issue in report.errors)
+
+
+def test_programme_profile_requires_verified_official_source(tmp_path: Path) -> None:
+    data_directory = tmp_path / "processed"
+    shutil.copytree(PROCESSED_DATA, data_directory)
+    sources_path = data_directory / "sources.csv"
+    sources_path.write_text(
+        sources_path.read_text(encoding="utf-8").replace(
+            "WITS_IE_COURSE_FINDER_2026,Wits Information Engineering undergraduate degree page,University of the Witwatersrand,2026,university_programme_page",
+            "WITS_IE_COURSE_FINDER_2026,Wits Information Engineering undergraduate degree page,University of the Witwatersrand,2026,unverified_web_page",
+            1,
+        ),
+        encoding="utf-8",
+    )
+
+    report = validate_processed_data(data_directory)
+
+    assert any(
+        issue.code == "INVALID_PROGRAMME_PROFILE_SOURCE" for issue in report.errors
+    )

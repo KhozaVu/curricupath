@@ -1,0 +1,51 @@
+profile_id,profile_group_id,split,query,interests,career_preferences,workload_preference,profile_author,review_status
+P001,G001,train,I want a beginner-friendly introduction to machine learning,machine_learning,data_science,light,codex_draft;reviewed_by:Vukosi,approved
+P002,G002,train,Recommend intensive AI study for an ML engineering career,artificial_intelligence;machine_learning,ml_engineering,heavy,codex_draft;reviewed_by:Vukosi,approved
+P003,G003,train,I want to learn Python programming for data science,software,data_science,moderate,codex_draft;reviewed_by:Vukosi,approved
+P004,G004,train,Find a light introductory software development course,software,software_development,light,codex_draft;reviewed_by:Vukosi,approved
+P005,G005,train,I want a demanding programming course for software engineering,software,software_development,heavy,codex_draft;reviewed_by:Vukosi,approved
+P006,G006,train,I am interested in telecoms and network engineering,communications;networking,network_engineering,moderate,codex_draft;reviewed_by:Vukosi,approved
+P007,G007,train,Show me a light introduction to communication networks,communications;networking,,light,codex_draft;reviewed_by:Vukosi,approved
+P008,G008,train,I want practical computer networking for a network career,networking,network_engineering,heavy,codex_draft;reviewed_by:Vukosi,approved
+P009,G009,train,Recommend an intensive cybersecurity course,cybersecurity,,heavy,codex_draft;reviewed_by:Vukosi,approved
+P010,G010,train,I want cybersecurity knowledge for an information security career,cybersecurity,network_engineering,moderate,codex_draft;reviewed_by:Vukosi,approved
+P011,G011,train,Find control systems study for control engineering,control,control_engineering,heavy,codex_draft;reviewed_by:Vukosi,approved
+P012,G012,train,I need a moderate introduction to electrical control,control,electrical_engineering,moderate,codex_draft;reviewed_by:Vukosi,approved
+P013,G013,train,I want to understand electric circuit analysis,electric_circuits,electrical_engineering,heavy,codex_draft;reviewed_by:Vukosi,approved
+P014,G014,train,Recommend introductory circuits for electronics engineering,electric_circuits,electronics_engineering,moderate,codex_draft;reviewed_by:Vukosi,approved
+P015,G015,train,I want both circuits and control for electrical engineering,electric_circuits;control,electrical_engineering,heavy,codex_draft;reviewed_by:Vukosi,approved
+P016,G016,train,Find electronic engineering study related to embedded systems,,embedded_systems,moderate,codex_draft;reviewed_by:Vukosi,approved
+P017,G017,train,I want machine learning and AI for data science,machine_learning;artificial_intelligence,data_science,moderate,codex_draft;reviewed_by:Vukosi,approved
+P018,G018,train,Recommend data science career preparation,,data_science,light,codex_draft;reviewed_by:Vukosi,approved
+P019,G019,train,I need general career development with a light workload,,career_development,light,codex_draft;reviewed_by:Vukosi,approved
+P020,G020,train,Find intensive digital career preparation,,career_development,heavy,codex_draft;reviewed_by:Vukosi,approved
+P021,G021,train,I want high frequency and antenna knowledge,high_frequency,electronics_engineering,moderate,codex_draft;reviewed_by:Vukosi,approved
+P022,G022,train,Recommend high voltage study for electrical engineering,high_voltage,electrical_engineering,heavy,codex_draft;reviewed_by:Vukosi,approved
+P023,G023,train,I want to learn about electrical machines,electrical_machines,electrical_engineering,moderate,codex_draft;reviewed_by:Vukosi,approved
+P024,G024,train,Find a course about electric power systems,power_systems,electrical_engineering,heavy,codex_draft;reviewed_by:Vukosi,approved
+P025,G025,train,I am interested in renewable energy engineering,renewable_energy,electrical_engineering,moderate,codex_draft;reviewed_by:Vukosi,approved
+P026,G026,train,I want an introduction to quantum computing,quantum_computing,,light,codex_draft;reviewed_by:Vukosi,approved
+P027,G027,train,Recommend instrumentation and measurement systems,measurement_systems,electronics_engineering,moderate,codex_draft;reviewed_by:Vukosi,approved
+P028,G028,train,I want distributed computing for software development,distributed_computing,software_development,heavy,codex_draft;reviewed_by:Vukosi,approved
+P029,G029,train,I am choosing between networking and cybersecurity,networking;cybersecurity,network_engineering,moderate,codex_draft;reviewed_by:Vukosi,approved
+P030,G030,train,I want a broad electrical engineering learning option,,electrical_engineering,,codex_draft;reviewed_by:Vukosi,approved
+P031,G031,validation,Help me begin machine learning for a data career,machine_learning,data_science,light,codex_draft;reviewed_by:Vukosi,approved
+P032,G032,validation,I want advanced-feeling AI preparation for ML engineering,artificial_intelligence;machine_learning,ml_engineering,heavy,codex_draft;reviewed_by:Vukosi,approved
+P033,G033,validation,Recommend coding that supports software development,software,software_development,moderate,codex_draft;reviewed_by:Vukosi,approved
+P034,G034,validation,Find telecommunications learning for network engineering,communications;networking,network_engineering,light,codex_draft;reviewed_by:Vukosi,approved
+P035,G035,validation,I need a serious cyber security learning option,cybersecurity,,heavy,codex_draft;reviewed_by:Vukosi,approved
+P036,G036,validation,I want PID and modelling knowledge for control engineering,control,control_engineering,heavy,codex_draft;reviewed_by:Vukosi,approved
+P037,G037,validation,Help me study circuit fundamentals for electrical engineering,electric_circuits,electrical_engineering,moderate,codex_draft;reviewed_by:Vukosi,approved
+P038,G038,validation,I want electronics preparation for embedded systems,,embedded_systems,moderate,codex_draft;reviewed_by:Vukosi,approved
+P039,G039,validation,Recommend general skills for developing my career,,career_development,light,codex_draft;reviewed_by:Vukosi,approved
+P040,G040,validation,I want renewable power and electrical engineering,renewable_energy;power_systems,electrical_engineering,heavy,codex_draft;reviewed_by:Vukosi,approved
+P041,G041,test,Find a manageable machine learning course for data science,machine_learning,data_science,moderate,codex_draft;reviewed_by:Vukosi,approved
+P042,G042,test,I want AI and programming for an ML engineering path,artificial_intelligence;software,ml_engineering,heavy,codex_draft;reviewed_by:Vukosi,approved
+P043,G043,test,Recommend an easy first programming course,software,software_development,light,codex_draft;reviewed_by:Vukosi,approved
+P044,G044,test,I want communications and networking for a network career,communications;networking,network_engineering,heavy,codex_draft;reviewed_by:Vukosi,approved
+P045,G045,test,Find an introduction to information security,cybersecurity,,moderate,codex_draft;reviewed_by:Vukosi,approved
+P046,G046,test,I want control and circuits for electrical engineering,control;electric_circuits,electrical_engineering,heavy,codex_draft;reviewed_by:Vukosi,approved
+P047,G047,test,Recommend circuit analysis for electronics engineering,electric_circuits,electronics_engineering,moderate,codex_draft;reviewed_by:Vukosi,approved
+P048,G048,test,Help me prepare for a data science career,,data_science,moderate,codex_draft;reviewed_by:Vukosi,approved
+P049,G049,test,I want a lightweight course for career development,,career_development,light,codex_draft;reviewed_by:Vukosi,approved
+P050,G050,test,Find measurement and electronics learning,measurement_systems,electronics_engineering,heavy,codex_draft;reviewed_by:Vukosi,approved

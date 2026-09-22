@@ -1,0 +1,18 @@
+{
+  "status": "blocking_assignments_pending",
+  "evaluation_lead": null,
+  "baseline_owner": null,
+  "curricupath_run_owner": null,
+  "academic_reviewers": [],
+  "grounding_judges": [],
+  "analyst": null,
+  "supervisor": null,
+  "commitments": {
+    "concealed_case_drafting_hours": null,
+    "eligibility_labelling_hours": null,
+    "adjudication_hours": null,
+    "grounding_judging_hours": null
+  },
+  "note": "Official runs are blocked until named people and committed hours are recorded. At least one grounding judge must be a non-developer."
+}
+

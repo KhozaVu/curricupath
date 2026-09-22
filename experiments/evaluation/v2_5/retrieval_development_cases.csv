@@ -1,0 +1,9 @@
+case_id,query_class,question,gold_chunk_ids,notes
+DEV001,lexical_match,What modules are listed for Electrical Engineering in third year?,EBE_2026::pdf_page_48_printed_46::chunk_00,Handbook curriculum page
+DEV002,lexical_match,Which fourth-year electives are listed for Information Engineering?,EBE_2026::pdf_page_50_printed_48::chunk_00,Handbook curriculum page
+DEV003,semantic_paraphrase,What subjects form the Information Engineering branch after the common years?,EBE_2026::pdf_page_49_printed_47::chunk_00;EBE_2026::pdf_page_50_printed_48::chunk_00,Paraphrased branch structure
+DEV004,semantic_paraphrase,When may an engineering student move forward to the following year of study?,EBE_2026::pdf_page_58_printed_56::chunk_00,Progression wording
+DEV005,multi_rule,Can an EFA04 student proceed from third year and choose fourth-year electives?,EBE_2026::pdf_page_49_printed_47::chunk_00;EBE_2026::pdf_page_50_printed_48::chunk_00;EBE_2026::pdf_page_58_printed_56::chunk_00,Programme structure plus progression
+DEV006,multi_rule,Compare the fourth-year compulsory and elective structure of EFA03 and EFA04.,EBE_2026::pdf_page_48_printed_46::chunk_00;EBE_2026::pdf_page_49_printed_47::chunk_00;EBE_2026::pdf_page_50_printed_48::chunk_00,Cross-programme evidence
+DEV007,multi_rule,Using the Information Engineering branch structure and the progression rules when may a third-year student enter fourth year?,EBE_2026::pdf_page_49_printed_47::chunk_00;EBE_2026::pdf_page_58_printed_56::chunk_00,Explicit multi-evidence branch and progression query
+DEV008,multi_rule,How do the electrical and information branches differ after the common first and second years?,EBE_2026::pdf_page_48_printed_46::chunk_00;EBE_2026::pdf_page_49_printed_47::chunk_00;EBE_2026::pdf_page_50_printed_48::chunk_00,Cross-page branch comparison

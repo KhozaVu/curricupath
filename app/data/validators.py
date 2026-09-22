@@ -18,6 +18,9 @@ REQUIRED_DATASETS = (
     "modules.csv",
     "rules.csv",
     "external_references.csv",
+    "cbo_courses.csv",
+    "missing_cbos.csv",
+    "programme_profiles.csv",
 )
 MODULE_REQUIREMENT_TYPES = {"compulsory", "elective_pool", "required_non_credit"}
 RULE_TYPES = {
@@ -96,6 +99,42 @@ COURSE_AUDIT_REQUIRED_FIELDS = (
     "notes",
 )
 ALIAS_REQUIRED_FIELDS = ("alias", "canonical_tag", "tag_type")
+CBO_REQUIRED_FIELDS = (
+    "course_code",
+    "academic_year",
+    "weekly_workload_guidance",
+    "contact_pattern",
+    "academic_staff",
+    "course_coordinator",
+    "scope",
+    "prescribed_materials",
+    "additional_materials",
+    "source_id",
+    "curriculum_status",
+    "verification_status",
+    "evidence_notes",
+)
+CBO_EVIDENCE_SOURCE_TYPES = {"course_brief_outline", "course_information_page"}
+MISSING_CBO_REQUIRED_FIELDS = (
+    "course_code",
+    "course_name",
+    "credits",
+    "status",
+    "notes",
+)
+PROGRAMME_PROFILE_REQUIRED_FIELDS = (
+    "programme_code",
+    "programme_name",
+    "qualification",
+    "duration_years",
+    "study_mode",
+    "focus",
+    "overview",
+    "career_opportunities",
+    "source_id",
+    "access_date",
+    "evidence_notes",
+)
 COURSE_EXPRESSION_KEYS = {"all_of", "any_of", "all_courses_in_programme_year"}
 COURSE_CATEGORIES = {
     "programming_data_ai",
@@ -113,6 +152,8 @@ VALID_VERIFICATION_STATES = {
 }
 COURSE_AVAILABILITY_STATES = {"available", "unavailable", "unknown"}
 COURSE_RECOMMENDATION_STATES = {"recommendable", "excluded"}
+CBO_CURRICULUM_STATES = {"current", "not_in_current_curriculum"}
+MISSING_CBO_STATES = {"missing", "candidate_found_not_imported"}
 
 
 @dataclass(frozen=True)
@@ -164,6 +205,9 @@ def validate_processed_data(data_directory: Path | str) -> ValidationReport:
     modules = datasets["modules.csv"]
     rules = datasets["rules.csv"]
     external_references = datasets["external_references.csv"]
+    cbo_courses = datasets["cbo_courses.csv"]
+    missing_cbos = datasets["missing_cbos.csv"]
+    programme_profiles = datasets["programme_profiles.csv"]
 
     _validate_headers("sources.csv", sources, SOURCE_REQUIRED_FIELDS, issues)
     _validate_headers("modules.csv", modules, MODULE_REQUIRED_FIELDS, issues)
@@ -172,6 +216,16 @@ def validate_processed_data(data_directory: Path | str) -> ValidationReport:
         "external_references.csv",
         external_references,
         EXTERNAL_REFERENCE_REQUIRED_FIELDS,
+        issues,
+    )
+    _validate_headers("cbo_courses.csv", cbo_courses, CBO_REQUIRED_FIELDS, issues)
+    _validate_headers(
+        "missing_cbos.csv", missing_cbos, MISSING_CBO_REQUIRED_FIELDS, issues
+    )
+    _validate_headers(
+        "programme_profiles.csv",
+        programme_profiles,
+        PROGRAMME_PROFILE_REQUIRED_FIELDS,
         issues,
     )
     _validate_sources(sources, processed_directory, issues)
@@ -272,8 +326,233 @@ def validate_processed_data(data_directory: Path | str) -> ValidationReport:
         sources,
         issues,
     )
+    _validate_cbo_records(
+        cbo_courses,
+        missing_cbos,
+        modules,
+        sources,
+        issues,
+    )
+    _validate_programme_profiles(
+        programme_profiles,
+        programme_codes,
+        sources,
+        issues,
+    )
 
     return ValidationReport(tuple(issues))
+
+
+def _validate_programme_profiles(
+    profiles: list[dict[str, str]],
+    programme_codes: set[str],
+    sources: list[dict[str, str]],
+    issues: list[ValidationIssue],
+) -> None:
+    sources_by_id = {source.get("source_id", ""): source for source in sources}
+    seen_codes: set[str] = set()
+    for profile in profiles:
+        code = profile.get("programme_code", "<unknown>")
+        _validate_required_fields(
+            "programme profile",
+            code,
+            profile,
+            PROGRAMME_PROFILE_REQUIRED_FIELDS,
+            issues,
+        )
+        if code in seen_codes:
+            issues.append(
+                ValidationIssue(
+                    "error",
+                    "DUPLICATE_PROGRAMME_PROFILE",
+                    f"Duplicate programme profile for {code}.",
+                )
+            )
+        seen_codes.add(code)
+        if code not in programme_codes:
+            issues.append(
+                ValidationIssue(
+                    "error",
+                    "UNKNOWN_PROGRAMME_PROFILE",
+                    f"Programme profile {code} has no programme definition rule.",
+                )
+            )
+        try:
+            duration = int(profile.get("duration_years", ""))
+        except ValueError:
+            duration = 0
+        if duration <= 0:
+            issues.append(
+                ValidationIssue(
+                    "error",
+                    "INVALID_PROGRAMME_DURATION",
+                    f"Programme profile {code} must have a positive duration_years.",
+                )
+            )
+        source_id = profile.get("source_id", "")
+        source = sources_by_id.get(source_id)
+        if source is None:
+            issues.append(_unknown_source_issue("programme profile", code, source_id))
+        elif (
+            source.get("document_type") != "university_programme_page"
+            or source.get("verification_status") != "verified"
+        ):
+            issues.append(
+                ValidationIssue(
+                    "error",
+                    "INVALID_PROGRAMME_PROFILE_SOURCE",
+                    f"Programme profile {code} must use a verified university programme page.",
+                )
+            )
+        if not _is_valid_date(profile.get("access_date", "")):
+            issues.append(
+                ValidationIssue(
+                    "error",
+                    "INVALID_PROGRAMME_ACCESS_DATE",
+                    f"Programme profile {code} must have a valid access_date.",
+                )
+            )
+        if not [item for item in profile.get("career_opportunities", "").split(";") if item.strip()]:
+            issues.append(
+                ValidationIssue(
+                    "error",
+                    "MISSING_PROGRAMME_CAREERS",
+                    f"Programme profile {code} must list at least one career opportunity.",
+                )
+            )
+
+
+def _validate_cbo_records(
+    cbo_records: list[dict[str, str]],
+    missing_records: list[dict[str, str]],
+    modules: list[dict[str, str]],
+    sources: list[dict[str, str]],
+    issues: list[ValidationIssue],
+) -> None:
+    """Audit CBO metadata, credit-derived hours, and explicit coverage gaps."""
+
+    modules_by_code: dict[str, dict[str, str]] = {}
+    for module in modules:
+        modules_by_code.setdefault(module.get("course_code", ""), module)
+    sources_by_id = {source.get("source_id", ""): source for source in sources}
+
+    cbo_codes: set[str] = set()
+    current_cbo_codes: set[str] = set()
+    for record in cbo_records:
+        code = record.get("course_code", "<unknown>")
+        _validate_required_fields("CBO", code, record, CBO_REQUIRED_FIELDS, issues)
+        if code in cbo_codes:
+            issues.append(
+                ValidationIssue("error", "DUPLICATE_CBO_RECORD", f"Duplicate CBO record for {code}.")
+            )
+        cbo_codes.add(code)
+
+        if not COURSE_CODE_PATTERN.fullmatch(code):
+            issues.append(
+                ValidationIssue("error", "INVALID_CBO_COURSE_CODE", f"CBO course code {code!r} is invalid.")
+            )
+        if not record.get("academic_year", "").isdigit():
+            issues.append(
+                ValidationIssue("error", "INVALID_CBO_YEAR", f"CBO {code} must have a numeric academic_year.")
+            )
+
+        curriculum_status = record.get("curriculum_status", "")
+        if curriculum_status not in CBO_CURRICULUM_STATES:
+            issues.append(
+                ValidationIssue("error", "INVALID_CBO_CURRICULUM_STATUS", f"CBO {code} has invalid curriculum_status {curriculum_status!r}.")
+            )
+        if record.get("verification_status", "") not in VALID_VERIFICATION_STATES:
+            issues.append(
+                ValidationIssue("error", "INVALID_CBO_VERIFICATION_STATUS", f"CBO {code} has an invalid verification_status.")
+            )
+
+        source_id = record.get("source_id", "")
+        source = sources_by_id.get(source_id)
+        if source is None:
+            issues.append(_unknown_source_issue("CBO", code, source_id))
+        elif source.get("document_type") not in CBO_EVIDENCE_SOURCE_TYPES:
+            issues.append(
+                ValidationIssue(
+                    "error",
+                    "INVALID_CBO_SOURCE",
+                    f"CBO {code} must reference course outline or course-information evidence.",
+                )
+            )
+
+        module = modules_by_code.get(code)
+        if curriculum_status == "current":
+            if (
+                record.get("verification_status") == "verified"
+                and source is not None
+                and source.get("document_type") == "course_brief_outline"
+                and source.get("verification_status") == "verified"
+            ):
+                current_cbo_codes.add(code)
+            if module is None:
+                issues.append(
+                    ValidationIssue("error", "UNKNOWN_CBO_MODULE", f"Current CBO {code} is not present in modules.csv.")
+                )
+                continue
+            try:
+                credits = int(record.get("credits", ""))
+                notional_hours = int(record.get("notional_hours_total", ""))
+                module_credits = int(module.get("nqf_credits", ""))
+            except ValueError:
+                issues.append(
+                    ValidationIssue("error", "INVALID_CBO_HOURS", f"CBO {code} must have integer credits and notional hours.")
+                )
+                continue
+            if credits != module_credits:
+                issues.append(
+                    ValidationIssue("error", "CBO_CREDIT_MISMATCH", f"CBO {code} credits do not match modules.csv.")
+                )
+            if notional_hours != credits * 10:
+                issues.append(
+                    ValidationIssue("error", "INVALID_NOTIONAL_HOURS", f"CBO {code} notional hours must equal credits multiplied by 10.")
+                )
+        elif module is not None:
+            issues.append(
+                ValidationIssue("error", "CBO_CURRICULUM_STATUS_MISMATCH", f"CBO {code} is marked outside the curriculum but exists in modules.csv.")
+            )
+
+    missing_codes: set[str] = set()
+    for record in missing_records:
+        code = record.get("course_code", "<unknown>")
+        _validate_required_fields(
+            "missing CBO", code, record, MISSING_CBO_REQUIRED_FIELDS, issues
+        )
+        if code in missing_codes:
+            issues.append(
+                ValidationIssue("error", "DUPLICATE_MISSING_CBO", f"Duplicate missing-CBO record for {code}.")
+            )
+        missing_codes.add(code)
+        module = modules_by_code.get(code)
+        if module is None:
+            issues.append(
+                ValidationIssue("error", "UNKNOWN_MISSING_CBO_MODULE", f"Missing-CBO record {code} is not present in modules.csv.")
+            )
+        elif record.get("course_name") != module.get("course_name") or record.get("credits") != module.get("nqf_credits"):
+            issues.append(
+                ValidationIssue("error", "MISSING_CBO_METADATA_MISMATCH", f"Missing-CBO record {code} does not match modules.csv.")
+            )
+        if record.get("status", "") not in MISSING_CBO_STATES:
+            issues.append(
+                ValidationIssue("error", "INVALID_MISSING_CBO_STATUS", f"Missing-CBO record {code} has invalid status {record.get('status', '')!r}.")
+            )
+        if code in current_cbo_codes:
+            issues.append(
+                ValidationIssue("error", "CBO_COVERAGE_CONFLICT", f"Module {code} is listed as both covered and missing.")
+            )
+
+    expected_missing = set(modules_by_code) - current_cbo_codes
+    for code in sorted(expected_missing - missing_codes):
+        issues.append(
+            ValidationIssue("error", "UNTRACKED_MISSING_CBO", f"Module {code} has no current CBO and is absent from missing_cbos.csv.")
+        )
+    for code in sorted(missing_codes - expected_missing):
+        issues.append(
+            ValidationIssue("error", "STALE_MISSING_CBO", f"Module {code} is listed as missing despite having a current CBO.")
+        )
 
 
 def validate_course_data(data_directory: Path | str) -> ValidationReport:

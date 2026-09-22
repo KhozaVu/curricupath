@@ -1,0 +1,15 @@
+course_code,course_name,credits,status,candidate_filename,notes
+AFRL1003A,Elementary IsiZulu Language and Culture IA,18,missing,,No CBO is present in data/raw.
+AFRL1005A,Elementary Sesotho Language and Culture IA,18,missing,,No CBO is present in data/raw.
+CHEM1051A,Engineering Chemistry,12,missing,,No CBO is present in data/raw.
+HIST1011A,Global Encounters and Contemporary Realities IA,18,missing,,No CBO is present in data/raw.
+INTR1012A,The International Relations of South Africa and Africa,18,missing,,No CBO is present in data/raw.
+MATH1048A,Engineering Mathematics IA,15,missing,,No CBO is present in data/raw.
+MATH3025A,Mathematical Methods,15,candidate_found_not_imported,MATH3025A_course_information_2026-09-14.jpeg,A Wits course-information screenshot confirms staff timetable and assessment details but does not provide the complete scope outcomes or prescribed materials required from a CBO.
+PHIL1002A,Introduction to Ethics I,18,missing,,No CBO is present in data/raw.
+PHIL1003A,Introduction to Philosophy: Knowledge and Reality,18,missing,,No CBO is present in data/raw.
+PHYS1032A,Engineering Physics IA,18,missing,,No CBO is present in data/raw.
+PHYS1033A,Engineering Physics IB,18,missing,,No CBO is present in data/raw.
+POLS1007A,Introduction to Political Studies,18,missing,,No CBO is present in data/raw.
+SOCL1013A,Southern Africa in the Era of Globalisation,18,missing,,No CBO is present in data/raw.
+SOCL1014A,Identity and Society,18,missing,,No CBO is present in data/raw.

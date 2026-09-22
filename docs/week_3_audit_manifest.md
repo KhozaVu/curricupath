@@ -1,15 +1,15 @@
 # Week 3 Data Audit Manifest
 
-**Audit date:** 2026-09-07  
+**Audit date:** 2026-09-16
 **Scope:** EFA03/EFA04 curriculum rules, public-course catalogue, source records, external references, and controlled tags.
 
 ## Evidence Summary
 
 | Dataset | Records | Audit result |
 | --- | ---: | --- |
-| Sources | 25 | All verified |
+| Sources | 78 | 76 verified, one incomplete, one superseded; non-verified records are not treated as recommendable public-course evidence |
 | Curriculum modules | 101 | Validated against the 2026 EBE handbook |
-| Curriculum rules | 65 | Valid JSON and source-backed |
+| Curriculum rules | 66 | Valid JSON and source-backed |
 | External rule references | 17 | Verified and documented |
 | Public courses | 24 | All verified, available, and recommendable |
 

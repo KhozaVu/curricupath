@@ -1,0 +1,223 @@
+{
+  "case_counts": {
+    "ambiguity": 13,
+    "eligibility": 60,
+    "grounding": 56
+  },
+  "created_date": "2026-09-19",
+  "database": {
+    "connected": false,
+    "error": "OperationalError: (psycopg.errors.ConnectionTimeout) connection timeout expired\n(Background on this error at: https://sqlalche.me/e/20/e3q8)"
+  },
+  "environment": {
+    "packages": {
+      "fastapi": "0.141.1",
+      "google-genai": "1.75.0",
+      "huggingface-hub": "1.30.0",
+      "numpy": "2.5.3",
+      "pgvector": "0.5.0",
+      "psycopg": "3.3.5",
+      "pydantic": "2.13.5",
+      "pypdf": "6.16.2",
+      "sqlalchemy": "2.0.52"
+    },
+    "platform": "Windows-11-10.0.26200-SP0",
+    "python": "3.12.7"
+  },
+  "evaluation_file_sha256": {
+    "README.md": "9ee035e7eaf4fb8bc66c5d7b1062f1d5770e4466d4611187a4ebb0c1df4bab57",
+    "ambiguity_cases.csv": "6532ecd84790bf62857b2012709a57d52419aaff001b4b21b4a7e2660231ff3c",
+    "corpus_manifest.json": "3226b523e21e262c395d0576ed519f7702d9cdd2d7d7e1bce3281fe97187078f",
+    "data_dictionary.md": "a1102a7d485f8bd023099def3b3d165951700022fe69dec54af8e517eb1aeaee",
+    "deviations.md": "9ec94db19c0df8daecd474790d07d6da99799e16d54de4c11c2aae251a5fb472",
+    "eligibility_cases.csv": "955bc130ded299b9abee8cd0acc58cae04c319c6caf4abed9a3074f4431e292c",
+    "grounding_cases.csv": "10e9929d0aa6fb11dcb9236a03c52a4cfe8ca47bbe4290b00fb3ca0a774e2026",
+    "grounding_prompt.md": "a8b485eed8a0b1470daa704d13fa1bd3aa98abc5d320b6ca709caf71835a53d0",
+    "personnel.json": "e783dd4804c0b81f5d0ffbc3f1cf93fb3138554035e4b1cc3997001a363931ee",
+    "rag_prompt.md": "3b8d0d9773398572b5e749351e335051567bf55cc30d65f8bc6c3e39d85d28e7",
+    "rag_retrieval_config.json": "98a9106bda026170741007133e1d111f8583a1113fa44f7f5fddaa102b6bb226",
+    "retrieval_development_cases.csv": "2eea774f4dfb0a23542021878725d612cfa59afe15c6770985e84b016401c4ef",
+    "structured_rules_prompt.md": "854b872d95913e87dd380163d503f0061a4b9ed1d4970f29a5166c1b08188214"
+  },
+  "file_sha256": {
+    "ambiguity_cases.csv": "6532ecd84790bf62857b2012709a57d52419aaff001b4b21b4a7e2660231ff3c",
+    "eligibility_cases.csv": "955bc130ded299b9abee8cd0acc58cae04c319c6caf4abed9a3074f4431e292c",
+    "grounding_cases.csv": "10e9929d0aa6fb11dcb9236a03c52a4cfe8ca47bbe4290b00fb3ca0a774e2026",
+    "rag_prompt.md": "3b8d0d9773398572b5e749351e335051567bf55cc30d65f8bc6c3e39d85d28e7",
+    "structured_rules_prompt.md": "854b872d95913e87dd380163d503f0061a4b9ed1d4970f29a5166c1b08188214"
+  },
+  "git": {
+    "branch": "main",
+    "head": "9faf15ae54f3ab0bca5af4ed355cdbc6778cf3ec",
+    "working_tree_clean": false
+  },
+  "human_approval": {
+    "eligibility": "pending",
+    "grounding": "pending",
+    "personnel": "pending"
+  },
+  "models": {
+    "embedding_dimension": 384,
+    "embedding_model": "BAAI/bge-small-en-v1.5",
+    "embedding_provider": "huggingface",
+    "gemini": "gemini-3.6-flash",
+    "llm_runs_per_case": 3,
+    "primary_run": 1,
+    "temperature": 0
+  },
+  "note": "Developer expectations are construction aids, not reference labels.",
+  "processed_file_sha256": {
+    "aliases.csv": "9abd2e9b81b265cc1fa51015b95b0d57b1ff9e724e3a13478bc0bc6cee894e3e",
+    "cbo_courses.csv": "09595ec6970e837ee45ba8fb43a24d3a367ed8ce9d943bd438c87ab7b88578a5",
+    "course_audit.csv": "293955609a5f66a7ed9ed27384a6c2d0b29e07608b259fe1789a6304675e1fb4",
+    "courses.csv": "3b171154ecb5bb9154c7523f668351d0314fe7e057e971694ee7e66d87ed0e37",
+    "external_references.csv": "4f5ed7ada9553bfe97f5559f59fedf31b80e80a0fa1ddf7cc0c7fd69b60070e7",
+    "missing_cbos.csv": "c77def59f2cae02a886ee09d2377a7823e6cb5a05a77d3594f6726052a1bdc8d",
+    "modules.csv": "e3131aa2d68642377b89b7cf415fdcb608cc2810bc9542bf4ced51e679a3cd62",
+    "programme_profiles.csv": "d1142400f983f508cc1aed0d68aa4763c1d5811be3af163ef89dab84444edc5b",
+    "rules.csv": "416bc87c57e1da7a25f6055bf90d85f8bd8cd50d3a8c7fabfa75d1dc3a801786",
+    "sources.csv": "8a55811084f9b8c36ee7379f89c751a03e9ee5710e7918898d458805d0511c7b"
+  },
+  "protocol_version": "2.5",
+  "python": "3.12.7",
+  "refreshed_at": "2026-09-22T11:04:51.507210+00:00",
+  "retrieval": {
+    "candidate_top_k": [
+      3,
+      5,
+      8,
+      10,
+      15,
+      20,
+      30,
+      40,
+      50
+    ],
+    "chunking": {
+      "overlap_words": 150,
+      "unit": "extracted_pdf_page_text",
+      "words_per_chunk": 900
+    },
+    "development_results": {
+      "10": {
+        "DEV001": 1.0,
+        "DEV002": 1.0,
+        "DEV003": 0.5,
+        "DEV004": 0.0,
+        "DEV005": 0.666667,
+        "DEV006": 1.0,
+        "DEV007": 1.0,
+        "DEV008": 0.666667,
+        "multi_rule_mean_recall": 0.833333,
+        "overall_mean_recall": 0.729167
+      },
+      "15": {
+        "DEV001": 1.0,
+        "DEV002": 1.0,
+        "DEV003": 1.0,
+        "DEV004": 0.0,
+        "DEV005": 0.666667,
+        "DEV006": 1.0,
+        "DEV007": 1.0,
+        "DEV008": 0.666667,
+        "multi_rule_mean_recall": 0.833333,
+        "overall_mean_recall": 0.791667
+      },
+      "20": {
+        "DEV001": 1.0,
+        "DEV002": 1.0,
+        "DEV003": 1.0,
+        "DEV004": 0.0,
+        "DEV005": 0.666667,
+        "DEV006": 1.0,
+        "DEV007": 1.0,
+        "DEV008": 1.0,
+        "multi_rule_mean_recall": 0.916667,
+        "overall_mean_recall": 0.833333
+      },
+      "3": {
+        "DEV001": 0.0,
+        "DEV002": 1.0,
+        "DEV003": 0.0,
+        "DEV004": 0.0,
+        "DEV005": 0.333333,
+        "DEV006": 1.0,
+        "DEV007": 0.5,
+        "DEV008": 0.0,
+        "multi_rule_mean_recall": 0.458333,
+        "overall_mean_recall": 0.354167
+      },
+      "30": {
+        "DEV001": 1.0,
+        "DEV002": 1.0,
+        "DEV003": 1.0,
+        "DEV004": 1.0,
+        "DEV005": 0.666667,
+        "DEV006": 1.0,
+        "DEV007": 1.0,
+        "DEV008": 1.0,
+        "multi_rule_mean_recall": 0.916667,
+        "overall_mean_recall": 0.958333
+      },
+      "40": {
+        "DEV001": 1.0,
+        "DEV002": 1.0,
+        "DEV003": 1.0,
+        "DEV004": 1.0,
+        "DEV005": 1.0,
+        "DEV006": 1.0,
+        "DEV007": 1.0,
+        "DEV008": 1.0,
+        "multi_rule_mean_recall": 1.0,
+        "overall_mean_recall": 1.0
+      },
+      "5": {
+        "DEV001": 1.0,
+        "DEV002": 1.0,
+        "DEV003": 0.5,
+        "DEV004": 0.0,
+        "DEV005": 0.666667,
+        "DEV006": 1.0,
+        "DEV007": 0.5,
+        "DEV008": 0.333333,
+        "multi_rule_mean_recall": 0.625,
+        "overall_mean_recall": 0.625
+      },
+      "50": {
+        "DEV001": 1.0,
+        "DEV002": 1.0,
+        "DEV003": 1.0,
+        "DEV004": 1.0,
+        "DEV005": 1.0,
+        "DEV006": 1.0,
+        "DEV007": 1.0,
+        "DEV008": 1.0,
+        "multi_rule_mean_recall": 1.0,
+        "overall_mean_recall": 1.0
+      },
+      "8": {
+        "DEV001": 1.0,
+        "DEV002": 1.0,
+        "DEV003": 0.5,
+        "DEV004": 0.0,
+        "DEV005": 0.666667,
+        "DEV006": 1.0,
+        "DEV007": 1.0,
+        "DEV008": 0.666667,
+        "multi_rule_mean_recall": 0.833333,
+        "overall_mean_recall": 0.729167
+      }
+    },
+    "eligibility_corpus_item_type": "evaluation_handbook",
+    "embedding_dimension": 384,
+    "embedding_model": "BAAI/bge-small-en-v1.5",
+    "embedding_provider": "huggingface",
+    "grounding_corpus_item_type": "evaluation_cbo",
+    "multi_rule_gold_chunk_recall_target": 0.9,
+    "selected_top_k": 20,
+    "selection_note": "Selected the smallest candidate meeting the multi-rule mean recall target; otherwise selected the largest tested value as the documented best feasible setting.",
+    "similarity": "pgvector_cosine",
+    "status": "frozen_target_met"
+  },
+  "status": "blocked_pending_human_approval_and_clean_commit"
+}

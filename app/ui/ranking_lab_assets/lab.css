@@ -1,0 +1,56 @@
+:root {
+  --ink: #17201d;
+  --muted: #64706b;
+  --paper: #f5f0e6;
+  --surface: #fffdf8;
+  --line: #d8d0c1;
+  --green: #155b45;
+  --green-soft: #dbe9df;
+  --orange: #d96835;
+  --shadow: 0 18px 50px rgba(44, 50, 46, 0.09);
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; color: var(--ink); background: var(--paper); font-family: Georgia, "Times New Roman", serif; }
+body::before { content: ""; position: fixed; inset: 0; pointer-events: none; opacity: .35; background-image: radial-gradient(#b8ad98 0.7px, transparent 0.7px); background-size: 18px 18px; }
+button, input, select { font: 600 14px/1.2 "Trebuchet MS", sans-serif; }
+button { border: 0; border-radius: 999px; padding: 11px 18px; color: white; background: var(--green); cursor: pointer; }
+button:hover { filter: brightness(1.08); }
+button:disabled { opacity: .45; cursor: not-allowed; }
+button.secondary { color: var(--green); background: var(--green-soft); }
+input, select { border: 1px solid var(--line); border-radius: 10px; padding: 11px; background: white; }
+.masthead { position: relative; display: flex; justify-content: space-between; gap: 30px; padding: 55px max(5vw, 28px) 40px; color: #fffaf0; background: linear-gradient(125deg, #123f35, #1c6a50 62%, #d96835 150%); }
+.masthead h1 { margin: 4px 0; font-size: clamp(38px, 6vw, 72px); line-height: .95; }
+.eyebrow, .step { margin: 0; text-transform: uppercase; letter-spacing: .16em; font: 700 12px/1 "Trebuchet MS", sans-serif; }
+.lede { max-width: 600px; font-size: 18px; }
+.status-card { align-self: end; max-width: 330px; padding: 18px; border: 1px solid rgba(255,255,255,.3); border-radius: 16px; background: rgba(255,255,255,.1); font: 14px/1.5 "Trebuchet MS", sans-serif; }
+main { position: relative; width: min(1420px, 94vw); margin: 32px auto 80px; }
+.panel { margin-bottom: 24px; padding: 28px; border: 1px solid var(--line); border-radius: 22px; background: var(--surface); box-shadow: var(--shadow); }
+.section-heading { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+.section-heading h2 { margin: 5px 0 12px; font-size: 28px; }
+.step { color: var(--orange); }
+.pill { padding: 7px 12px; border-radius: 999px; color: var(--green); background: var(--green-soft); font: 700 12px/1 "Trebuchet MS", sans-serif; }
+.profile-preview { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 10px; max-height: 260px; margin: 20px 0; overflow: auto; }
+.mini-profile { padding: 12px; border-left: 3px solid var(--orange); background: #faf6ed; }
+.mini-profile b { display: block; margin-bottom: 5px; }
+.approval-row, .judge-login, .grade-key { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; margin-top: 18px; }
+.grade-key span { padding: 8px 12px; border-radius: 8px; background: #f0ebe1; font: 13px/1.2 "Trebuchet MS", sans-serif; }
+.workspace { display: grid; grid-template-columns: 310px 1fr; gap: 24px; margin-top: 28px; }
+.workspace aside { position: sticky; top: 20px; align-self: start; }
+.workspace aside label { display: grid; gap: 8px; font: 700 13px/1 "Trebuchet MS", sans-serif; }
+.workspace aside button { margin-top: 10px; }
+.profile-card { margin-top: 16px; padding: 18px; border-radius: 16px; color: white; background: var(--green); }
+.profile-card small { display: block; margin-top: 10px; opacity: .8; font-family: "Trebuchet MS", sans-serif; }
+.course-list { display: grid; gap: 12px; }
+.course-row { display: grid; grid-template-columns: 1fr auto; gap: 20px; padding: 18px; border: 1px solid var(--line); border-radius: 15px; background: white; }
+.course-row h3 { margin: 0 0 6px; font-size: 18px; }
+.course-row p { margin: 0; color: var(--muted); font: 13px/1.45 "Trebuchet MS", sans-serif; }
+.grade-buttons { display: flex; align-items: center; gap: 6px; }
+.grade-buttons button { width: 38px; height: 38px; padding: 0; color: var(--ink); background: #eee9df; }
+.grade-buttons button.selected { color: white; background: var(--orange); }
+.disagreement { display: grid; grid-template-columns: 1fr auto; gap: 16px; margin-top: 14px; padding: 16px; border: 1px solid var(--line); border-radius: 14px; }
+.disagreement input { min-width: 260px; }
+.hidden { display: none !important; }
+.toast { position: fixed; right: 24px; bottom: 24px; transform: translateY(120px); padding: 14px 18px; border-radius: 10px; color: white; background: var(--ink); font: 14px/1.2 "Trebuchet MS", sans-serif; transition: transform .2s ease; }
+.toast.visible { transform: translateY(0); }
+@media (max-width: 780px) { .masthead, .workspace { display: block; } .status-card { margin-top: 24px; } .workspace aside { position: static; margin-bottom: 20px; } .course-row, .disagreement { grid-template-columns: 1fr; } }

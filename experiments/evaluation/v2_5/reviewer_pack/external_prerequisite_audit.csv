@@ -1,0 +1,18 @@
+reference,rule_id,status,verified_source_id,interpretation,action
+MATH1042A,PRE_ELEN2003,verified,EBE_2026,Alternative Mathematics IA prerequisite listed in handbook,Retain as external prerequisite and require declared completion.
+MATH1043A,PRE_ELEN2003,verified,EBE_2026,Alternative Mathematics IB prerequisite listed in handbook,Retain as external prerequisite and require declared completion.
+MATH1042A,PRE_ELEN2005,verified,EBE_2026,Alternative Mathematics IA prerequisite listed in handbook,Retain as external prerequisite and require declared completion.
+MATH1043A,PRE_ELEN2005,verified,EBE_2026,Alternative Mathematics IB prerequisite listed in handbook,Retain as external prerequisite and require declared completion.
+PHYS1014A,PRE_ELEN2005,verified,EBE_2026,Physics prerequisite listed in handbook but absent from EFA memberships,Retain as external prerequisite and require declared completion.
+MATH1042A,PRE_ELEN2016,verified,EBE_2026,Alternative Mathematics IA prerequisite listed in handbook,Retain as external prerequisite and require declared completion.
+MATH1043A,PRE_ELEN2016,verified,EBE_2026,Alternative Mathematics IB prerequisite listed in handbook,Retain as external prerequisite and require declared completion.
+MATH1042A,PRE_ELEN2017,verified,EBE_2026,Alternative Mathematics IA prerequisite listed in handbook,Retain as external prerequisite and require declared completion.
+MATH1043A,PRE_ELEN2017,verified,EBE_2026,Alternative Mathematics IB prerequisite listed in handbook,Retain as external prerequisite and require declared completion.
+MATH1042A,PRE_ELEN2020,verified,EBE_2026,Alternative Mathematics IA prerequisite listed in handbook,Retain as external prerequisite and require declared completion.
+MATH1043A,PRE_ELEN2020,verified,EBE_2026,Alternative Mathematics IB prerequisite listed in handbook,Retain as external prerequisite and require declared completion.
+MATH1042A,PRE_ELEN2021,verified,EBE_2026,Alternative Mathematics IA prerequisite listed in handbook,Retain as external prerequisite and require declared completion.
+MATH1043A,PRE_ELEN2021,verified,EBE_2026,Alternative Mathematics IB prerequisite listed in handbook,Retain as external prerequisite and require declared completion.
+COMS1015A,CORE_ELEN2021,verified,EBE_2026,Alternative co-requisite option listed in handbook,Retain as external co-requisite and require declared current or planned status.
+COMS1018A,CORE_ELEN2021,verified,EBE_2026,Alternative co-requisite option listed in handbook,Retain as external co-requisite and require declared current or planned status.
+MECN4034A,CORE_MECN4020,verified,EBE_2026,Alternative co-requisite option listed in handbook,Retain as external co-requisite and require declared current or planned status.
+MECN4035A,CORE_MECN4020,verified,EBE_2026,Alternative co-requisite option listed in handbook,Retain as external co-requisite and require declared current or planned status.

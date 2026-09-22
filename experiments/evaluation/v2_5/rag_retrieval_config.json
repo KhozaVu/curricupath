@@ -1,0 +1,138 @@
+{
+  "status": "frozen_target_met",
+  "embedding_provider": "huggingface",
+  "embedding_model": "BAAI/bge-small-en-v1.5",
+  "embedding_dimension": 384,
+  "similarity": "pgvector_cosine",
+  "eligibility_corpus_item_type": "evaluation_handbook",
+  "grounding_corpus_item_type": "evaluation_cbo",
+  "chunking": {
+    "unit": "extracted_pdf_page_text",
+    "words_per_chunk": 900,
+    "overlap_words": 150
+  },
+  "candidate_top_k": [
+    3,
+    5,
+    8,
+    10,
+    15,
+    20,
+    30,
+    40,
+    50
+  ],
+  "selected_top_k": 20,
+  "multi_rule_gold_chunk_recall_target": 0.9,
+  "selection_note": "Selected the smallest candidate meeting the multi-rule mean recall target; otherwise selected the largest tested value as the documented best feasible setting.",
+  "development_results": {
+    "3": {
+      "multi_rule_mean_recall": 0.458333,
+      "overall_mean_recall": 0.354167,
+      "DEV001": 0.0,
+      "DEV002": 1.0,
+      "DEV003": 0.0,
+      "DEV004": 0.0,
+      "DEV005": 0.333333,
+      "DEV006": 1.0,
+      "DEV007": 0.5,
+      "DEV008": 0.0
+    },
+    "5": {
+      "multi_rule_mean_recall": 0.625,
+      "overall_mean_recall": 0.625,
+      "DEV001": 1.0,
+      "DEV002": 1.0,
+      "DEV003": 0.5,
+      "DEV004": 0.0,
+      "DEV005": 0.666667,
+      "DEV006": 1.0,
+      "DEV007": 0.5,
+      "DEV008": 0.333333
+    },
+    "8": {
+      "multi_rule_mean_recall": 0.833333,
+      "overall_mean_recall": 0.729167,
+      "DEV001": 1.0,
+      "DEV002": 1.0,
+      "DEV003": 0.5,
+      "DEV004": 0.0,
+      "DEV005": 0.666667,
+      "DEV006": 1.0,
+      "DEV007": 1.0,
+      "DEV008": 0.666667
+    },
+    "10": {
+      "multi_rule_mean_recall": 0.833333,
+      "overall_mean_recall": 0.729167,
+      "DEV001": 1.0,
+      "DEV002": 1.0,
+      "DEV003": 0.5,
+      "DEV004": 0.0,
+      "DEV005": 0.666667,
+      "DEV006": 1.0,
+      "DEV007": 1.0,
+      "DEV008": 0.666667
+    },
+    "15": {
+      "multi_rule_mean_recall": 0.833333,
+      "overall_mean_recall": 0.791667,
+      "DEV001": 1.0,
+      "DEV002": 1.0,
+      "DEV003": 1.0,
+      "DEV004": 0.0,
+      "DEV005": 0.666667,
+      "DEV006": 1.0,
+      "DEV007": 1.0,
+      "DEV008": 0.666667
+    },
+    "20": {
+      "multi_rule_mean_recall": 0.916667,
+      "overall_mean_recall": 0.833333,
+      "DEV001": 1.0,
+      "DEV002": 1.0,
+      "DEV003": 1.0,
+      "DEV004": 0.0,
+      "DEV005": 0.666667,
+      "DEV006": 1.0,
+      "DEV007": 1.0,
+      "DEV008": 1.0
+    },
+    "30": {
+      "multi_rule_mean_recall": 0.916667,
+      "overall_mean_recall": 0.958333,
+      "DEV001": 1.0,
+      "DEV002": 1.0,
+      "DEV003": 1.0,
+      "DEV004": 1.0,
+      "DEV005": 0.666667,
+      "DEV006": 1.0,
+      "DEV007": 1.0,
+      "DEV008": 1.0
+    },
+    "40": {
+      "multi_rule_mean_recall": 1.0,
+      "overall_mean_recall": 1.0,
+      "DEV001": 1.0,
+      "DEV002": 1.0,
+      "DEV003": 1.0,
+      "DEV004": 1.0,
+      "DEV005": 1.0,
+      "DEV006": 1.0,
+      "DEV007": 1.0,
+      "DEV008": 1.0
+    },
+    "50": {
+      "multi_rule_mean_recall": 1.0,
+      "overall_mean_recall": 1.0,
+      "DEV001": 1.0,
+      "DEV002": 1.0,
+      "DEV003": 1.0,
+      "DEV004": 1.0,
+      "DEV005": 1.0,
+      "DEV006": 1.0,
+      "DEV007": 1.0,
+      "DEV008": 1.0
+    }
+  }
+}

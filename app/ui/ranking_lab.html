@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CurricuPath Ranking Lab</title>
+  <link rel="stylesheet" href="/lab-assets/lab.css">
+</head>
+<body>
+  <header class="masthead">
+    <div>
+      <p class="eyebrow">CurricuPath research workspace</p>
+      <h1>Ranking Label Lab</h1>
+      <p class="lede">Independent relevance judgements for the public-course ranker.</p>
+    </div>
+    <div class="status-card" id="readiness">Loading experiment status...</div>
+  </header>
+
+  <main>
+    <section class="panel" id="review-panel">
+      <div class="section-heading">
+        <div><p class="step">Step 1</p><h2>Review and freeze profiles</h2></div>
+        <span class="pill" id="profile-status">Draft</span>
+      </div>
+      <p>Review all 50 scenarios before grading. Approval records the reviewer and
+        freezes this profile version through its file hash.</p>
+      <div class="profile-preview" id="profile-preview"></div>
+      <div class="approval-row">
+        <input id="reviewer" placeholder="Reviewer name">
+        <label><input type="checkbox" id="review-confirmation"> I reviewed every profile and its split.</label>
+        <button id="approve-profiles">Approve profile set</button>
+      </div>
+    </section>
+
+    <section class="panel" id="judge-panel">
+      <div class="section-heading">
+        <div><p class="step">Step 2</p><h2>Grade independently</h2></div>
+        <span class="pill" id="judge-progress">0 / 1200</span>
+      </div>
+      <div class="judge-login">
+        <select id="judge-slot"><option value="1">Judge 1</option><option value="2">Judge 2</option></select>
+        <input id="judge-id" placeholder="Your name or judge ID">
+        <button id="start-judging">Open my blinded file</button>
+      </div>
+      <div class="grade-key">
+        <span><b>0</b> Irrelevant/conflicting</span><span><b>1</b> Weak</span>
+        <span><b>2</b> Relevant</span><span><b>3</b> Excellent</span>
+      </div>
+      <div class="workspace hidden" id="workspace">
+        <aside>
+          <label>Profile<select id="profile-select"></select></label>
+          <button class="secondary" id="next-incomplete">Next incomplete profile</button>
+          <article class="profile-card" id="active-profile"></article>
+        </aside>
+        <div class="course-list" id="course-list"></div>
+      </div>
+    </section>
+
+    <section class="panel" id="adjudication-panel">
+      <div class="section-heading">
+        <div><p class="step">Step 3</p><h2>Adjudicate disagreements</h2></div>
+        <span class="pill" id="adjudication-progress">Waiting for judges</span>
+      </div>
+      <p>Grades stay hidden until both judges finish all items. Agreements merge
+        automatically; disagreements require a final grade.</p>
+      <p>The separate prototype track may be complete while this formal two-human-judge
+        track remains unfinished. Prototype labels are suitable for pipeline testing,
+        not final evaluation claims.</p>
+      <button id="prepare-adjudication">Prepare adjudication</button>
+      <div id="disagreement-list"></div>
+    </section>
+  </main>
+
+  <div class="toast" id="toast" role="status"></div>
+  <script type="module" src="/lab-assets/lab.js"></script>
+</body>
+</html>

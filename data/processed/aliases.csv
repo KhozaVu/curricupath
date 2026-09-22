@@ -5,6 +5,10 @@ ai,artificial_intelligence,interest
 artificial intelligence,artificial_intelligence,interest
 comms,communications,interest
 communication systems,communications,interest
+wireless communication,communications,interest
+wireless communications,communications,interest
+optical communications,communications,interest
+optical wireless communication,communications,interest
 telecoms,communications,interest
 telecommunications,communications,interest
 networks,networking,interest
@@ -29,3 +33,17 @@ electrical circuits,electric_circuits,interest
 machine learning engineering,ml_engineering,career
 network engineering,network_engineering,career
 software engineering,software_development,career
+network,networking,interest
+computer networks,networking,interest
+information security,cybersecurity,interest
+antennas,high_frequency,interest
+high frequency,high_frequency,interest
+radio frequency,high_frequency,interest
+high voltage,high_voltage,interest
+electrical machines,electrical_machines,interest
+power systems,power_systems,interest
+renewable energy,renewable_energy,interest
+quantum computing,quantum_computing,interest
+instrumentation,measurement_systems,interest
+measurements,measurement_systems,interest
+distributed computing,distributed_computing,interest
