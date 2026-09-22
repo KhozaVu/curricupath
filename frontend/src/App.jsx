@@ -835,7 +835,8 @@ export function App() {
   const [theme, setTheme] = usePersistentString("curricupath-theme", "dark");
   const [mobileOpen, setMobileOpen] = useState(false);
   const [rankingMode, setRankingMode] = usePersistentString("curricupath-ranking-mode", "prototype");
-  const [system, setSystem] = usePersistentString("curricupath-system", "curricupath");
+  // Version the persisted key so an old baseline selection cannot hijack normal advice.
+  const [system, setSystem] = usePersistentString("curricupath-advisor-system-v2", "curricupath");
   const [sessionId, setSessionId] = useState(() => sessionStorage.getItem("curricupath-session"));
   const [messages, setMessages] = useState(INITIAL_MESSAGES);
   const [summary, setSummary] = useState(null);

@@ -179,6 +179,12 @@ def test_advisor_sidebar_can_be_retracted() -> None:
     script = _react_source()
 
     assert "curricupath-sidebar-collapsed" in script
+
+
+def test_advisor_defaults_to_curricupath_after_system_preference_upgrade() -> None:
+    script = _react_source()
+
+    assert 'usePersistentString("curricupath-advisor-system-v2", "curricupath")' in script
     assert "function Sidebar" in script
     assert 'aria-label={collapsed ? "Expand navigation" : "Retract navigation"}' in script
 
@@ -499,7 +505,8 @@ class _ExplodingRecommendationLogger:
         )
 
 
-def test_advisor_handbook_rag_system_returns_503_when_not_configured() -> None:
+def test_advisor_handbook_rag_system_returns_503_when_not_configured(monkeypatch) -> None:
+    monkeypatch.setenv("HANDBOOK_RAG_DEMO_ENABLED", "false")
     response = _client().post(
         "/advisor",
         json={"message": "Can I take ELEN2017A?", "system": "handbook_rag"},
@@ -535,7 +542,8 @@ def test_advisor_handbook_rag_system_bypasses_session_and_recommendation_logging
     assert payload["session_id"] == "baseline-demo"
 
 
-def test_catalogue_summary_reports_handbook_rag_demo_availability() -> None:
+def test_catalogue_summary_reports_handbook_rag_demo_availability(monkeypatch) -> None:
+    monkeypatch.setenv("HANDBOOK_RAG_DEMO_ENABLED", "false")
     disabled = TestClient(create_app()).get("/catalogue/summary").json()
     assert disabled["handbook_rag_demo_enabled"] is False
 

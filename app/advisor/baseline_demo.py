@@ -17,7 +17,13 @@ from app.evaluation.runner import EvaluationRunner, GeminiDecisionClient
 
 
 _FALLBACK_ANSWER = (
-    "The experimental baseline could not produce a decision for this question."
+    "The experimental Handbook-RAG baseline did not return a valid decision. "
+    "Select CurricuPath for the deterministic, source-checked advisor."
+)
+_TEMPORARY_UNAVAILABLE_ANSWER = (
+    "The experimental Handbook-RAG baseline is temporarily unavailable because "
+    "its hosted model service is busy. Select CurricuPath for the deterministic, "
+    "source-checked advisor, or try the baseline again later."
 )
 
 
@@ -62,10 +68,27 @@ class HandbookRagDemo:
         }
         run = self._runner.run_case(case, "handbook_rag", run_number=1)
         parsed = run.parsed_output if run.status == "valid" else None
+        unavailable = _is_temporary_provider_failure(run.error)
         return {
             "system": "handbook_rag",
-            "status": run.status,
+            "status": "temporarily_unavailable" if unavailable else run.status,
             "decision": parsed.get("decision") if parsed else None,
-            "answer": parsed.get("answer") if parsed else _FALLBACK_ANSWER,
+            "answer": (
+                parsed.get("answer")
+                if parsed
+                else _TEMPORARY_UNAVAILABLE_ANSWER
+                if unavailable
+                else _FALLBACK_ANSWER
+            ),
             "citations": parsed.get("citations", []) if parsed else [],
         }
+
+
+def _is_temporary_provider_failure(error: str | None) -> bool:
+    """Classify provider congestion without exposing raw provider error details."""
+
+    normalized = (error or "").lower()
+    return any(
+        marker in normalized
+        for marker in ("429", "503", "resource_exhausted", "unavailable", "high demand")
+    )

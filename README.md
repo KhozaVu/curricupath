@@ -99,7 +99,8 @@ services on every baseline question, so treat it as a cost-incurring, demo-only
 feature. It also requires the evaluation corpus to already be embedded in the
 configured PostgreSQL database (`py scripts/prepare_evaluation_corpus.py` then
 `py scripts/embed_catalogue.py`); without it, baseline retrieval returns nothing and
-every baseline answer falls back to a fixed "could not produce a decision" message.
+temporary hosted-model failures return a clear baseline-unavailable message and
+direct users to the deterministic CurricuPath advisor.
 The toggle is hidden entirely when the flag is off, so this has no effect on the
 default CurricuPath experience.
 

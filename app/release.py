@@ -21,6 +21,11 @@ CONTROL_FILES = (
     "app/advisor/response_repair.py",
     "app/advisor/scope.py",
     "app/data/sessions.py",
+    "app/ui/advisor_page.html",
+    "frontend/src/App.jsx",
+    "frontend/src/main.jsx",
+    "frontend/src/styles.css",
+    "frontend/vite.config.js",
 )
 PROMPT_FILES = (
     "experiments/evaluation/v2_5/grounding_prompt.md",
