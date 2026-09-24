@@ -35,6 +35,7 @@ class Settings:
     reasoning_reviewer_model: str
     reasoning_reviewer_timeout_ms: int
     handbook_rag_demo_enabled: bool
+    handbook_rag_demo_model: str
 
 
 def get_settings() -> Settings:
@@ -85,6 +86,11 @@ def get_settings() -> Settings:
         ),
         handbook_rag_demo_enabled=_environment_flag(
             "HANDBOOK_RAG_DEMO_ENABLED", default=False
+        ),
+        # Keep the live comparison demo configurable without altering the
+        # frozen model choice recorded for formal evaluation runs.
+        handbook_rag_demo_model=os.getenv(
+            "HANDBOOK_RAG_DEMO_MODEL", "gemini-3.5-flash-lite"
         ),
     )
 

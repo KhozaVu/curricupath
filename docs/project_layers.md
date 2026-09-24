@@ -654,6 +654,7 @@ py -m pytest -q
 | Independent reasoning-model reviewer | Implemented, optional and disabled by default pending evaluation |
 | Full feedback and experimental-variant framework | Not implemented; placeholders only |
 | Complete CBO coverage | Not complete; gaps are explicitly registered |
+| Repeated-failure / academic-standing exclusion | Not implemented. The student profile has no attempt-history, grade, or failure field, so a rule such as "failing a module twice results in exclusion" cannot currently be evaluated. One handbook-sourced rule (`EXCLUSION_BSC_ENG`, `EBE_2026` p.59) gestures at this but is structurally unreachable and uses unimplemented condition predicates. Logged as a deviation in `experiments/evaluation/v2_5/deviations.md`; deferred past Open Day. |
 
 This division keeps the current prototype demonstrable and auditable while leaving a
 clean path to the reviewer, feedback, evaluation variants, and trained ranker in the

@@ -29,16 +29,16 @@
     "status": "blocking_assignments_pending"
   },
   "freeze_instruction": "Commit this candidate manifest with the release inputs, then run `py scripts/freeze_release.py --verify` from a clean working tree.",
-  "generated_at": "2026-09-22T13:06:14.344441+00:00",
+  "generated_at": "2026-09-22T18:47:23.689561+00:00",
   "git_at_candidate_generation": {
     "branch": "main",
-    "head": "9faf15ae54f3ab0bca5af4ed355cdbc6778cf3ec",
+    "head": "e2162186eee8590c1b88ac41f120399abb5a240f",
     "working_tree_clean": false
   },
   "release_inputs": {
     "catalogue": {
       "database_fingerprint": "2c833c4e546bbf140c1c3752b1d7d87884db1ee16c016efbb7914003af186d5c",
-      "file_fingerprint": "c28a04512ac3eea8a8375a2ab1e4e01083ea1df6b3b8e26fb38cecb05590460b",
+      "file_fingerprint": "694aa0adfae3fe531557f080fe90888ffce4d93e452de5eb403b18cae025a104",
       "processed_file_sha256": {
         "aliases.csv": "9abd2e9b81b265cc1fa51015b95b0d57b1ff9e724e3a13478bc0bc6cee894e3e",
         "cbo_courses.csv": "09595ec6970e837ee45ba8fb43a24d3a367ed8ce9d943bd438c87ab7b88578a5",
@@ -48,7 +48,7 @@
         "missing_cbos.csv": "c77def59f2cae02a886ee09d2377a7823e6cb5a05a77d3594f6726052a1bdc8d",
         "modules.csv": "e3131aa2d68642377b89b7cf415fdcb608cc2810bc9542bf4ced51e679a3cd62",
         "programme_profiles.csv": "d1142400f983f508cc1aed0d68aa4763c1d5811be3af163ef89dab84444edc5b",
-        "rules.csv": "416bc87c57e1da7a25f6055bf90d85f8bd8cd50d3a8c7fabfa75d1dc3a801786",
+        "rules.csv": "d265ec3f5e069296830b2fd406e107d48f70ccf826c2d28da6f2a448ec6c1e05",
         "sources.csv": "8a55811084f9b8c36ee7379f89c751a03e9ee5710e7918898d458805d0511c7b"
       }
     },
@@ -61,9 +61,14 @@
         "app/advisor/response_repair.py": "adc3b68d96504db6191f11d18db257f38afaf7d2448cf506c26175bc482d54db",
         "app/advisor/reviewer.py": "a8d18a7653848059076764ea8ab50807345caca28a06dfae5bfc5746d6bfc45d",
         "app/advisor/scope.py": "552d1f5ac9948238af0491138424d0e51f396dd4d20eaf3a34e942bfab2d4623",
-        "app/data/sessions.py": "62b0fda703905ad843030c30f26b83f4b905dd9dc3a5ba9c1dda30106641c681"
+        "app/data/sessions.py": "62b0fda703905ad843030c30f26b83f4b905dd9dc3a5ba9c1dda30106641c681",
+        "app/ui/advisor_page.html": "b6b0ac816edf447894a9d2efaa1e584f00f46f4f5514d772bdcd1c26d6739012",
+        "frontend/src/App.jsx": "c4e72159f06d1e0735078d5376f0b4b3e390911532e4f5ba8231c72e91ad870f",
+        "frontend/src/main.jsx": "79c2125bc4980798ae56993968e94f5f4a1cc5c27c7220986146ad775f9ae087",
+        "frontend/src/styles.css": "6ceedff4f454f398628b4068b7ccd712976d085b7e386e962d3b598ca60fe64f",
+        "frontend/vite.config.js": "22fcf9c6f67bc5f7f5bc76959f266356faeb2f0dee093778d83612b5cbb989df"
       },
-      "fingerprint": "e3e5478aabd07804b1a81d1671715fde4f636a27abd61b6341413aa64f6947ab"
+      "fingerprint": "1791a33d295df450fdbed3b3bc5977b7c4fb0153d7af8d1d7279d69a949113ad"
     },
     "models": {
       "embedding_dimension": 384,
@@ -99,7 +104,7 @@
       },
       "fingerprint": "de507034e7cb52a646dc6ed5a5e72aad0818e3d79168022c2e873efb68b621ff"
     },
-    "release_fingerprint": "0592c52510226f6f05e4ea34bf4d161d06c921f7a7ce1abc764d3af437bb2534",
+    "release_fingerprint": "7d760b36c922ae5ce540e01fc02df1a68f9dd6ec8e365380dabdda98c87f75a6",
     "runtime": {
       "allow_experimental_ranker": true,
       "catalogue_backend": "postgresql",
@@ -116,32 +121,32 @@
   "verification": {
     "checks": [
       {
-        "duration_seconds": 0.099,
+        "duration_seconds": 0.188,
         "exit_code": 0,
         "name": "data_validation",
         "passed": true,
         "summary": "OK Corequisite references valid\nOK Selection groups valid\nOK Course ratings valid\nOK CBO source and credit data valid\nOK Missing CBO register complete\nOK Programme profiles source-verified\nOK No critical duplicates\n\nErrors:   0\nWarnings: 0\n\nVALIDATION PASSED"
       },
       {
-        "duration_seconds": 32.033,
+        "duration_seconds": 33.479,
         "exit_code": 0,
         "name": "automated_tests",
         "passed": true,
-        "summary": "tests/test_backend.py::test_advisor_handbook_rag_system_returns_503_when_not_configured\ntests/test_backend.py::test_advisor_handbook_rag_system_bypasses_session_and_recommendation_logging\n  C:\\Users\\khoza\\Desktop\\curricupath\\app\\main.py:112: RuntimeWarning: The learned ranker requires the fingerprinted PostgreSQL catalogue; using deterministic ranking.\n    public_course_ranker = _build_public_course_ranker(\n\ntests/test_backend.py: 10 warnings\ntests/test_postgres_runtime.py: 1 warning\n  C:\\Users\\khoza\\Desktop\\curricupath\\app\\main.py:112: RuntimeWarning: The learned ranker requires semantic search; using deterministic ranking.\n    public_course_ranker = _build_public_course_ranker(\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n255 passed, 23 warnings in 30.07s"
+        "summary": "tests/test_backend.py::test_advisor_handbook_rag_system_returns_503_when_not_configured\ntests/test_backend.py::test_advisor_handbook_rag_system_bypasses_session_and_recommendation_logging\n  C:\\Users\\khoza\\Desktop\\curricupath\\app\\main.py:112: RuntimeWarning: The learned ranker requires the fingerprinted PostgreSQL catalogue; using deterministic ranking.\n    public_course_ranker = _build_public_course_ranker(\n\ntests/test_backend.py: 10 warnings\ntests/test_postgres_runtime.py: 1 warning\n  C:\\Users\\khoza\\Desktop\\curricupath\\app\\main.py:112: RuntimeWarning: The learned ranker requires semantic search; using deterministic ranking.\n    public_course_ranker = _build_public_course_ranker(\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n257 passed, 23 warnings in 31.81s"
       },
       {
-        "duration_seconds": 6.744,
+        "duration_seconds": 7.16,
         "exit_code": 0,
         "name": "postgresql_smoke",
         "passed": true,
-        "summary": "    _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]\n\napp\\main.py:112\n  C:\\Users\\khoza\\Desktop\\curricupath\\app\\main.py:112: RuntimeWarning: Learned ranker was not loaded (Ranker catalogue fingerprint does not match the live data.); using deterministic ranking.\n    public_course_ranker = _build_public_course_ranker(\n\ntests/test_postgres_runtime.py::test_advisor_logs_structured_course_candidates_without_prompt_text\n  C:\\Users\\khoza\\Desktop\\curricupath\\app\\main.py:112: RuntimeWarning: The learned ranker requires semantic search; using deterministic ranking.\n    public_course_ranker = _build_public_course_ranker(\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n2 passed, 4 warnings in 5.53s"
+        "summary": "    _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]\n\napp\\main.py:112\n  C:\\Users\\khoza\\Desktop\\curricupath\\app\\main.py:112: RuntimeWarning: Learned ranker was not loaded (Ranker catalogue fingerprint does not match the live data.); using deterministic ranking.\n    public_course_ranker = _build_public_course_ranker(\n\ntests/test_postgres_runtime.py::test_advisor_logs_structured_course_candidates_without_prompt_text\n  C:\\Users\\khoza\\Desktop\\curricupath\\app\\main.py:112: RuntimeWarning: The learned ranker requires semantic search; using deterministic ranking.\n    public_course_ranker = _build_public_course_ranker(\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n2 passed, 4 warnings in 6.00s"
       },
       {
-        "duration_seconds": 14.8,
+        "duration_seconds": 3.434,
         "exit_code": 0,
         "name": "frontend_build",
         "passed": true,
-        "summary": "../app/ui/assets/manrope-latin-600-normal.woff2      14.17 kB\n../app/ui/assets/manrope-latin-700-normal.woff2      14.21 kB\n../app/ui/assets/manrope-latin-500-normal.woff       18.24 kB\n../app/ui/assets/manrope-latin-400-normal.woff       18.29 kB\n../app/ui/assets/manrope-latin-600-normal.woff       18.38 kB\n../app/ui/assets/manrope-latin-700-normal.woff       18.41 kB\n../app/ui/assets/newsreader-latin-600-normal.woff2   23.88 kB\n../app/ui/assets/newsreader-latin-600-normal.woff    29.78 kB\n../app/ui/assets/app.css                             34.36 kB \u00e2\u201d\u201a gzip:  7.73 kB\n../app/ui/assets/app.js                             270.39 kB \u00e2\u201d\u201a gzip: 82.85 kB \u00e2\u201d\u201a map: 1,176.86 kB\n\u00e2\u0153\u201c built in 12.49s\n$ vite build --config frontend/vite.config.js"
+        "summary": "../app/ui/assets/manrope-latin-600-normal.woff2      14.17 kB\n../app/ui/assets/manrope-latin-700-normal.woff2      14.21 kB\n../app/ui/assets/manrope-latin-500-normal.woff       18.24 kB\n../app/ui/assets/manrope-latin-400-normal.woff       18.29 kB\n../app/ui/assets/manrope-latin-600-normal.woff       18.38 kB\n../app/ui/assets/manrope-latin-700-normal.woff       18.41 kB\n../app/ui/assets/newsreader-latin-600-normal.woff2   23.88 kB\n../app/ui/assets/newsreader-latin-600-normal.woff    29.78 kB\n../app/ui/assets/app.css                             34.36 kB \u00e2\u201d\u201a gzip:  7.73 kB\n../app/ui/assets/app.js                             270.40 kB \u00e2\u201d\u201a gzip: 82.86 kB \u00e2\u201d\u201a map: 1,176.96 kB\n\u00e2\u0153\u201c built in 2.39s\n$ vite build --config frontend/vite.config.js"
       }
     ],
     "passed": true

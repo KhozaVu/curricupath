@@ -45,3 +45,9 @@ def test_handbook_rag_demo_can_be_enabled(monkeypatch) -> None:
     monkeypatch.setenv("HANDBOOK_RAG_DEMO_ENABLED", "true")
 
     assert get_settings().handbook_rag_demo_enabled is True
+
+
+def test_handbook_rag_demo_uses_its_own_supported_model(monkeypatch) -> None:
+    monkeypatch.delenv("HANDBOOK_RAG_DEMO_MODEL", raising=False)
+
+    assert get_settings().handbook_rag_demo_model == "gemini-3.5-flash-lite"

@@ -92,6 +92,8 @@ recommendation-audit rows. It is disabled by default:
 
 ```dotenv
 HANDBOOK_RAG_DEMO_ENABLED=false
+# Live-demo model only; formal evaluation settings remain frozen separately.
+HANDBOOK_RAG_DEMO_MODEL=gemini-3.5-flash-lite
 ```
 
 Enabling it requires `GEMINI_API_KEY` and `HF_TOKEN`, and it calls both hosted

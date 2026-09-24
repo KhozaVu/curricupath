@@ -411,7 +411,9 @@ def _build_handbook_rag_demo(settings: Settings) -> HandbookRagDemo | None:
     search = PostgresSemanticSearch(
         create_database_engine(settings.database_url), provider
     )
-    client = GeminiDecisionClient(settings.gemini_api_key, settings.gemini_model)
+    client = GeminiDecisionClient(
+        settings.gemini_api_key, settings.handbook_rag_demo_model
+    )
     return HandbookRagDemo(
         search,
         client,
