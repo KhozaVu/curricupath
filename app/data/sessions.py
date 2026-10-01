@@ -32,6 +32,9 @@ class ConversationContext:
     pending_fact_course_code: str | None = None
     pending_fact_gate: str | None = None
     clarification_attempted: bool = False
+    pending_fact_course_codes: tuple[str, ...] = ()
+    # Module statuses the student has already given for this check: ((code, state), ...).
+    answered_facts: tuple[tuple[str, str], ...] = ()
 
     def as_dict(self) -> dict[str, object]:
         return {
@@ -48,6 +51,8 @@ class ConversationContext:
             "pending_fact_course_code": self.pending_fact_course_code,
             "pending_fact_gate": self.pending_fact_gate,
             "clarification_attempted": self.clarification_attempted,
+            "pending_fact_course_codes": list(self.pending_fact_course_codes),
+            "answered_facts": dict(self.answered_facts),
         }
 
     @classmethod
@@ -68,6 +73,8 @@ class ConversationContext:
             pending_fact_course_code=value.get("pending_fact_course_code"),
             pending_fact_gate=value.get("pending_fact_gate"),
             clarification_attempted=bool(value.get("clarification_attempted", False)),
+            pending_fact_course_codes=tuple(value.get("pending_fact_course_codes", [])),
+            answered_facts=tuple(dict(value.get("answered_facts") or {}).items()),
         )
 
 

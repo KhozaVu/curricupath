@@ -4,12 +4,14 @@ from __future__ import annotations
 
 import json
 from dataclasses import asdict
+from pathlib import Path
 from typing import Any, Protocol
 
 from app.advisor.eligibility import (
     ModuleFactState,
     StudentProfile,
     check_eligibility,
+    load_clash_rules,
     programme_year_course_map,
     requirement_satisfied,
 )
@@ -60,9 +62,20 @@ class Repository(Protocol):
 class CurricuPathService:
     """Coordinate fixed backend operations without language-model decisions."""
 
-    def __init__(self, repository: Repository, source_root: str) -> None:
+    def __init__(
+        self,
+        repository: Repository,
+        source_root: str,
+        *,
+        timetable_clash_gate_enabled: bool = False,
+    ) -> None:
         self.repository = repository
         self.source_root = source_root
+        self.timetable_clash_gate_enabled = timetable_clash_gate_enabled
+        clash_path = Path(source_root) / "data" / "rules" / "grid_clash_rules.csv"
+        self.clash_rules = (
+            load_clash_rules(clash_path) if timetable_clash_gate_enabled else ()
+        )
 
     def health(self) -> dict[str, str]:
         return {"status": "ok" if self.repository.is_healthy() else "unavailable"}
@@ -169,6 +182,8 @@ class CurricuPathService:
         manual_review_reasons: tuple[str, ...] = (),
         module_states: dict[str, ModuleFactState] | None = None,
         module_history_confirmed: bool | None = None,
+        *,
+        repeating_modules: set[str] | None = None,
     ) -> dict[str, Any]:
         code = self._resolve_module_code(course_code)
         profile = StudentProfile(
@@ -176,6 +191,9 @@ class CurricuPathService:
             completed_modules=frozenset(value.upper() for value in completed_modules),
             current_modules=frozenset(value.upper() for value in current_modules),
             planned_modules=frozenset(value.upper() for value in planned_modules),
+            repeating_modules=frozenset(
+                value.upper() for value in (repeating_modules or set())
+            ),
             manual_review_reasons=manual_review_reasons,
             module_states={
                 code.upper(): state for code, state in (module_states or {}).items()
@@ -190,6 +208,8 @@ class CurricuPathService:
             rules,
             sources,
             source_root=self.source_root,
+            clash_rules=self.clash_rules,
+            enable_timetable_clashes=self.timetable_clash_gate_enabled,
         )
         completed = code in profile.completed_modules
         requirements = self._requirement_summary(profile, rules, modules)
@@ -199,6 +219,7 @@ class CurricuPathService:
             "decision": result.decision,
             "eligible": result.eligible,
             "completed": completed,
+            "repeating_modules": sorted(profile.repeating_modules),
             "available_to_take": result.eligible and not completed,
             "reasons": list(result.reasons),
             "needs_clarification": result.needs_clarification,

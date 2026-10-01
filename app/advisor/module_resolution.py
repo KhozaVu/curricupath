@@ -45,6 +45,19 @@ _QUERY_STOP_WORDS = {
     "take",
     "tell",
     "the",
+    # Question words and teaching verbs carry no module-name content.
+    "who",
+    "what",
+    "which",
+    "does",
+    "do",
+    "teaches",
+    "teach",
+    "teaching",
+    "covers",
+    "cover",
+    "covered",
+    "lecturer",
 }
 
 

@@ -73,6 +73,13 @@ class ScopeDecision(BaseModel):
     policy_version: str = SCOPE_POLICY_VERSION
 
 
+def is_prohibited(text: str) -> bool:
+    """True for requests CurricuPath must refuse whatever their wording or module names."""
+
+    normalized = normalise_text(text)
+    return any(re.search(pattern, normalized) for pattern in _OUT_OF_SCOPE_PATTERNS)
+
+
 def classify_scope(
     text: str,
     parsed: ParsedAdvisorRequest,
@@ -82,7 +89,7 @@ def classify_scope(
     """Classify a request without using retrieval, ranking, or an external model."""
 
     normalized = normalise_text(text)
-    if any(re.search(pattern, normalized) for pattern in _OUT_OF_SCOPE_PATTERNS):
+    if is_prohibited(text):
         return ScopeDecision(
             status="out_of_scope",
             intent=parsed.intent,

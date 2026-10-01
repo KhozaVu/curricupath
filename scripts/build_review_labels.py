@@ -93,6 +93,13 @@ cases=list(csv.DictReader(open(PK+'eligibility_cases_pilot_blinded.csv',encoding
 mods=list(csv.DictReader(open(PK+'curriculum_modules.csv',encoding='utf-8-sig')))
 member={(m['programme_code'],m['course_code']) for m in mods}
 G='EIE_REG_GRID_2026'
+clash_rules=list(csv.DictReader(open(OUT/'grid_clash_rules.csv',encoding='utf-8-sig')))
+def canonical(c):
+    base=norm(str(c).upper())
+    return LEG.get(base,base)+'A' if base and base not in DROP else ''
+def case_clashes(target,programme,repeating):
+    target=canonical(target); repeating={canonical(x) for x in repeating}
+    return [r for r in clash_rules if r['scope']==programme and r['target_course_code']==target and r['repeating_course'] in repeating]
 def decide(t,prog,done,cur,plan,req):
     """req=(prereq set, coreq set). prereq must be completed; coreq may be completed/current/planned."""
     P,C=req; bad=[];planned=[]
@@ -104,6 +111,7 @@ def decide(t,prog,done,cur,plan,req):
     return mp,sorted(bad),sorted(planned)
 def cover(x,s): return any(d.startswith(x) for d in s)
 out=[]
+clash_exercised=0
 for c in cases:
     p=json.loads(c['student_profile_json']); t=c['target_course_code']; prog=p['programme_code']
     done=set(p['completed_modules']); cur=set(p['current_modules']); plan=set(p['planned_modules'])
@@ -135,6 +143,12 @@ for c in cases:
             for x in gpl:
                 reasons.append(f"{x}A is a corequisite of {t} and is planned concurrently ({G}, sheet '{g[2]}'; EBE_2026 p.{pg}); rubric step 3 accepts planned corequisites where the rule allows.")
             if gpl: flag.append('Rule 1.9: label depends on planned corequisite counting; reviewer to confirm')
+        clashes=case_clashes(t,prog,p.get('repeating_modules',[]))
+        if clashes:
+            clash_exercised+=1; label='ineligible'
+            for clash in clashes:
+                kind={'LEC':'lecture timetable clash','LAB':'laboratory timetable clash','TUT':'tutorial timetable clash','UNSPECIFIED':'timetable clash'}[clash['clash_type']]
+                reasons.append(f"{clash['rule_id']}: {t} has a {kind} with {clash['repeating_course']}, which the student is repeating, so it cannot be taken ({clash['source_ids']}).")
         if label!=hlabel:
             flag.append(f'SOURCE CONFLICT: grid gives {label}, EBE_2026 rules give {hlabel}')
             basis.append(f'grid and handbook disagree; grid used as primary reference')
@@ -143,14 +157,16 @@ for c in cases:
         else: basis.append('grid and handbook agree')
         basis.append('clash gate not applicable: profile lists no repeated course')
     out.append(dict(case_id=c['case_id'],label=label,reasons=reasons,basis='; '.join(basis),flag='; '.join(dict.fromkeys(flag))))
-json.dump(dict(provenance=dict(sources={'Student_Curricular_Planner_2026.xlsx':sha(PL),'Cross_Curricular_Registration_-_Requirement_and_Clashes.xlsx':sha(CR),'curriculum_rules.csv':sha(PK+'curriculum_rules.csv')},
+with open(OUT/'grid_rules.json','w',encoding='utf-8',newline='\n') as grid_file:
+ json.dump(dict(provenance=dict(sources={'Student_Curricular_Planner_2026.xlsx':sha(PL),'Cross_Curricular_Registration_-_Requirement_and_Clashes.xlsx':sha(CR),'curriculum_rules.csv':sha(PK+'curriculum_rules.csv')},
   supplied_by='School of EIE Admin Manager (M. Ismail), email 30 Sep 2026',
   colour_key={'FF92D050 green':'prerequisite missing','FFFFFF00 yellow':'corequisite missing','FF00B0F0 blue':'timetable clash'},
   clash_rule='Reviewer statement, pending written confirmation: a timetable clash means the course cannot be taken.',
   legacy_code_map=LEG,ignored_legacy_codes=sorted(DROP),
   how_to_read='repeating = course the student is repeating; target = higher-year course; kind = what the repeat blocks.'),
-  planner_grid_pairs=grid, requirements_from_cross_curricular_tables={f'{k[0]}|{k[1]}A':v for k,v in tbl.items()}),open(str(OUT)+'/grid_rules.json','w'),indent=1)
-json.dump(xcheck,open(str(OUT)+'/grid_vs_handbook_crosscheck.json','w'),indent=1)
+  planner_grid_pairs=grid, requirements_from_cross_curricular_tables={f'{k[0]}|{k[1]}A':v for k,v in tbl.items()}),grid_file,indent=1)
+with open(OUT/'grid_vs_handbook_crosscheck.json','w',encoding='utf-8',newline='\n') as crosscheck_file:
+ json.dump(xcheck,crosscheck_file,indent=1)
 fields=list(cases[0].keys())+['proposed_basis','needs_reviewer_confirmation']
 with open(str(OUT)+'/eligibility_cases_pilot_proposed.csv','w',newline='',encoding='utf-8') as f:
     w=csv.DictWriter(f,fieldnames=fields); w.writeheader()
@@ -159,6 +175,7 @@ with open(str(OUT)+'/eligibility_cases_pilot_proposed.csv','w',newline='',encodi
         c['proposed_basis']=o['basis']; c['needs_reviewer_confirmation']=o['flag']; w.writerow(c)
 from collections import Counter
 print(Counter(o['label'] for o in out)); print(len(grid),'grid pairs',Counter(g['kind'] for g in grid))
+print(f'clash gate exercised on {clash_exercised} of {len(cases)} cases')
 for o in out: print(o['case_id'],o['label'],'|',o['flag'] or '-','\n    ',' / '.join(o['reasons'])[:230])
 print('--- substantive grid vs handbook differences')
 for x in xcheck:

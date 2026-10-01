@@ -3,12 +3,14 @@
 from __future__ import annotations
 
 import re
+from contextvars import ContextVar
 from typing import Any, Literal, Protocol, Sequence
 
 from app.advisor.eligibility import ModuleFactState
 from app.advisor.intent import IntentExtractor, ParsedAdvisorRequest
 from app.advisor.elective_careers import ELECTIVE_CAREER_DIRECTIONS
 from app.advisor.module_matching import score_module_relevance
+from app.advisor.module_resolution import _normalise_name
 from app.advisor.normalisation import normalise_text
 from app.advisor.ranking import (
     DeterministicPublicCourseRanker,
@@ -59,10 +61,50 @@ class AdvisorEngine:
         *,
         module_states: dict[str, ModuleFactState] | None = None,
         module_history_confirmed: bool | None = None,
+        repeating_modules: set[str] | None = None,
+        allow_clarification: bool = True,
+    ) -> dict[str, Any]:
+        """Answer one message. With clarification disabled the engine never asks a question:
+        an ambiguous module name is resolved to its best-scoring candidate, and anything
+        else it cannot determine becomes a final unresolved answer."""
+
+        token = _ALLOW_CLARIFICATION.set(allow_clarification)
+        try:
+            result = self._advise(
+                message, programme_code, completed_modules, current_modules, planned_modules,
+                context, ranking_mode, module_states=module_states,
+                module_history_confirmed=module_history_confirmed,
+                repeating_modules=repeating_modules,
+            )
+        finally:
+            _ALLOW_CLARIFICATION.reset(token)
+        if not allow_clarification and result.get("status") in CLARIFICATION_STATUSES:
+            return unresolved_without_clarification(result.get("intent", "unknown"))
+        return result
+
+    def _advise(
+        self,
+        message: str,
+        programme_code: str | None = None,
+        completed_modules: set[str] | None = None,
+        current_modules: set[str] | None = None,
+        planned_modules: set[str] | None = None,
+        context: ConversationContext | None = None,
+        ranking_mode: Literal["auto", "deterministic", "prototype"] = "auto",
+        *,
+        module_states: dict[str, ModuleFactState] | None = None,
+        module_history_confirmed: bool | None = None,
+        repeating_modules: set[str] | None = None,
     ) -> dict[str, Any]:
         current_request = self.extractor.extract(message)
-        pending_fact_reply = _is_pending_fact_reply(current_request, context)
+        pending_fact_reply = _is_pending_fact_reply(current_request, context, message)
         parsed = _merge_context(current_request, context)
+        if pending_fact_reply and context is not None and current_request.module_code:
+            # A reply that names the pending modules answers the open check; it does not
+            # start a new one about the first module it mentions.
+            parsed = parsed.model_copy(
+                update={"module_code": context.module_code, "intent": "eligibility"}
+            )
         programme = (
             current_request.programme_code
             or programme_code
@@ -77,24 +119,52 @@ class AdvisorEngine:
             code.upper(): state for code, state in (module_states or {}).items()
         }
         clarification_applied: dict[str, str] | None = None
+        clarification_applied_all: list[dict[str, str]] = []
+        answered_facts: dict[str, str] = {}
+        if context is not None and context.pending_intent == "eligibility":
+            # Statuses given earlier in this check stay applied while it continues.
+            for known_code, known_state in context.answered_facts:
+                answered_facts[known_code] = known_state
+                _apply_module_fact(
+                    known_code,
+                    known_state,  # type: ignore[arg-type]
+                    completed,
+                    current,
+                    planned,
+                    effective_module_states,
+                )
         if pending_fact_reply and context is not None:
-            fact_state = _parse_module_fact_reply(message, context.pending_fact_gate)
-            if fact_state is None:
-                return _unresolved_fact_reply(context)
-            fact_code = str(context.pending_fact_course_code).upper()
-            _apply_module_fact(
-                fact_code,
-                fact_state,
-                completed,
-                current,
-                planned,
-                effective_module_states,
+            pending_codes = tuple(
+                code.upper()
+                for code in (
+                    context.pending_fact_course_codes
+                    or (context.pending_fact_course_code,)
+                )
+                if code
             )
-            clarification_applied = {
-                "course_code": fact_code,
-                "state": fact_state,
-                "gate": context.pending_fact_gate or "requirement",
-            }
+            new_facts = _parse_module_fact_replies(
+                message, pending_codes, context.pending_fact_gate
+            )
+            if not new_facts:
+                return _unresolved_fact_reply(context)
+            for fact_code, fact_state in new_facts.items():
+                _apply_module_fact(
+                    fact_code,
+                    fact_state,
+                    completed,
+                    current,
+                    planned,
+                    effective_module_states,
+                )
+                answered_facts[fact_code] = fact_state
+                clarification_applied_all.append(
+                    {
+                        "course_code": fact_code,
+                        "state": fact_state,
+                        "gate": context.pending_fact_gate or "requirement",
+                    }
+                )
+            clarification_applied = clarification_applied_all[0]
 
         if parsed.intent == "greeting":
             return _success(
@@ -126,8 +196,11 @@ class AdvisorEngine:
                 planned,
                 effective_module_states,
                 module_history_confirmed,
+                repeating_modules or set(),
                 clarification_attempted=pending_fact_reply,
                 clarification_applied=clarification_applied,
+                clarification_applied_all=clarification_applied_all,
+                answered_facts=answered_facts,
             )
         if parsed.intent == "module_information":
             return self._module_information(
@@ -139,6 +212,7 @@ class AdvisorEngine:
                 planned,
                 effective_module_states,
                 module_history_confirmed,
+                repeating_modules or set(),
             )
         if parsed.intent == "curriculum_list":
             if not programme:
@@ -159,6 +233,7 @@ class AdvisorEngine:
                     planned,
                     effective_module_states,
                     module_history_confirmed,
+                    repeating_modules or set(),
                 )
             modules = self.service.modules(programme, parsed.year_of_study)
             if parsed.requirement_type:
@@ -507,13 +582,35 @@ class AdvisorEngine:
         )
         if any(
             term in normalized
-            for term in ("find", "recommend", "suggest", "career", "online", "public")
+            for term in (
+                "find", "recommend", "suggest", "career", "online", "public",
+                "learn", "tutorial", "certificate", "mooc", "resource",
+            )
         ) or ("course" in normalized and not module_information_request):
             return parsed
         matches = self.service.module_name_matches(message, programme)
-        if matches and all(match.score == 1.0 for match in matches):
+        if not matches:
+            return parsed
+        if all(match.score == 1.0 for match in matches):
+            return parsed.model_copy(update={"intent": "module_information"})
+        # A partial title shared by several modules ("signals", "Software Development")
+        # becomes a module lookup so resolution can ask which one, but only for a short
+        # query or an explicit module-information phrase, never for free-text requests.
+        if parsed.intent in {"unknown", "public_course_search"} and (
+            module_information_request or len(_module_query_words(message)) <= 3
+        ):
             return parsed.model_copy(update={"intent": "module_information"})
         return parsed
+
+    def prefer_module_information(
+        self,
+        message: str,
+        parsed: ParsedAdvisorRequest,
+        programme: str | None,
+    ) -> ParsedAdvisorRequest:
+        """Public entry used by the scope gate so both apply the same module-name decision."""
+
+        return self._prefer_exact_module_name(message, parsed, programme)
 
     def _eligibility(
         self,
@@ -525,9 +622,12 @@ class AdvisorEngine:
         planned: set[str],
         module_states: dict[str, ModuleFactState] | None,
         module_history_confirmed: bool | None,
+        repeating_modules: set[str],
         *,
         clarification_attempted: bool = False,
         clarification_applied: dict[str, str] | None = None,
+        clarification_applied_all: list[dict[str, str]] | None = None,
+        answered_facts: dict[str, str] | None = None,
     ) -> dict[str, Any]:
         if not parsed.module_code:
             parsed, clarification = self._resolve_module_name(
@@ -548,10 +648,16 @@ class AdvisorEngine:
             _manual_review_reasons(message),
             module_states,
             module_history_confirmed,
+            repeating_modules=repeating_modules,
         )
         clarification = result.get("clarification") or {}
+        # A reply that supplies at least one new status keeps the check going, so every
+        # unknown module is eventually asked about; a reply that supplies none ends it.
+        made_progress = bool(clarification_applied_all)
         clarification_exhausted = bool(
-            clarification_attempted and result["decision"] == "needs_clarification"
+            clarification_attempted
+            and result["decision"] == "needs_clarification"
+            and not made_progress
         )
         if result["decision"] == "needs_clarification" and not clarification_exhausted:
             conversation_context = ConversationContext(
@@ -561,6 +667,10 @@ class AdvisorEngine:
                 pending_fact_course_code=clarification.get("target_predicate"),
                 pending_fact_gate=_last_trace_gate(result.get("rule_trace", [])),
                 clarification_attempted=False,
+                pending_fact_course_codes=tuple(
+                    clarification.get("target_predicates") or ()
+                ),
+                answered_facts=tuple((answered_facts or {}).items()),
             ).as_dict()
         else:
             conversation_context = ConversationContext().as_dict()
@@ -595,6 +705,7 @@ class AdvisorEngine:
                 "clarification_attempted": clarification_attempted,
                 "clarification_exhausted": clarification_exhausted,
                 "clarification_applied": clarification_applied,
+                "clarification_applied_all": clarification_applied_all or [],
                 "conversation_context": conversation_context,
             }
         )
@@ -633,6 +744,7 @@ class AdvisorEngine:
         planned: set[str],
         module_states: dict[str, ModuleFactState] | None,
         module_history_confirmed: bool | None,
+        repeating_modules: set[str],
     ) -> dict[str, Any]:
         if not parsed.module_code:
             parsed, clarification = self._resolve_module_name(
@@ -664,6 +776,7 @@ class AdvisorEngine:
                 planned,
                 module_states=module_states,
                 module_history_confirmed=module_history_confirmed,
+                repeating_modules=repeating_modules,
             )
         return response
 
@@ -675,7 +788,8 @@ class AdvisorEngine:
         action: str,
     ) -> tuple[ParsedAdvisorRequest, dict[str, Any] | None]:
         matches = self.service.module_name_matches(message, programme)
-        if len(matches) == 1:
+        if len(matches) == 1 or (matches and not _ALLOW_CLARIFICATION.get()):
+            # Without clarification the best-scoring candidate is taken: a silent guess.
             return parsed.model_copy(
                 update={"module_code": matches[0].course_code}
             ), None
@@ -712,6 +826,7 @@ class AdvisorEngine:
         planned: set[str],
         module_states: dict[str, ModuleFactState] | None,
         module_history_confirmed: bool | None,
+        repeating_modules: set[str],
     ) -> dict[str, Any]:
         year = parsed.year_of_study or 4
         memberships = [
@@ -739,6 +854,7 @@ class AdvisorEngine:
             or current
             or planned
             or module_states
+            or repeating_modules
             or module_history_confirmed is True
         )
         candidates: list[dict[str, Any]] = []
@@ -762,6 +878,7 @@ class AdvisorEngine:
                         planned,
                         module_states=module_states,
                         module_history_confirmed=module_history_confirmed,
+                        repeating_modules=repeating_modules,
                     ),
                 }
             else:
@@ -1128,18 +1245,110 @@ def _merge_modules(explicit: set[str] | None, extracted: list[str]) -> set[str]:
 def _is_pending_fact_reply(
     current_request: ParsedAdvisorRequest,
     context: ConversationContext | None,
+    message: str = "",
 ) -> bool:
-    """Treat only a short unknown-intent turn as the pending fact response."""
+    """A short unknown-intent turn, or one naming only the pending modules, is the reply."""
 
-    return bool(
+    if not (
         context
         and context.pending_intent == "eligibility"
         and context.pending_fact_course_code
         and not context.clarification_attempted
-        and current_request.intent == "unknown"
-        and current_request.module_code is None
         and current_request.programme_code is None
-    )
+    ):
+        return False
+    if current_request.intent == "unknown" and current_request.module_code is None:
+        return True
+    mentioned = {code.upper() for code in _MODULE_CODE_PATTERN.findall(message.upper())}
+    pending = {code.upper() for code in context.pending_fact_course_codes}
+    return bool(mentioned) and len(pending) > 1 and mentioned <= pending
+
+
+_MODULE_CODE_PATTERN = re.compile(r"\b[A-Z]{4}\d{4}A?\b")
+
+
+def _parse_module_fact_replies(
+    message: str,
+    pending_codes: tuple[str, ...],
+    gate: str | None,
+) -> dict[str, ModuleFactState]:
+    """Map a reply to one status per pending module; unparsed modules are left out."""
+
+    if len(pending_codes) <= 1:
+        state = _parse_module_fact_reply(message, gate)
+        return {pending_codes[0]: state} if state and pending_codes else {}
+    normalized = normalise_text(message)
+    if normalized == "all completed":
+        return {code: "completed" for code in pending_codes}
+    if normalized == "none completed":
+        return {code: "not_completed" for code in pending_codes}
+    return _parse_grouped_module_statuses(normalized, pending_codes, gate)
+
+
+_STATUS_TOKEN = re.compile(
+    r"(?P<rest>\b(?:the )?(?:rest|remaining|others?|everything else|all others)\b)"
+    r"|(?P<not>\b(?:not(?: yet)?(?: (?:completed|passed|done|finished|taken))?"
+    r"|haven t|have not|hasn t|has not|never|incomplete|no|none)\b)"
+    r"|(?P<planned>\b(?:planned concurrently|planning(?: to take(?: it)?(?: concurrently)?)?"
+    r"|planned|concurrently)\b)"
+    r"|(?P<current>\b(?:currently (?:taking|enrolled)|current|taking it now|in progress)\b)"
+    r"|(?P<completed>\b(?:completed|passed|done|finished|yes)\b)"
+    r"|(?P<code>\b[a-z]{4}\d{4}a?\b)"
+)
+
+
+def _parse_grouped_module_statuses(
+    normalized: str,
+    pending_codes: tuple[str, ...],
+    gate: str | None,
+) -> dict[str, ModuleFactState]:
+    """Read replies such as 'A and B are completed, the rest are not' or 'A completed, B not'.
+
+    A status applies to the modules named just before it ('A and B are completed') or, when none
+    were, to those named just after it ('not completed: C'). 'The rest' means every pending module
+    not otherwise mentioned. Statuses not valid for the gate (current/planned for a prerequisite)
+    are ignored, never guessed.
+    """
+
+    pending = tuple(code.upper() for code in pending_codes)
+    allowed = {"completed", "not_completed"}
+    if gate in {"corequisite", "exclusion"}:
+        allowed |= {"current", "planned"}
+    facts: dict[str, ModuleFactState] = {}
+    group: list[str] = []
+    carry: str | None = None
+    rest_seen = False
+    rest_state: str | None = None
+    for match in _STATUS_TOKEN.finditer(normalized):
+        kind = match.lastgroup
+        if kind == "code":
+            code = match.group(0).upper()
+            if code not in pending:
+                continue
+            if carry is not None and not group:
+                facts.setdefault(code, carry)  # type: ignore[arg-type]
+            else:
+                group.append(code)
+        elif kind == "rest":
+            rest_seen = True
+        else:
+            state = "not_completed" if kind == "not" else kind
+            if state not in allowed:
+                group, carry, rest_seen = [], None, False
+                continue
+            if group:
+                for code in group:
+                    facts.setdefault(code, state)  # type: ignore[arg-type]
+                group, carry = [], None
+            elif rest_seen:
+                rest_state = state
+                rest_seen, carry = False, None
+            else:
+                carry = state
+    if rest_state is not None:
+        for code in pending:
+            facts.setdefault(code, rest_state)  # type: ignore[arg-type]
+    return facts
 
 
 def _parse_module_fact_reply(
@@ -1635,3 +1844,24 @@ def _module_information_answer(
         f"{coordinator_text} Content covered: {information['scope']}"
         f" {source_text}"
     )
+
+
+def _module_query_words(message: str) -> list[str]:
+    """Content words left after removing question words and module-lookup filler."""
+
+    return _normalise_name(message, remove_query_noise=True).split()
+
+
+CLARIFICATION_STATUSES = frozenset({"clarification_required", "needs_clarification"})
+_ALLOW_CLARIFICATION: ContextVar[bool] = ContextVar("allow_clarification", default=True)
+
+
+def unresolved_without_clarification(intent: str) -> dict[str, Any]:
+    """Final answer when clarification is disabled and the request cannot be determined."""
+
+    return {
+        "intent": intent,
+        "status": "unresolved_without_clarification",
+        "answer": "I could not determine what you meant, and clarification is disabled, so I cannot ask.",
+        "conversation_context": ConversationContext().as_dict(),
+    }

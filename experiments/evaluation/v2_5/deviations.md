@@ -224,3 +224,18 @@ agreement".
 **Rerun decision:** No benchmark output may be interpreted or regenerated until this
 amendment and the fixed headline configuration are committed. Existing pilot outputs remain
 historical draft outputs and do not contain clash cases.
+
+## 2026-10-01 (implementation): Generator newline drift corrected
+
+**Reason:** The earlier byte mismatch in `grid_rules.json` was traced to platform newline
+translation on Windows. The supplied generator now opens JSON outputs with explicit LF
+newlines. It reproduces both `eligibility_cases_pilot_proposed.csv` and `grid_rules.json`
+byte-for-byte with their verified bundle copies. No JSON value, case, profile, question, or
+label changed.
+
+**Affected cases:** None. The 20 proposed labels remain 5 eligible, 11 ineligible, and 4
+manual-review-required; the clash gate is exercised on 0 of 20 cases.
+
+**Rerun decision:** Generator reproducibility gate passed. Synthetic clash tests may proceed;
+benchmark systems have not been scored against the School registration reference in this
+implementation step.

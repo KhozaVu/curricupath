@@ -13,7 +13,15 @@ from pydantic import BaseModel, Field
 
 from app.advisor.baseline_demo import HandbookRagDemo
 from app.advisor.eligibility import ModuleFactState
-from app.advisor.engine import AdvisorEngine
+from app.advisor.engine import AdvisorEngine, unresolved_without_clarification
+from app.advisor.interpretation_fallback import (
+    ClaudeInterpreter,
+    GeminiInterpreter,
+    InterpretationFallback,
+    capped_fallback_mode,
+    is_new_programme_question,
+    needs_fallback,
+)
 from app.advisor.intent import build_intent_extractor
 from app.advisor.intent import DeterministicIntentExtractor
 from app.advisor.reviewer import (
@@ -21,7 +29,7 @@ from app.advisor.reviewer import (
     ResponseReviewer,
     ReviewCoordinator,
 )
-from app.advisor.scope import classify_scope, out_of_scope_response
+from app.advisor.scope import classify_scope, is_prohibited, out_of_scope_response
 from app.advisor.ranking import PairwiseLogisticRanker, PublicCourseRanker
 from app.backend import CurricuPathService
 from app.config import PROJECT_ROOT, Settings, get_settings
@@ -56,6 +64,7 @@ class EligibilityRequest(BaseModel):
     completed_modules: set[str] = Field(default_factory=set)
     current_modules: set[str] = Field(default_factory=set)
     planned_modules: set[str] = Field(default_factory=set)
+    repeating_modules: set[str] = Field(default_factory=set)
     module_states: dict[str, ModuleFactState] = Field(default_factory=dict)
     module_history_confirmed: bool | None = None
 
@@ -71,10 +80,16 @@ class AdvisorRequest(BaseModel):
     completed_modules: set[str] = Field(default_factory=set)
     current_modules: set[str] = Field(default_factory=set)
     planned_modules: set[str] = Field(default_factory=set)
+    repeating_modules: set[str] = Field(default_factory=set)
     module_states: dict[str, ModuleFactState] = Field(default_factory=dict)
     module_history_confirmed: bool | None = None
     ranking_mode: Literal["deterministic", "prototype"] = "deterministic"
     system: Literal["curricupath", "handbook_rag"] = "curricupath"
+    # False gives the no-clarification ablation: CurricuPath answers without ever asking.
+    allow_clarification: bool = True
+    # Interpretation fallback for unresolved messages; None uses the server setting. A request
+    # can only lower the server setting (llm > fuzzy > off), never raise it.
+    interpretation_fallback: Literal["off", "fuzzy", "llm"] | None = None
 
 
 class SemanticSearchRequest(BaseModel):
@@ -101,7 +116,11 @@ def create_app(
     if service is None:
         settings = get_settings()
         repository = _build_catalogue_repository(settings)
-        service = CurricuPathService(repository, str(PROJECT_ROOT))
+        service = CurricuPathService(
+            repository,
+            str(PROJECT_ROOT),
+            timetable_clash_gate_enabled=settings.timetable_clash_gate_enabled,
+        )
     else:
         settings = get_settings()
 
@@ -136,6 +155,7 @@ def create_app(
     review_coordinator = ReviewCoordinator(response_reviewer)
     if handbook_rag_demo is None and settings.handbook_rag_demo_enabled:
         handbook_rag_demo = _build_handbook_rag_demo(settings)
+    interpretation_fallback = InterpretationFallback(service, _build_interpreters(settings))
     if session_store is None:
         session_store = _build_session_store(service.repository)
     if recommendation_logger is None:
@@ -262,6 +282,7 @@ def create_app(
             request.planned_modules,
             module_states=request.module_states,
             module_history_confirmed=request.module_history_confirmed,
+            repeating_modules=request.repeating_modules,
         )
 
     @api.post("/advisor")
@@ -285,14 +306,45 @@ def create_app(
             result["session_id"] = request.session_id or "baseline-demo"
             return result
         session_id, context = session_store.load(request.session_id)
-        scope_request = scope_extractor.extract(request.message)
+        prefer_module = getattr(advisor_engine, "prefer_module_information", None)
+        prohibited = is_prohibited(request.message)
+
+        def interpret(text: str):
+            parsed = scope_extractor.extract(text)
+            # Apply the engine's module-name decision first, so a curriculum title is not
+            # refused as out of scope before module resolution can run.
+            if prefer_module is not None and not prohibited:
+                parsed = prefer_module(text, parsed, request.programme_code)
+            return parsed
+
+        message = request.message
+        scope_request = interpret(message)
+        fallback_used = None
+        mode = capped_fallback_mode(request.interpretation_fallback, settings.interpretation_fallback)
+        pending = context.pending_intent is not None
+        if not prohibited and (
+            needs_fallback(message, scope_request.intent, scope_request.module_code)
+            if not pending
+            else is_new_programme_question(message, scope_request.intent, scope_request.module_code)
+        ):
+            recovered = interpretation_fallback.recover(
+                message, request.programme_code, mode,
+                lambda text: not needs_fallback(text, interpret(text).intent, interpret(text).module_code),
+            )
+            if recovered is not None:
+                fallback_used = recovered.metadata(message)
+                message = recovered.message
+                scope_request = interpret(message)
         scope = classify_scope(
-            request.message,
+            message,
             scope_request,
             has_active_context=context.pending_intent is not None,
         )
         if scope.status == "out_of_scope":
             result = out_of_scope_response(scope_request, scope)
+        elif scope.status == "ambiguous" and not request.allow_clarification:
+            result = unresolved_without_clarification(scope_request.intent)
+            result["scope"] = scope.model_dump()
         elif scope.status == "ambiguous":
             question = scope.clarification_question or (
                 "Could you clarify which CurricuPath feature you want to use?"
@@ -308,7 +360,7 @@ def create_app(
             }
         else:
             result = advisor_engine.advise(
-                request.message,
+                message,
                 request.programme_code,
                 request.completed_modules,
                 request.current_modules,
@@ -317,9 +369,11 @@ def create_app(
                 request.ranking_mode,
                 module_states=request.module_states,
                 module_history_confirmed=request.module_history_confirmed,
+                allow_clarification=request.allow_clarification,
+                repeating_modules=request.repeating_modules,
             )
             result["scope"] = scope.model_dump()
-            result = review_coordinator.process(request.message, result)
+            result = review_coordinator.process(message, result)
         candidate_log = result.pop("_candidate_log", [])
         for candidate in candidate_log:
             candidate.setdefault("gate_outcomes", {})["response_review"] = result.get(
@@ -333,6 +387,8 @@ def create_app(
         if run_id:
             result["run_id"] = run_id
         result["session_id"] = session_id
+        if fallback_used is not None:
+            result["interpretation_fallback"] = fallback_used
         return result
 
     @api.delete("/advisor/sessions/{session_id}")
@@ -498,6 +554,21 @@ class _NullRecommendationLogger:
         return None
 
 
+def _build_interpreters(settings: Settings) -> list:
+    """Gemini first; Claude Haiku only when an Anthropic key and SDK are available."""
+
+    providers: list = []
+    if settings.gemini_api_key:
+        providers.append(GeminiInterpreter(settings.gemini_api_key, settings.interpretation_model))
+    if settings.anthropic_api_key:
+        try:
+            providers.append(ClaudeInterpreter(settings.claude_fallback_model))
+        except ImportError:
+            warnings.warn("ANTHROPIC_API_KEY is set but the anthropic package is not installed; "
+                          "the Claude fallback is unavailable.", RuntimeWarning, stacklevel=2)
+    return providers
+
+
 app = create_app(enable_semantic_search=get_settings().semantic_search_enabled)
 
 
@@ -508,6 +579,6 @@ def main() -> None:
 
     uvicorn.run("app.main:app", host="127.0.0.1", port=8000, reload=True)
 
-
 if __name__ == "__main__":
     main()
+

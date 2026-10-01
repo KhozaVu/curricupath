@@ -30,6 +30,8 @@
     "grid_rules_byte_exact": false,
     "grid_rules_semantically_equal": true,
     "generated_grid_rules_sha256": "0d1e69f27427228bd40685654abeb35cb6c2529d408842501c61c8b7089dbb8f",
-    "retained_grid_rules_sha256": "3d22f47fb275efc37e09d8651be91c7ece7fad4ea7079d4b9c8cb6532c9403cc"
+    "retained_grid_rules_sha256": "3d22f47fb275efc37e09d8651be91c7ece7fad4ea7079d4b9c8cb6532c9403cc",
+    "after_explicit_lf_serialization_byte_exact": true,
+    "after_explicit_lf_serialization_sha256": "3d22f47fb275efc37e09d8651be91c7ece7fad4ea7079d4b9c8cb6532c9403cc"
   }
 }

@@ -1,0 +1,6 @@
+case_id,scope,repeating_modules_json,target_course_code,scenario_type,source_rule_id,reference_label,expected_material_reasons_json,reviewer_ids,approval_state,reference_authority,notes
+CLASH_REVIEW_001,EFA03,"[""ELEN2003A""]",ELEN3000A,lec_clash,CLASH_ELEN2003A_ELEN3000A,,,,,,Not part of the frozen or scored eligibility set.
+CLASH_REVIEW_002,EFA03,"[""COMS2004A""]",ELEN3000A,lab_clash,CLASH_COMS2004A_ELEN3000A,,,,,,Not part of the frozen or scored eligibility set.
+CLASH_REVIEW_003,EFA03,"[""ELEN2005A""]",ELEN3013A,tut_clash,CLASH_ELEN2005A_ELEN3013A,,,,,,Not part of the frozen or scored eligibility set.
+CLASH_REVIEW_004,EFA03,"[""ELEN2017A""]",ELEN3003A,unspecified_clash,CLASH_ELEN2017A_ELEN3003A,,,,,,Not part of the frozen or scored eligibility set.
+CLASH_REVIEW_005,EFA03,"[""ELEN2003A""]",ELEN3002A,no_clash_control,,,,,,,Clash-only control; other eligibility gates must be assessed separately.
