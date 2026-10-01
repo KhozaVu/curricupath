@@ -235,9 +235,10 @@ function ChoiceChips({ options, selected, onToggle, name }) {
   );
 }
 
-function ModuleSelector({ modules, completed, current, planned, onToggle, loading }) {
+function ModuleSelector({ modules, completed, current, planned, repeating, onToggle, loading }) {
   const [selectionMode, setSelectionMode] = useState("completed");
-  const selected = selectionMode === "completed" ? completed : selectionMode === "current" ? current : planned;
+  const selections = { completed, current, planned, repeating };
+  const selected = selections[selectionMode];
   const grouped = modules.reduce((groups, module) => {
     (groups[module.year_of_study] ||= []).push(module);
     return groups;
@@ -248,7 +249,7 @@ function ModuleSelector({ modules, completed, current, planned, onToggle, loadin
       <div className="card-heading split-heading">
         <div><span>Module history</span><h2>Select your curriculum modules</h2></div>
         <div className="mode-tabs" role="tablist" aria-label="Module selection type">
-          {[["completed", "Completed"], ["current", "Current"], ["planned", "Planned"]].map(([value, label]) => (
+          {[["completed", "Completed"], ["current", "Current"], ["planned", "Planned"], ["repeating", "Repeating"]].map(([value, label]) => (
             <button
               key={value}
               className={selectionMode === value ? "active" : ""}
@@ -256,12 +257,12 @@ function ModuleSelector({ modules, completed, current, planned, onToggle, loadin
               role="tab"
               aria-selected={selectionMode === value}
             >
-              {label}<b>{value === "completed" ? completed.length : value === "current" ? current.length : planned.length}</b>
+              {label}<b>{selections[value].length}</b>
             </button>
           ))}
         </div>
       </div>
-      <p className="helper-text">Modules are separated by year. Choose a tab, then click each module that belongs in that part of your profile.</p>
+      <p className="helper-text">Modules are separated by year. Use Repeating only for a module you have not passed and must take again; it can trigger a timetable-clash restriction.</p>
       {loading && <div className="empty-panel">Loading curriculum modules...</div>}
       {!loading && !modules.length && <div className="empty-panel">Choose a programme to load its curriculum.</div>}
       {!loading && Object.entries(grouped).map(([year, yearModules]) => (
@@ -300,12 +301,14 @@ function ProfilePage({ profile, setProfile, modules, loading, onSave }) {
   };
   const toggleModule = (field, code) => {
     setProfile(current => {
-      const removing = current[field].includes(code);
+      const values = current[field] || [];
+      const removing = values.includes(code);
       const next = {
         ...current,
         completed: current.completed.filter(item => item !== code),
         current: current.current.filter(item => item !== code),
         planned: current.planned.filter(item => item !== code),
+        repeating: (current.repeating || []).filter(item => item !== code),
       };
       if (!removing) next[field] = [...next[field], code];
       return next;
@@ -352,6 +355,7 @@ function ProfilePage({ profile, setProfile, modules, loading, onSave }) {
         completed={profile.completed}
         current={profile.current}
         planned={profile.planned}
+        repeating={profile.repeating || []}
         onToggle={toggleModule}
         loading={loading}
       />
@@ -389,7 +393,7 @@ function ProfilePage({ profile, setProfile, modules, loading, onSave }) {
       </section>
 
       <div className="save-profile-bar">
-        <div><strong>{profile.programme || "No programme selected"}</strong><span>{profile.completed.length} completed, {profile.current.length} current, {profile.planned.length} planned | history {profile.historyConfirmed ? "confirmed" : "incomplete"}</span></div>
+        <div><strong>{profile.programme || "No programme selected"}</strong><span>{profile.completed.length} completed, {profile.current.length} current, {profile.planned.length} planned, {(profile.repeating || []).length} repeating | history {profile.historyConfirmed ? "confirmed" : "incomplete"}</span></div>
         <button className="primary-button" disabled={!profile.programme} onClick={onSave}>Save profile and open advisor <ChevronRight size={18} /></button>
       </div>
     </div>
@@ -565,6 +569,7 @@ function AdvisorPage({ profile, rankingMode, setRankingMode, system, setSystem, 
           completed_modules: moduleCodes(profile.completed.join(",")),
           current_modules: moduleCodes(profile.current.join(",")),
           planned_modules: moduleCodes(profile.planned.join(",")),
+          repeating_modules: moduleCodes((profile.repeating || []).join(",")),
           module_states: Object.fromEntries([
             ...profile.completed.map(code => [code, "completed"]),
             ...profile.current.map(code => [code, "current"]),
@@ -602,7 +607,7 @@ function AdvisorPage({ profile, rankingMode, setRankingMode, system, setSystem, 
         <div className="prototype-notice baseline-notice"><ShieldCheck size={17} /><span>Experimental comparison baseline: retrieval and an LLM only, not checked against curriculum rules. Not an official CurricuPath decision.</span></div>
       )}
       <div className="advisor-profile-bar">
-        <div className="profile-summary"><span className="ready-dot"><Check size={13} /></span><div><strong>{profile.programme} profile ready</strong><small>{profile.completed.length} completed | {profile.current.length} current | {profile.planned.length} planned</small></div></div>
+        <div className="profile-summary"><span className="ready-dot"><Check size={13} /></span><div><strong>{profile.programme} profile ready</strong><small>{profile.completed.length} completed | {profile.current.length} current | {profile.planned.length} planned | {(profile.repeating || []).length} repeating</small></div></div>
         <div className="advisor-actions">
           {handbookRagDemoEnabled && (
             <div className="system-toggle">
@@ -824,7 +829,7 @@ export function App() {
     programme: localStorage.getItem("curricupath-programme") || "",
     stream: "general",
     completed: readJson("curricupath-completed", []),
-    current: [], planned: [], historyConfirmed: false,
+    current: [], planned: [], repeating: [], historyConfirmed: false,
     interests: [], careers: [], workload: "", format: "",
   });
   const [savedProgramme, setSavedProgramme] = usePersistentString("curricupath-curriculum-ready");
