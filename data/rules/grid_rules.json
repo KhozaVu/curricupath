@@ -1,0 +1,1016 @@
+{
+ "provenance": {
+  "sources": {
+   "Student_Curricular_Planner_2026.xlsx": "7b489c0344d4c921",
+   "Cross_Curricular_Registration_-_Requirement_and_Clashes.xlsx": "066214a25bc34c23",
+   "curriculum_rules.csv": "416bc87c57e1da7a"
+  },
+  "supplied_by": "School of EIE Admin Manager (M. Ismail), email 30 Sep 2026",
+  "colour_key": {
+   "FF92D050 green": "prerequisite missing",
+   "FFFFFF00 yellow": "corequisite missing",
+   "FF00B0F0 blue": "timetable clash"
+  },
+  "clash_rule": "Reviewer statement, pending written confirmation: a timetable clash means the course cannot be taken.",
+  "legacy_code_map": {
+   "ELEN2004": "ELEN2020",
+   "ELEN2001": "ELEN2016",
+   "ELEN2006": "ELEN2021",
+   "MATH1048": "MATH1042",
+   "MATH1049": "MATH1043"
+  },
+  "ignored_legacy_codes": [
+   "ELEN1000",
+   "ELEN1005",
+   "MATH1014"
+  ],
+  "how_to_read": "repeating = course the student is repeating; target = higher-year course; kind = what the repeat blocks."
+ },
+ "planner_grid_pairs": [
+  {
+   "sheet": "EE YOS 2",
+   "direction": "EE YoS2 repeat -> YoS3 target",
+   "repeating": "COMS2004",
+   "target": "ELEN3000",
+   "kind": "timetable_clash",
+   "detail": "LAB CLASH"
+  },
+  {
+   "sheet": "EE YOS 2",
+   "direction": "EE YoS2 repeat -> YoS3 target",
+   "repeating": "COMS2004",
+   "target": "ELEN3009",
+   "kind": "timetable_clash",
+   "detail": "LAB CLASH"
+  },
+  {
+   "sheet": "EE YOS 2",
+   "direction": "EE YoS2 repeat -> YoS3 target",
+   "repeating": "COMS2004",
+   "target": "ELEN3016",
+   "kind": "timetable_clash",
+   "detail": "LAB CLASH"
+  },
+  {
+   "sheet": "EE YOS 2",
+   "direction": "EE YoS2 repeat -> YoS3 target",
+   "repeating": "ELEN2003",
+   "target": "ELEN3000",
+   "kind": "timetable_clash",
+   "detail": "LEC CLASH"
+  },
+  {
+   "sheet": "EE YOS 2",
+   "direction": "EE YoS2 repeat -> YoS3 target",
+   "repeating": "ELEN2003",
+   "target": "ELEN3003",
+   "kind": "prerequisite",
+   "detail": ""
+  },
+  {
+   "sheet": "EE YOS 2",
+   "direction": "EE YoS2 repeat -> YoS3 target",
+   "repeating": "ELEN2003",
+   "target": "ELEN3016",
+   "kind": "timetable_clash",
+   "detail": "LAB CLASH"
+  },
+  {
+   "sheet": "EE YOS 2",
+   "direction": "EE YoS2 repeat -> YoS3 target",
+   "repeating": "ELEN2003",
+   "target": "ELEN3018",
+   "kind": "timetable_clash",
+   "detail": "LEC CLASH"
+  },
+  {
+   "sheet": "EE YOS 2",
+   "direction": "EE YoS2 repeat -> YoS3 target",
+   "repeating": "ELEN2005",
+   "target": "ELEN3002",
+   "kind": "prerequisite",
+   "detail": ""
+  },
+  {
+   "sheet": "EE YOS 2",
+   "direction": "EE YoS2 repeat -> YoS3 target",
+   "repeating": "ELEN2005",
+   "target": "ELEN3009",
+   "kind": "timetable_clash",
+   "detail": "LAB CLASH"
+  },
+  {
+   "sheet": "EE YOS 2",
+   "direction": "EE YoS2 repeat -> YoS3 target",
+   "repeating": "ELEN2005",
+   "target": "ELEN3012",
+   "kind": "prerequisite",
+   "detail": ""
+  },
+  {
+   "sheet": "EE YOS 2",
+   "direction": "EE YoS2 repeat -> YoS3 target",
+   "repeating": "ELEN2005",
+   "target": "ELEN3013",
+   "kind": "prerequisite",
+   "detail": ""
+  },
+  {
+   "sheet": "EE YOS 2",
+   "direction": "EE YoS2 repeat -> YoS3 target",
+   "repeating": "ELEN2005",
+   "target": "ELEN3016",
+   "kind": "prerequisite",
+   "detail": ""
+  },
+  {
+   "sheet": "EE YOS 2",
+   "direction": "EE YoS2 repeat -> YoS3 target",
+   "repeating": "ELEN2016",
+   "target": "ELEN3000",
+   "kind": "timetable_clash",
+   "detail": "LAB CLASH"
+  },
+  {
+   "sheet": "EE YOS 2",
+   "direction": "EE YoS2 repeat -> YoS3 target",
+   "repeating": "ELEN2016",
+   "target": "ELEN3002",
+   "kind": "prerequisite",
+   "detail": ""
+  },
+  {
+   "sheet": "EE YOS 2",
+   "direction": "EE YoS2 repeat -> YoS3 target",
+   "repeating": "ELEN2016",
+   "target": "ELEN3007",
+   "kind": "timetable_clash",
+   "detail": "LEC CLASH"
+  },
+  {
+   "sheet": "EE YOS 2",
+   "direction": "EE YoS2 repeat -> YoS3 target",
+   "repeating": "ELEN2016",
+   "target": "ELEN3016",
+   "kind": "timetable_clash",
+   "detail": "LAB CLASH"
+  },
+  {
+   "sheet": "EE YOS 2",
+   "direction": "EE YoS2 repeat -> YoS3 target",
+   "repeating": "ELEN2016",
+   "target": "ELEN3018",
+   "kind": "prerequisite",
+   "detail": ""
+  },
+  {
+   "sheet": "EE YOS 2",
+   "direction": "EE YoS2 repeat -> YoS3 target",
+   "repeating": "ELEN2017",
+   "target": "ELEN3012",
+   "kind": "timetable_clash",
+   "detail": ""
+  },
+  {
+   "sheet": "EE YOS 2",
+   "direction": "EE YoS2 repeat -> YoS3 target",
+   "repeating": "ELEN2017",
+   "target": "ELEN3013",
+   "kind": "corequisite",
+   "detail": ""
+  },
+  {
+   "sheet": "EE YOS 2",
+   "direction": "EE YoS2 repeat -> YoS3 target",
+   "repeating": "ELEN2017",
+   "target": "ELEN3016",
+   "kind": "corequisite",
+   "detail": ""
+  },
+  {
+   "sheet": "EE YOS 2",
+   "direction": "EE YoS2 repeat -> YoS3 target",
+   "repeating": "ELEN2017",
+   "target": "MATH3025",
+   "kind": "timetable_clash",
+   "detail": ""
+  },
+  {
+   "sheet": "EE YOS 2",
+   "direction": "EE YoS2 repeat -> YoS3 target",
+   "repeating": "ELEN2020",
+   "target": "ELEN3002",
+   "kind": "timetable_clash",
+   "detail": ""
+  },
+  {
+   "sheet": "EE YOS 2",
+   "direction": "EE YoS2 repeat -> YoS3 target",
+   "repeating": "ELEN2020",
+   "target": "ELEN3009",
+   "kind": "prerequisite",
+   "detail": ""
+  },
+  {
+   "sheet": "EE YOS 2",
+   "direction": "EE YoS2 repeat -> YoS3 target",
+   "repeating": "ELEN2020",
+   "target": "ELEN3013",
+   "kind": "prerequisite",
+   "detail": ""
+  },
+  {
+   "sheet": "EE YOS 2",
+   "direction": "EE YoS2 repeat -> YoS3 target",
+   "repeating": "ELEN2020",
+   "target": "ELEN3018",
+   "kind": "prerequisite",
+   "detail": ""
+  },
+  {
+   "sheet": "EE YOS 2",
+   "direction": "EE YoS2 repeat -> YoS3 target",
+   "repeating": "ELEN2020",
+   "target": "MATH3025",
+   "kind": "timetable_clash",
+   "detail": ""
+  },
+  {
+   "sheet": "EE YOS 2",
+   "direction": "EE YoS2 repeat -> YoS3 target",
+   "repeating": "ELEN2021",
+   "target": "ELEN3002",
+   "kind": "timetable_clash",
+   "detail": ""
+  },
+  {
+   "sheet": "EE YOS 2",
+   "direction": "EE YoS2 repeat -> YoS3 target",
+   "repeating": "ELEN2021",
+   "target": "ELEN3003",
+   "kind": "timetable_clash",
+   "detail": ""
+  },
+  {
+   "sheet": "EE YOS 2",
+   "direction": "EE YoS2 repeat -> YoS3 target",
+   "repeating": "ELEN2021",
+   "target": "ELEN3009",
+   "kind": "prerequisite",
+   "detail": ""
+  },
+  {
+   "sheet": "EE YOS 2",
+   "direction": "EE YoS2 repeat -> YoS3 target",
+   "repeating": "MATH2014",
+   "target": "ELEN3000",
+   "kind": "prerequisite",
+   "detail": ""
+  },
+  {
+   "sheet": "EE YOS 2",
+   "direction": "EE YoS2 repeat -> YoS3 target",
+   "repeating": "MATH2014",
+   "target": "ELEN3002",
+   "kind": "prerequisite",
+   "detail": ""
+  },
+  {
+   "sheet": "EE YOS 2",
+   "direction": "EE YoS2 repeat -> YoS3 target",
+   "repeating": "MATH2014",
+   "target": "ELEN3003",
+   "kind": "prerequisite",
+   "detail": ""
+  },
+  {
+   "sheet": "EE YOS 2",
+   "direction": "EE YoS2 repeat -> YoS3 target",
+   "repeating": "MATH2014",
+   "target": "ELEN3007",
+   "kind": "prerequisite",
+   "detail": ""
+  },
+  {
+   "sheet": "EE YOS 2",
+   "direction": "EE YoS2 repeat -> YoS3 target",
+   "repeating": "MATH2014",
+   "target": "ELEN3009",
+   "kind": "timetable_clash",
+   "detail": "LEC CLASH"
+  },
+  {
+   "sheet": "EE YOS 2",
+   "direction": "EE YoS2 repeat -> YoS3 target",
+   "repeating": "MATH2014",
+   "target": "ELEN3012",
+   "kind": "prerequisite",
+   "detail": ""
+  },
+  {
+   "sheet": "EE YOS 2",
+   "direction": "EE YoS2 repeat -> YoS3 target",
+   "repeating": "MATH2014",
+   "target": "ELEN3013",
+   "kind": "prerequisite",
+   "detail": ""
+  },
+  {
+   "sheet": "EE YOS 2",
+   "direction": "EE YoS2 repeat -> YoS3 target",
+   "repeating": "MATH2014",
+   "target": "ELEN3016",
+   "kind": "prerequisite",
+   "detail": ""
+  },
+  {
+   "sheet": "EE YOS 2",
+   "direction": "EE YoS2 repeat -> YoS3 target",
+   "repeating": "MATH2014",
+   "target": "MATH3025",
+   "kind": "prerequisite",
+   "detail": ""
+  },
+  {
+   "sheet": "EE YOS 2",
+   "direction": "EE YoS2 repeat -> YoS3 target",
+   "repeating": "PHYS2007",
+   "target": "ELEN3003",
+   "kind": "timetable_clash",
+   "detail": ""
+  },
+  {
+   "sheet": "Elec YoS 3",
+   "direction": "EE YoS3 repeat -> YoS4 target",
+   "repeating": "ELEN3000",
+   "target": "ELEN4001",
+   "kind": "prerequisite",
+   "detail": ""
+  },
+  {
+   "sheet": "Elec YoS 3",
+   "direction": "EE YoS3 repeat -> YoS4 target",
+   "repeating": "ELEN3000",
+   "target": "ELEN4003",
+   "kind": "prerequisite",
+   "detail": ""
+  },
+  {
+   "sheet": "Elec YoS 3",
+   "direction": "EE YoS3 repeat -> YoS4 target",
+   "repeating": "ELEN3000",
+   "target": "ELEN4018",
+   "kind": "prerequisite",
+   "detail": ""
+  },
+  {
+   "sheet": "Elec YoS 3",
+   "direction": "EE YoS3 repeat -> YoS4 target",
+   "repeating": "ELEN3002",
+   "target": "ELEN4001",
+   "kind": "timetable_clash",
+   "detail": "LEC CLASH"
+  },
+  {
+   "sheet": "Elec YoS 3",
+   "direction": "EE YoS3 repeat -> YoS4 target",
+   "repeating": "ELEN3002",
+   "target": "ELEN4014",
+   "kind": "timetable_clash",
+   "detail": "LEC CLASH"
+  },
+  {
+   "sheet": "Elec YoS 3",
+   "direction": "EE YoS3 repeat -> YoS4 target",
+   "repeating": "ELEN3002",
+   "target": "ELEN4023",
+   "kind": "timetable_clash",
+   "detail": "LEC CLASH"
+  },
+  {
+   "sheet": "Elec YoS 3",
+   "direction": "EE YoS3 repeat -> YoS4 target",
+   "repeating": "ELEN3003",
+   "target": "ELEN4001",
+   "kind": "prerequisite",
+   "detail": ""
+  },
+  {
+   "sheet": "Elec YoS 3",
+   "direction": "EE YoS3 repeat -> YoS4 target",
+   "repeating": "ELEN3003",
+   "target": "ELEN4003",
+   "kind": "prerequisite",
+   "detail": ""
+  },
+  {
+   "sheet": "Elec YoS 3",
+   "direction": "EE YoS3 repeat -> YoS4 target",
+   "repeating": "ELEN3003",
+   "target": "ELEN4014",
+   "kind": "prerequisite",
+   "detail": ""
+  },
+  {
+   "sheet": "Elec YoS 3",
+   "direction": "EE YoS3 repeat -> YoS4 target",
+   "repeating": "ELEN3003",
+   "target": "ELEN4018",
+   "kind": "prerequisite",
+   "detail": ""
+  },
+  {
+   "sheet": "Elec YoS 3",
+   "direction": "EE YoS3 repeat -> YoS4 target",
+   "repeating": "ELEN3003",
+   "target": "ELEN4019",
+   "kind": "timetable_clash",
+   "detail": "TUT CLASH"
+  },
+  {
+   "sheet": "Elec YoS 3",
+   "direction": "EE YoS3 repeat -> YoS4 target",
+   "repeating": "ELEN3003",
+   "target": "ELEN4023",
+   "kind": "prerequisite",
+   "detail": ""
+  },
+  {
+   "sheet": "Elec YoS 3",
+   "direction": "EE YoS3 repeat -> YoS4 target",
+   "repeating": "ELEN3012",
+   "target": "ELEN4003",
+   "kind": "timetable_clash",
+   "detail": "LAB CLASH"
+  },
+  {
+   "sheet": "Elec YoS 3",
+   "direction": "EE YoS3 repeat -> YoS4 target",
+   "repeating": "ELEN3012",
+   "target": "ELEN4016",
+   "kind": "prerequisite",
+   "detail": ""
+  },
+  {
+   "sheet": "Elec YoS 3",
+   "direction": "EE YoS3 repeat -> YoS4 target",
+   "repeating": "ELEN3012",
+   "target": "ELEN4023",
+   "kind": "timetable_clash",
+   "detail": "LAB CLASH"
+  },
+  {
+   "sheet": "Elec YoS 3",
+   "direction": "EE YoS3 repeat -> YoS4 target",
+   "repeating": "ELEN3013",
+   "target": "ELEN4016",
+   "kind": "prerequisite",
+   "detail": ""
+  },
+  {
+   "sheet": "Elec YoS 3",
+   "direction": "EE YoS3 repeat -> YoS4 target",
+   "repeating": "ELEN3016",
+   "target": "ELEN4016",
+   "kind": "prerequisite",
+   "detail": ""
+  },
+  {
+   "sheet": "Elec YoS 3",
+   "direction": "EE YoS3 repeat -> YoS4 target",
+   "repeating": "ELEN3017",
+   "target": "ELEN4018",
+   "kind": "timetable_clash",
+   "detail": "LEC CLASH"
+  },
+  {
+   "sheet": "Elec YoS 3",
+   "direction": "EE YoS3 repeat -> YoS4 target",
+   "repeating": "MATH3025",
+   "target": "ELEN4001",
+   "kind": "prerequisite",
+   "detail": ""
+  },
+  {
+   "sheet": "Elec YoS 3",
+   "direction": "EE YoS3 repeat -> YoS4 target",
+   "repeating": "MATH3025",
+   "target": "ELEN4003",
+   "kind": "timetable_clash",
+   "detail": "LEC CLASH"
+  },
+  {
+   "sheet": "Elec YoS 3",
+   "direction": "EE YoS3 repeat -> YoS4 target",
+   "repeating": "MATH3025",
+   "target": "ELEN4016",
+   "kind": "timetable_clash",
+   "detail": "LEC CLASH"
+  },
+  {
+   "sheet": "Info YoS 3",
+   "direction": "IE YoS3 repeat -> YoS4 target",
+   "repeating": "APPM3021",
+   "target": "ELEN4010",
+   "kind": "timetable_clash",
+   "detail": "LAB CLASH"
+  },
+  {
+   "sheet": "Info YoS 3",
+   "direction": "IE YoS3 repeat -> YoS4 target",
+   "repeating": "APPM3021",
+   "target": "ELEN4017",
+   "kind": "timetable_clash",
+   "detail": "LEC CLASH"
+  },
+  {
+   "sheet": "Info YoS 3",
+   "direction": "IE YoS3 repeat -> YoS4 target",
+   "repeating": "APPM3021",
+   "target": "ELEN4020",
+   "kind": "timetable_clash",
+   "detail": "LAB CLASH"
+  },
+  {
+   "sheet": "Info YoS 3",
+   "direction": "IE YoS3 repeat -> YoS4 target",
+   "repeating": "APPM3021",
+   "target": "ELEN4024",
+   "kind": "prerequisite",
+   "detail": ""
+  },
+  {
+   "sheet": "Info YoS 3",
+   "direction": "IE YoS3 repeat -> YoS4 target",
+   "repeating": "APPM3021",
+   "target": "ELEN4025",
+   "kind": "prerequisite",
+   "detail": ""
+  },
+  {
+   "sheet": "Info YoS 3",
+   "direction": "IE YoS3 repeat -> YoS4 target",
+   "repeating": "ELEN3002",
+   "target": "ELEN4024",
+   "kind": "timetable_clash",
+   "detail": "LEC CLASH"
+  },
+  {
+   "sheet": "Info YoS 3",
+   "direction": "IE YoS3 repeat -> YoS4 target",
+   "repeating": "ELEN3002",
+   "target": "ELEN4025",
+   "kind": "timetable_clash",
+   "detail": "LEC CLASH"
+  },
+  {
+   "sheet": "Info YoS 3",
+   "direction": "IE YoS3 repeat -> YoS4 target",
+   "repeating": "ELEN3009",
+   "target": "ELEN4010",
+   "kind": "prerequisite",
+   "detail": ""
+  },
+  {
+   "sheet": "Info YoS 3",
+   "direction": "IE YoS3 repeat -> YoS4 target",
+   "repeating": "ELEN3009",
+   "target": "ELEN4020",
+   "kind": "prerequisite",
+   "detail": ""
+  },
+  {
+   "sheet": "Info YoS 3",
+   "direction": "IE YoS3 repeat -> YoS4 target",
+   "repeating": "ELEN3009",
+   "target": "ELEN4022",
+   "kind": "prerequisite",
+   "detail": ""
+  },
+  {
+   "sheet": "Info YoS 3",
+   "direction": "IE YoS3 repeat -> YoS4 target",
+   "repeating": "ELEN3009",
+   "target": "ELEN4024",
+   "kind": "prerequisite",
+   "detail": ""
+  },
+  {
+   "sheet": "Info YoS 3",
+   "direction": "IE YoS3 repeat -> YoS4 target",
+   "repeating": "ELEN3009",
+   "target": "ELEN4025",
+   "kind": "prerequisite",
+   "detail": ""
+  },
+  {
+   "sheet": "Info YoS 3",
+   "direction": "IE YoS3 repeat -> YoS4 target",
+   "repeating": "ELEN3012",
+   "target": "ELEN4010",
+   "kind": "timetable_clash",
+   "detail": "LEC CLASH"
+  },
+  {
+   "sheet": "Info YoS 3",
+   "direction": "IE YoS3 repeat -> YoS4 target",
+   "repeating": "ELEN3012",
+   "target": "ELEN4016",
+   "kind": "prerequisite",
+   "detail": ""
+  },
+  {
+   "sheet": "Info YoS 3",
+   "direction": "IE YoS3 repeat -> YoS4 target",
+   "repeating": "ELEN3012",
+   "target": "ELEN4020",
+   "kind": "timetable_clash",
+   "detail": "LEC CLASH"
+  },
+  {
+   "sheet": "Info YoS 3",
+   "direction": "IE YoS3 repeat -> YoS4 target",
+   "repeating": "ELEN3012",
+   "target": "ELEN4025",
+   "kind": "timetable_clash",
+   "detail": "LAB CLASH"
+  },
+  {
+   "sheet": "Info YoS 3",
+   "direction": "IE YoS3 repeat -> YoS4 target",
+   "repeating": "ELEN3013",
+   "target": "ELEN4016",
+   "kind": "prerequisite",
+   "detail": ""
+  },
+  {
+   "sheet": "Info YoS 3",
+   "direction": "IE YoS3 repeat -> YoS4 target",
+   "repeating": "ELEN3015",
+   "target": "ELEN4016",
+   "kind": "timetable_clash",
+   "detail": "LAB CLASH"
+  },
+  {
+   "sheet": "Info YoS 3",
+   "direction": "IE YoS3 repeat -> YoS4 target",
+   "repeating": "ELEN3015",
+   "target": "ELEN4017",
+   "kind": "prerequisite",
+   "detail": ""
+  },
+  {
+   "sheet": "Info YoS 3",
+   "direction": "IE YoS3 repeat -> YoS4 target",
+   "repeating": "ELEN3015",
+   "target": "ELEN4019",
+   "kind": "timetable_clash",
+   "detail": "TUT CLASH"
+  },
+  {
+   "sheet": "Info YoS 3",
+   "direction": "IE YoS3 repeat -> YoS4 target",
+   "repeating": "ELEN3016",
+   "target": "ELEN4016",
+   "kind": "prerequisite",
+   "detail": ""
+  },
+  {
+   "sheet": "Info YoS 3",
+   "direction": "IE YoS3 repeat -> YoS4 target",
+   "repeating": "ELEN3017",
+   "target": "ELEN4022",
+   "kind": "timetable_clash",
+   "detail": "LEC CLASH"
+  },
+  {
+   "sheet": "Info YoS 3",
+   "direction": "IE YoS3 repeat -> YoS4 target",
+   "repeating": "ELEN3018",
+   "target": "ELEN4019",
+   "kind": "prerequisite",
+   "detail": ""
+  },
+  {
+   "sheet": "Info YoS 3",
+   "direction": "IE YoS3 repeat -> YoS4 target",
+   "repeating": "ELEN3024",
+   "target": "ELEN4017",
+   "kind": "prerequisite",
+   "detail": ""
+  }
+ ],
+ "requirements_from_cross_curricular_tables": {
+  "EE YOS 2|COMS2004A": {
+   "prereq": [
+    "MATH1042",
+    "MATH1043"
+   ],
+   "coreq": [
+    "ELEN2020"
+   ],
+   "clashes": "ELEN3000A (LAB)\nELEN3009A (LAB)\nELEN3016A (LAB)"
+  },
+  "EE YOS 2|ELEN2003A": {
+   "prereq": [
+    "MATH1014",
+    "MATH1042",
+    "MATH1043",
+    "PHYS1032",
+    "PHYS1033"
+   ],
+   "coreq": [
+    "ELEN2017"
+   ],
+   "clashes": "ELEN3000A (LEC)\nELEN3016A (LAB)\nELEN3018A (LEC)"
+  },
+  "EE YOS 2|ELEN2005A": {
+   "prereq": [
+    "MATH1014",
+    "MATH1042",
+    "MATH1043",
+    "PHYS1032",
+    "PHYS1033"
+   ],
+   "coreq": [
+    "ELEN2017"
+   ],
+   "clashes": "ELEN3009A (LAB)\nELEN3013A (TUT)"
+  },
+  "EE YOS 2|ELEN2016A": {
+   "prereq": [
+    "MATH1014",
+    "MATH1042",
+    "MATH1043",
+    "PHYS1032",
+    "PHYS1033"
+   ],
+   "coreq": [
+    "ELEN2017"
+   ],
+   "clashes": "ELEN3000A (LAB)\nELEN3007A (LEC)\nELEN3016A (LAB)"
+  },
+  "EE YOS 2|ELEN2017A": {
+   "prereq": [
+    "MATH1014",
+    "MATH1042",
+    "MATH1043",
+    "PHYS1032",
+    "PHYS1033"
+   ],
+   "coreq": [],
+   "clashes": "ELEN3003A , ELEN3012A, MATH3025A"
+  },
+  "EE YOS 2|ELEN2020A": {
+   "prereq": [
+    "MATH1014",
+    "MATH1042",
+    "MATH1043",
+    "PHYS1032",
+    "PHYS1033"
+   ],
+   "coreq": [
+    "ELEN2017"
+   ],
+   "clashes": "ELEN3002A, MATH3025A, "
+  },
+  "EE YOS 2|ELEN2021A": {
+   "prereq": [
+    "MATH1042",
+    "MATH1043"
+   ],
+   "coreq": [
+    "ELEN2016",
+    "ELEN2020"
+   ],
+   "clashes": "ELEN3002A, ELEN3003A, "
+  },
+  "EE YOS 2|MATH2014A": {
+   "prereq": [
+    "MATH1014",
+    "MATH1042",
+    "MATH1043"
+   ],
+   "coreq": [],
+   "clashes": "ELEN3009A (LEC)\n"
+  },
+  "EE YOS 2|PHYS2007A": {
+   "prereq": [
+    "MATH1014",
+    "MATH1042",
+    "MATH1043",
+    "PHYS1032",
+    "PHYS1033"
+   ],
+   "coreq": [],
+   "clashes": "ELEN3012A, ELEN3003A"
+  },
+  "EE YOS 3|APPM3021A": {
+   "prereq": [],
+   "coreq": [
+    "ELEN3007"
+   ],
+   "clashes": "NONE"
+  },
+  "EE YOS 3|ELEN3000A": {
+   "prereq": [
+    "MATH2014"
+   ],
+   "coreq": [
+    "MATH3025"
+   ],
+   "clashes": "None"
+  },
+  "EE YOS 3|ELEN3002A": {
+   "prereq": [
+    "ELEN2001",
+    "ELEN2005",
+    "MATH2014"
+   ],
+   "coreq": [],
+   "clashes": "ELEN4001A (LEC), ELEN4014A (LEC), ELEN4023A (LEC), ELEN4024A (LEC), ELEN4025A (LEC)"
+  },
+  "EE YOS 3|ELEN3003A": {
+   "prereq": [
+    "ELEN2003",
+    "MATH2014"
+   ],
+   "coreq": [],
+   "clashes": "ELEN4001A (LAB)\nELEN4019A (TUT)"
+  },
+  "EE YOS 3|ELEN3007A": {
+   "prereq": [
+    "MATH2014"
+   ],
+   "coreq": [
+    "MATH3025"
+   ],
+   "clashes": "NONE"
+  },
+  "EE YOS 3|ELEN3009A": {
+   "prereq": [
+    "ELEN2004",
+    "ELEN2006",
+    "ELEN2020",
+    "ELEN2021"
+   ],
+   "coreq": [],
+   "clashes": "NONE"
+  },
+  "EE YOS 3|ELEN3012A": {
+   "prereq": [
+    "ELEN2005",
+    "MATH2014"
+   ],
+   "coreq": [],
+   "clashes": "ELEN4003A (LAB)\nELEN4025A (LAB)\nELEN4010A (LEC) \nELEN4023A (LAB)\nELEN4020A (LAB)"
+  },
+  "EE YOS 3|ELEN3013A": {
+   "prereq": [
+    "ELEN2004",
+    "ELEN2005",
+    "ELEN2020",
+    "MATH2014"
+   ],
+   "coreq": [
+    "ELEN3012"
+   ],
+   "clashes": "NONE"
+  },
+  "EE YOS 3|ELEN3016A": {
+   "prereq": [
+    "ELEN2005",
+    "MATH2014"
+   ],
+   "coreq": [
+    "ELEN3012",
+    "ELEN3013"
+   ],
+   "clashes": "NONE"
+  },
+  "EE YOS 3|ELEN3017A": {
+   "prereq": [],
+   "coreq": [],
+   "clashes": "ELEN4018A (LEC)\nELEN4022A (LEC)"
+  },
+  "EE YOS 3|ELEN3018A": {
+   "prereq": [
+    "ELEN2001",
+    "ELEN2004",
+    "ELEN2016",
+    "ELEN2020"
+   ],
+   "coreq": [],
+   "clashes": "NONE"
+  },
+  "EE YOS 3|MATH3025A": {
+   "prereq": [
+    "MATH2014"
+   ],
+   "coreq": [],
+   "clashes": "ELEN4003A (LEC)\nELEN4016A (LEC)"
+  },
+  "IE YOS 3|ELEN3002A": {
+   "prereq": [
+    "ELEN2001",
+    "ELEN2005",
+    "MATH2014"
+   ],
+   "coreq": [],
+   "clashes": "ELEN4025A, ELEN4024A"
+  },
+  "IE YOS 3|ELEN3007A": {
+   "prereq": [
+    "MATH2014"
+   ],
+   "coreq": [
+    "APPM3021"
+   ],
+   "clashes": "NONE"
+  },
+  "IE YOS 3|ELEN3009A": {
+   "prereq": [
+    "ELEN2004",
+    "ELEN2006",
+    "ELEN2020",
+    "ELEN2021"
+   ],
+   "coreq": [],
+   "clashes": "NONE"
+  },
+  "IE YOS 3|ELEN3012A": {
+   "prereq": [
+    "ELEN2005",
+    "MATH2014"
+   ],
+   "coreq": [],
+   "clashes": "ELEN4020A"
+  },
+  "IE YOS 3|ELEN3013A": {
+   "prereq": [
+    "ELEN2005",
+    "ELEN2020",
+    "MATH2014"
+   ],
+   "coreq": [
+    "ELEN3012"
+   ],
+   "clashes": "NONE"
+  },
+  "IE YOS 3|ELEN3015A": {
+   "prereq": [
+    "ELEN2004",
+    "ELEN2005",
+    "ELEN2020"
+   ],
+   "coreq": [
+    "APPM3021"
+   ],
+   "clashes": "ELEN4010A, ELEN4016A, ELEN4017A, ELEN4020A"
+  },
+  "IE YOS 3|ELEN3016A": {
+   "prereq": [
+    "ELEN2005",
+    "MATH2014"
+   ],
+   "coreq": [
+    "ELEN3012",
+    "ELEN3013"
+   ],
+   "clashes": "NONE"
+  },
+  "IE YOS 3|ELEN3017A": {
+   "prereq": [],
+   "coreq": [],
+   "clashes": "ELEN4022A"
+  },
+  "IE YOS 3|ELEN3018A": {
+   "prereq": [
+    "ELEN2001",
+    "ELEN2004",
+    "ELEN2016",
+    "ELEN2020"
+   ],
+   "coreq": [],
+   "clashes": "NONE"
+  },
+  "IE YOS 3|ELEN3024A": {
+   "prereq": [
+    "ELEN2005",
+    "MATH2014"
+   ],
+   "coreq": [
+    "ELEN3007",
+    "ELEN3012"
+   ],
+   "clashes": "NONE"
+  },
+  "IE YOS 3|APPM3021A": {
+   "prereq": [
+    "MATH2014"
+   ],
+   "coreq": [],
+   "clashes": "ELEN4010A, ELEN4016A, ELEN4017A, ELEN4020A"
+  }
+ }
+}

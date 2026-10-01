@@ -1,0 +1,35 @@
+{
+  "reference_authority": "School of EIE registration reference (Admin Manager, 2026-09-30)",
+  "independent_validation": false,
+  "downloads_archive": {
+    "original_filename": "codex_bundle.zip",
+    "resolved_path": "C:\\Users\\khoza\\Downloads\\codex_bundle.zip",
+    "sha256": "6bb84b73ccc3f602e5ed7ad50e189a597f7ae8d67e3c18955f0e3721aa179c48",
+    "original_untouched": true
+  },
+  "repo_copies": [
+    {"repo_path": "data/raw/Student_Curricular_Planner_2026.xlsx", "original_downloads_filename": "codex_bundle.zip::data/raw/Student_Curricular_Planner_2026.xlsx", "sha256": "7b489c0344d4c921448ef36c21cbaec02f435528f352d9aed2beaf5876d31a9e"},
+    {"repo_path": "data/raw/Cross_Curricular_Registration_-_Requirement_and_Clashes.xlsx", "original_downloads_filename": "codex_bundle.zip::data/raw/Cross_Curricular_Registration_-_Requirement_and_Clashes.xlsx", "sha256": "066214a25bc34c23e0501f6125a556f4b67ea09585b4a64fe6b42beb23c6c4cb"},
+    {"repo_path": "data/raw/review_pack.zip", "original_downloads_filename": "codex_bundle.zip::data/raw/review_pack.zip", "sha256": "0f62292f4bfe5c8b93d4f0fe712e820c6b65556dbda8ce5564492e45c24b9e8c"},
+    {"repo_path": "data/raw/review_pack/academic_eligibility_rubric.md", "original_downloads_filename": "codex_bundle.zip::data/raw/review_pack/academic_eligibility_rubric.md", "sha256": "fcd28a220fce319f80536c863663b60bd9f556d2c9f0f63463d1ae00a9267cc3"},
+    {"repo_path": "data/raw/review_pack/curriculum_rules.csv", "original_downloads_filename": "codex_bundle.zip::data/raw/review_pack/curriculum_rules.csv", "sha256": "416bc87c57e1da7a25f6055bf90d85f8bd8cd50d3a8c7fabfa75d1dc3a801786"},
+    {"repo_path": "data/raw/review_pack/curriculum_modules.csv", "original_downloads_filename": "codex_bundle.zip::data/raw/review_pack/curriculum_modules.csv", "sha256": "e3131aa2d68642377b89b7cf415fdcb608cc2810bc9542bf4ced51e679a3cd62"},
+    {"repo_path": "data/raw/review_pack/eligibility_cases_pilot_blinded.csv", "original_downloads_filename": "codex_bundle.zip::data/raw/review_pack/eligibility_cases_pilot_blinded.csv", "sha256": "b53624ebeba9526b2852e541cca28864173dd4d009bdbe3cb86896881bde521c"},
+    {"repo_path": "data/raw/review_pack/ambiguity_cases_pilot_blinded.csv", "original_downloads_filename": "codex_bundle.zip::data/raw/review_pack/ambiguity_cases_pilot_blinded.csv", "sha256": "2b9dc60f3d0c7cfbe97f78ab5cdb011b5f9ac652c99c5fa03b04c8ebb8497fd8"},
+    {"repo_path": "data/raw/review_pack/source_register.csv", "original_downloads_filename": "codex_bundle.zip::data/raw/review_pack/source_register.csv", "sha256": "8a55811084f9b8c36ee7379f89c751a03e9ee5710e7918898d458805d0511c7b"},
+    {"repo_path": "data/rules/grid_rules.json", "original_downloads_filename": "codex_bundle.zip::data/rules/grid_rules.json", "sha256": "3d22f47fb275efc37e09d8651be91c7ece7fad4ea7079d4b9c8cb6532c9403cc"},
+    {"repo_path": "data/rules/grid_vs_handbook_crosscheck.json", "original_downloads_filename": "codex_bundle.zip::data/rules/grid_vs_handbook_crosscheck.json", "sha256": "2b4450cf7ded5a7081f3e69db83c97078932a3eeae41218fcba3d2f6eff35689"},
+    {"repo_path": "data/rules/eligibility_cases_pilot_proposed.csv", "original_downloads_filename": "codex_bundle.zip::data/rules/eligibility_cases_pilot_proposed.csv", "sha256": "9343ac023165795a757cfba120705c0a692099ea85c4c0dfdd7801844a17c927"},
+    {"repo_path": "data/rules/source_register_additions.csv", "original_downloads_filename": "codex_bundle.zip::data/rules/source_register_additions.csv", "sha256": "c93e0ee2da0020f33cdda05df9fa89c4ed8aa92714a1a823b2af1bdde215cfcd"},
+    {"repo_path": "scripts/build_review_labels.py", "original_downloads_filename": "codex_bundle.zip::scripts/build_review_labels.py", "sha256": "d3341911dacace6dde591da6e8ede773ee20cc0940b5a973f1681672f6af5b46"},
+    {"repo_path": "docs/CurricuPath_Review_Pilot_Proposed_Responses.docx", "original_downloads_filename": "codex_bundle.zip::docs/CurricuPath_Review_Pilot_Proposed_Responses.docx", "sha256": "1c58134617a49329890f6122a4d7649c469e3eb770c8a048ff98e181863613d7"},
+    {"repo_path": "docs/CurricuPath_Pilot_Evaluation_Report.pdf", "original_downloads_filename": "codex_bundle.zip::docs/CurricuPath_Pilot_Evaluation_Report.pdf", "sha256": "91dd9bd9d43c7f9e8cdaa2176989873b105fd2488613da2420c0c812c6c0aaac"}
+  ],
+  "generator_reproduction": {
+    "eligibility_cases_pilot_proposed_byte_exact": true,
+    "grid_rules_byte_exact": false,
+    "grid_rules_semantically_equal": true,
+    "generated_grid_rules_sha256": "0d1e69f27427228bd40685654abeb35cb6c2529d408842501c61c8b7089dbb8f",
+    "retained_grid_rules_sha256": "3d22f47fb275efc37e09d8651be91c7ece7fad4ea7079d4b9c8cb6532c9403cc"
+  }
+}
