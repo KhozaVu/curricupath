@@ -1,0 +1,215 @@
+{
+  "label": "after_fixes_codereply",
+  "set": "development",
+  "reply": "code",
+  "n_prompts": 200,
+  "targets": 10,
+  "frames": [
+    "{x}",
+    "Tell me about {x}",
+    "Who teaches {x}?",
+    "What is {x} about?"
+  ],
+  "levels": [
+    {
+      "level": 0,
+      "label": "Exact module code",
+      "n": 40,
+      "single_turn_correct": 40,
+      "single_turn_rate": 1.0,
+      "single_turn_ci": [
+        0.9123754607496077,
+        1.0
+      ],
+      "with_clarification_correct": 40,
+      "with_clarification_rate": 1.0,
+      "with_clarification_ci": [
+        0.9123754607496077,
+        1.0
+      ],
+      "first_turn": {
+        "answered_correct": 40,
+        "answered_wrong": 0,
+        "asked_with_options": 0,
+        "asked_generic": 0,
+        "refused": 0,
+        "other": 0
+      },
+      "asked": 0,
+      "recovered_when_asked": 0,
+      "recovery_rate": null
+    },
+    {
+      "level": 1,
+      "label": "Full module name",
+      "n": 40,
+      "single_turn_correct": 40,
+      "single_turn_rate": 1.0,
+      "single_turn_ci": [
+        0.9123754607496077,
+        1.0
+      ],
+      "with_clarification_correct": 40,
+      "with_clarification_rate": 1.0,
+      "with_clarification_ci": [
+        0.9123754607496077,
+        1.0
+      ],
+      "first_turn": {
+        "answered_correct": 40,
+        "answered_wrong": 0,
+        "asked_with_options": 0,
+        "asked_generic": 0,
+        "refused": 0,
+        "other": 0
+      },
+      "asked": 0,
+      "recovered_when_asked": 0,
+      "recovery_rate": null
+    },
+    {
+      "level": 2,
+      "label": "Name without series (I, II, A, B)",
+      "n": 40,
+      "single_turn_correct": 0,
+      "single_turn_rate": 0.0,
+      "single_turn_ci": [
+        0.0,
+        0.08762453925039232
+      ],
+      "with_clarification_correct": 40,
+      "with_clarification_rate": 1.0,
+      "with_clarification_ci": [
+        0.9123754607496077,
+        1.0
+      ],
+      "first_turn": {
+        "answered_correct": 0,
+        "answered_wrong": 0,
+        "asked_with_options": 40,
+        "asked_generic": 0,
+        "refused": 0,
+        "other": 0
+      },
+      "asked": 40,
+      "recovered_when_asked": 40,
+      "recovery_rate": 1.0
+    },
+    {
+      "level": 3,
+      "label": "Single topic word",
+      "n": 40,
+      "single_turn_correct": 0,
+      "single_turn_rate": 0.0,
+      "single_turn_ci": [
+        0.0,
+        0.08762453925039232
+      ],
+      "with_clarification_correct": 40,
+      "with_clarification_rate": 1.0,
+      "with_clarification_ci": [
+        0.9123754607496077,
+        1.0
+      ],
+      "first_turn": {
+        "answered_correct": 0,
+        "answered_wrong": 0,
+        "asked_with_options": 40,
+        "asked_generic": 0,
+        "refused": 0,
+        "other": 0
+      },
+      "asked": 40,
+      "recovered_when_asked": 40,
+      "recovery_rate": 1.0
+    },
+    {
+      "level": 4,
+      "label": "No topic at all",
+      "n": 40,
+      "single_turn_correct": 0,
+      "single_turn_rate": 0.0,
+      "single_turn_ci": [
+        0.0,
+        0.08762453925039232
+      ],
+      "with_clarification_correct": 40,
+      "with_clarification_rate": 1.0,
+      "with_clarification_ci": [
+        0.9123754607496077,
+        1.0
+      ],
+      "first_turn": {
+        "answered_correct": 0,
+        "answered_wrong": 0,
+        "asked_with_options": 0,
+        "asked_generic": 40,
+        "refused": 0,
+        "other": 0
+      },
+      "asked": 40,
+      "recovered_when_asked": 40,
+      "recovery_rate": 1.0
+    }
+  ],
+  "with_clarification_by_frame": {
+    "{x}": {
+      "0": 1.0,
+      "1": 1.0,
+      "2": 1.0,
+      "3": 1.0,
+      "4": 1.0
+    },
+    "Tell me about {x}": {
+      "0": 1.0,
+      "1": 1.0,
+      "2": 1.0,
+      "3": 1.0,
+      "4": 1.0
+    },
+    "Who teaches {x}?": {
+      "0": 1.0,
+      "1": 1.0,
+      "2": 1.0,
+      "3": 1.0,
+      "4": 1.0
+    },
+    "What is {x} about?": {
+      "0": 1.0,
+      "1": 1.0,
+      "2": 1.0,
+      "3": 1.0,
+      "4": 1.0
+    }
+  },
+  "single_turn_by_frame": {
+    "{x}": {
+      "0": 1.0,
+      "1": 1.0,
+      "2": 0.0,
+      "3": 0.0,
+      "4": 0.0
+    },
+    "Tell me about {x}": {
+      "0": 1.0,
+      "1": 1.0,
+      "2": 0.0,
+      "3": 0.0,
+      "4": 0.0
+    },
+    "Who teaches {x}?": {
+      "0": 1.0,
+      "1": 1.0,
+      "2": 0.0,
+      "3": 0.0,
+      "4": 0.0
+    },
+    "What is {x} about?": {
+      "0": 1.0,
+      "1": 1.0,
+      "2": 0.0,
+      "3": 0.0,
+      "4": 0.0
+    }
+  }
+}

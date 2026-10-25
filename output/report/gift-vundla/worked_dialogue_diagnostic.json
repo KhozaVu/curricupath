@@ -1,0 +1,434 @@
+{
+  "first": {
+    "course_code": "MATH2014A",
+    "programme_code": "EFA03",
+    "decision": "needs_clarification",
+    "eligible": false,
+    "completed": false,
+    "repeating_modules": [],
+    "available_to_take": false,
+    "reasons": [
+      "Prerequisite rule PRE_MATH2014 is not satisfied."
+    ],
+    "needs_clarification": true,
+    "manual_review_required": false,
+    "rule_trace": [
+      {
+        "gate": "source",
+        "decision": "eligible",
+        "reasons": [],
+        "rule_ids": [],
+        "blocking_modules": []
+      },
+      {
+        "gate": "programme",
+        "decision": "eligible",
+        "reasons": [],
+        "rule_ids": [],
+        "blocking_modules": []
+      },
+      {
+        "gate": "prerequisite",
+        "decision": "needs_clarification",
+        "reasons": [
+          "Prerequisite rule PRE_MATH2014 is not satisfied."
+        ],
+        "rule_ids": [
+          "PRE_MATH2014"
+        ],
+        "blocking_modules": [
+          "MATH1049A"
+        ]
+      }
+    ],
+    "unresolved_predicates": [
+      "MATH1049A"
+    ],
+    "evidence_issues": [],
+    "clarification": {
+      "reason": "Prerequisite rule PRE_MATH2014 is not satisfied.",
+      "unresolved_predicates": [
+        "MATH1049A"
+      ],
+      "target_predicate": "MATH1049A",
+      "target_predicates": [
+        "MATH1049A"
+      ],
+      "gate": "prerequisite",
+      "question": "Have you completed MATH1049A?",
+      "options": [
+        "Completed",
+        "Not completed"
+      ]
+    },
+    "manual_review_package": null,
+    "module_states": {
+      "MATH1042A": "not_completed",
+      "MATH1043A": "not_completed",
+      "MATH1048A": "completed",
+      "MATH1049A": "unknown"
+    },
+    "module_history_confirmed": false,
+    "requirements": {
+      "prerequisites": [
+        {
+          "rule_id": "PRE_MATH2014",
+          "description": "(either MATH1042A or MATH1048A (Engineering Mathematics IA)) and (either MATH1043A or MATH1049A (Engineering Mathematics IB))",
+          "satisfied": false,
+          "source_id": "EBE_2026"
+        }
+      ],
+      "corequisites": []
+    },
+    "requirement_modules": {
+      "prerequisites": [
+        {
+          "code": "MATH1042A",
+          "name": "",
+          "met": false
+        },
+        {
+          "code": "MATH1048A",
+          "name": "Engineering Mathematics IA",
+          "met": false
+        },
+        {
+          "code": "MATH1043A",
+          "name": "",
+          "met": false
+        },
+        {
+          "code": "MATH1049A",
+          "name": "Engineering Mathematics IB",
+          "met": false
+        }
+      ],
+      "corequisites": []
+    },
+    "rules": [
+      {
+        "rule_id": "PRE_MATH2014",
+        "rule_type": "prerequisite",
+        "source_id": "EBE_2026",
+        "handbook_page": "84",
+        "plain_language": "Before registering for this module, you must have completed (either MATH1042A or MATH1048A (Engineering Mathematics IA)) and (either MATH1043A or MATH1049A (Engineering Mathematics IB))."
+      }
+    ],
+    "sources": [
+      {
+        "source_id": "EBE_2026",
+        "title": "Senate Rules for the Faculty of Engineering and the Built Environment",
+        "publisher": "University of the Witwatersrand",
+        "url": "",
+        "verification_status": "verified",
+        "locator": "PDF pages 46-92"
+      }
+    ],
+    "declared_not_completed": [],
+    "intent": "eligibility",
+    "status": "clarification_required",
+    "answer": "I can't decide yet whether you can take MATH2014A, because I don't know your status for MATH1049A (Engineering Mathematics IB), which must be completed before you can register. Have you completed MATH1049A? To skip questions like this, list the modules you have completed, are taking or plan to take in Profile setup.",
+    "clarification_question": "Have you completed MATH1049A?",
+    "clarification_options": [
+      "Completed",
+      "Not completed"
+    ],
+    "clarification_attempted": false,
+    "clarification_exhausted": false,
+    "clarification_applied": null,
+    "clarification_applied_all": [],
+    "conversation_context": {
+      "pending_intent": "eligibility",
+      "module_code": "MATH2014A",
+      "programme_code": "EFA03",
+      "year_of_study": null,
+      "requirement_type": null,
+      "interests": [],
+      "career_preferences": [],
+      "workload_preference": null,
+      "difficulty_preference": null,
+      "format_preference": null,
+      "pending_fact_course_code": "MATH1049A",
+      "pending_fact_gate": "prerequisite",
+      "clarification_attempted": false,
+      "pending_fact_course_codes": [
+        "MATH1049A"
+      ],
+      "answered_facts": {}
+    },
+    "_candidate_log": [
+      {
+        "item_type": "module",
+        "item_id": "MATH2014A",
+        "eligible": false,
+        "gate_outcomes": {
+          "completed": false,
+          "decision": "needs_clarification",
+          "reasons": [
+            "Prerequisite rule PRE_MATH2014 is not satisfied."
+          ],
+          "needs_clarification": true,
+          "manual_review_required": false,
+          "rule_trace": [
+            {
+              "gate": "source",
+              "decision": "eligible",
+              "reasons": [],
+              "rule_ids": [],
+              "blocking_modules": []
+            },
+            {
+              "gate": "programme",
+              "decision": "eligible",
+              "reasons": [],
+              "rule_ids": [],
+              "blocking_modules": []
+            },
+            {
+              "gate": "prerequisite",
+              "decision": "needs_clarification",
+              "reasons": [
+                "Prerequisite rule PRE_MATH2014 is not satisfied."
+              ],
+              "rule_ids": [
+                "PRE_MATH2014"
+              ],
+              "blocking_modules": [
+                "MATH1049A"
+              ]
+            }
+          ],
+          "unresolved_predicates": [
+            "MATH1049A"
+          ],
+          "evidence_issues": [],
+          "clarification_attempted": false,
+          "clarification_exhausted": false,
+          "clarification_applied": null
+        },
+        "score_components": {},
+        "final_score": null,
+        "selected": false
+      }
+    ]
+  },
+  "second": {
+    "course_code": "MATH2014A",
+    "programme_code": "EFA03",
+    "decision": "eligible",
+    "eligible": true,
+    "completed": false,
+    "repeating_modules": [],
+    "available_to_take": true,
+    "reasons": [],
+    "needs_clarification": false,
+    "manual_review_required": false,
+    "rule_trace": [
+      {
+        "gate": "source",
+        "decision": "eligible",
+        "reasons": [],
+        "rule_ids": [],
+        "blocking_modules": []
+      },
+      {
+        "gate": "programme",
+        "decision": "eligible",
+        "reasons": [],
+        "rule_ids": [],
+        "blocking_modules": []
+      },
+      {
+        "gate": "prerequisite",
+        "decision": "eligible",
+        "reasons": [],
+        "rule_ids": [
+          "PRE_MATH2014"
+        ],
+        "blocking_modules": []
+      },
+      {
+        "gate": "corequisite",
+        "decision": "eligible",
+        "reasons": [],
+        "rule_ids": [],
+        "blocking_modules": []
+      },
+      {
+        "gate": "exclusion",
+        "decision": "eligible",
+        "reasons": [],
+        "rule_ids": [],
+        "blocking_modules": []
+      }
+    ],
+    "unresolved_predicates": [],
+    "evidence_issues": [],
+    "clarification": null,
+    "manual_review_package": null,
+    "module_states": {
+      "MATH1042A": "not_completed",
+      "MATH1043A": "not_completed",
+      "MATH1048A": "completed",
+      "MATH1049A": "completed"
+    },
+    "module_history_confirmed": false,
+    "requirements": {
+      "prerequisites": [
+        {
+          "rule_id": "PRE_MATH2014",
+          "description": "(either MATH1042A or MATH1048A (Engineering Mathematics IA)) and (either MATH1043A or MATH1049A (Engineering Mathematics IB))",
+          "satisfied": false,
+          "source_id": "EBE_2026"
+        }
+      ],
+      "corequisites": []
+    },
+    "requirement_modules": {
+      "prerequisites": [
+        {
+          "code": "MATH1042A",
+          "name": "",
+          "met": false
+        },
+        {
+          "code": "MATH1048A",
+          "name": "Engineering Mathematics IA",
+          "met": false
+        },
+        {
+          "code": "MATH1043A",
+          "name": "",
+          "met": false
+        },
+        {
+          "code": "MATH1049A",
+          "name": "Engineering Mathematics IB",
+          "met": true
+        }
+      ],
+      "corequisites": []
+    },
+    "rules": [
+      {
+        "rule_id": "PRE_MATH2014",
+        "rule_type": "prerequisite",
+        "source_id": "EBE_2026",
+        "handbook_page": "84",
+        "plain_language": "Before registering for this module, you must have completed (either MATH1042A or MATH1048A (Engineering Mathematics IA)) and (either MATH1043A or MATH1049A (Engineering Mathematics IB))."
+      }
+    ],
+    "sources": [
+      {
+        "source_id": "EBE_2026",
+        "title": "Senate Rules for the Faculty of Engineering and the Built Environment",
+        "publisher": "University of the Witwatersrand",
+        "url": "",
+        "verification_status": "verified",
+        "locator": "PDF pages 46-92"
+      }
+    ],
+    "declared_not_completed": [],
+    "intent": "eligibility",
+    "status": "ok",
+    "answer": "MATH2014A is eligible for the declared EFA03 profile. Prerequisites: (either MATH1042A or MATH1048A (Engineering Mathematics IA)) and (either MATH1043A or MATH1049A (Engineering Mathematics IB)) (not satisfied). These must be completed before registration. Corequisites: none recorded.",
+    "clarification_question": null,
+    "clarification_options": [],
+    "clarification_attempted": true,
+    "clarification_exhausted": false,
+    "clarification_applied": {
+      "course_code": "MATH1049A",
+      "state": "completed",
+      "gate": "prerequisite"
+    },
+    "clarification_applied_all": [
+      {
+        "course_code": "MATH1049A",
+        "state": "completed",
+        "gate": "prerequisite"
+      }
+    ],
+    "conversation_context": {
+      "pending_intent": null,
+      "module_code": null,
+      "programme_code": null,
+      "year_of_study": null,
+      "requirement_type": null,
+      "interests": [],
+      "career_preferences": [],
+      "workload_preference": null,
+      "difficulty_preference": null,
+      "format_preference": null,
+      "pending_fact_course_code": null,
+      "pending_fact_gate": null,
+      "clarification_attempted": false,
+      "pending_fact_course_codes": [],
+      "answered_facts": {}
+    },
+    "_candidate_log": [
+      {
+        "item_type": "module",
+        "item_id": "MATH2014A",
+        "eligible": true,
+        "gate_outcomes": {
+          "completed": false,
+          "decision": "eligible",
+          "reasons": [],
+          "needs_clarification": false,
+          "manual_review_required": false,
+          "rule_trace": [
+            {
+              "gate": "source",
+              "decision": "eligible",
+              "reasons": [],
+              "rule_ids": [],
+              "blocking_modules": []
+            },
+            {
+              "gate": "programme",
+              "decision": "eligible",
+              "reasons": [],
+              "rule_ids": [],
+              "blocking_modules": []
+            },
+            {
+              "gate": "prerequisite",
+              "decision": "eligible",
+              "reasons": [],
+              "rule_ids": [
+                "PRE_MATH2014"
+              ],
+              "blocking_modules": []
+            },
+            {
+              "gate": "corequisite",
+              "decision": "eligible",
+              "reasons": [],
+              "rule_ids": [],
+              "blocking_modules": []
+            },
+            {
+              "gate": "exclusion",
+              "decision": "eligible",
+              "reasons": [],
+              "rule_ids": [],
+              "blocking_modules": []
+            }
+          ],
+          "unresolved_predicates": [],
+          "evidence_issues": [],
+          "clarification_attempted": true,
+          "clarification_exhausted": false,
+          "clarification_applied": {
+            "course_code": "MATH1049A",
+            "state": "completed",
+            "gate": "prerequisite"
+          }
+        },
+        "score_components": {},
+        "final_score": null,
+        "selected": true
+      }
+    ]
+  }
+}

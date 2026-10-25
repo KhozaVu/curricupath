@@ -1,0 +1,35 @@
+case_id,category,message,status,intent,module,fallback,correct
+F01,typo,Tell me about Electroncs II,ok,module_information,ELEN3002A,null,True
+F02,typo,who teaches signls and systms IIA,ok,module_information,ELEN3012A,null,True
+F03,typo,Softwear Development I,ok,module_information,ELEN2020A,null,True
+F04,typo,Mathmatics II,ok,module_information,MATH2014A,null,True
+F05,typo,Electic Circuits,ok,module_information,ELEN2017A,null,True
+F06,typo,Contrl I,ok,module_information,ELEN3016A,null,True
+F07,typo,Microprocesors,ok,module_information,ELEN2021A,"{""tier"": ""fuzzy"", ""original_message"": ""Microprocesors"", ""interpreted_as"": ""microprocessors"", ""provider"": null, ""corrections"": {""Microprocesors"": ""microprocessors""}}",True
+F08,typo,Probabalistic Systems Analysis,ok,module_information,ELEN3007A,null,True
+F09,typo,Enginering Chemistry,ok,module_information,CHEM1051A,null,True
+F10,typo,Measurment Systems,ok,module_information,ELEN4006A,null,True
+F11,typo,Renewble Energy,ok,module_information,ELEN4023A,null,True
+F12,typo,Power Systms,ok,module_information,ELEN4018A,null,True
+F13,phrasing,whats the deal with Microprocessors,ok,module_information,ELEN2021A,null,True
+F14,phrasing,gimme the rundown on Renewable Energy,ok,module_information,ELEN4023A,null,True
+F15,phrasing,Can you give me info on Measurement Systems,ok,module_information,ELEN4006A,null,True
+F16,phrasing,I need details on High Voltage Engineering,ok,module_information,ELEN4003A,null,True
+F17,phrasing,anything I should know about Electromagnetic Engineering?,ok,module_information,ELEN3000A,null,True
+F18,phrasing,what do you cover in Electromechanical Conversion,ok,module_information,ELEN4014A,null,True
+F19,phrasing,is Economics of Design a hard module,ok,module_information,ELEN3018A,null,True
+F20,phrasing,"the microprocessors module, what's in it",ok,module_information,ELEN2021A,null,True
+F21,typo_phrasing,wat is mesurement systems about,ok,module_information,ELEN4006A,"{""tier"": ""fuzzy"", ""original_message"": ""wat is mesurement systems about"", ""interpreted_as"": ""wat is measurement systems about"", ""provider"": null, ""corrections"": {""mesurement"": ""measurement""}}",True
+F22,typo_phrasing,hw about renewble energy,ok,module_information,ELEN4023A,"{""tier"": ""fuzzy"", ""original_message"": ""hw about renewble energy"", ""interpreted_as"": ""hw about renewable energy"", ""provider"": null, ""corrections"": {""renewble"": ""renewable""}}",True
+F23,typo_phrasing,cn u tell me abt microprocesors,ok,module_information,ELEN2021A,"{""tier"": ""fuzzy"", ""original_message"": ""cn u tell me abt microprocesors"", ""interpreted_as"": ""cn u tell me abt microprocessors"", ""provider"": null, ""corrections"": {""microprocesors"": ""microprocessors""}}",True
+F24,description,the module where you learn about motors and transformers,clarification_required,unknown,,null,False
+F25,description,the course about probability for engineers,ok,public_course_search,,null,False
+F26,description,the quantum computing module,ok,module_information,ELEN4022A,null,True
+F27,description,which module teaches circuit analysis,ok,public_course_search,,null,False
+N01,negative,Find me an online Python course,ok,public_course_search,,null,True
+N02,negative,Predict my marks for Control I,out_of_scope,public_course_search,,null,True
+N03,negative,What is the weather today,out_of_scope,unknown,,null,True
+N04,negative,I want a career in renewable energy,ok,career_path,,null,True
+N05,negative,Can I take ELEN3002A?,not_eligible,eligibility,,null,True
+N06,negative,hello,ok,greeting,,null,True
+N07,negative,What is the Information Engineering degree?,ok,programme_information,,null,True

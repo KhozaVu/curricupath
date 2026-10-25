@@ -1,0 +1,10 @@
+import React from 'react';
+export function SpaceHelp({ onNavigate }) {
+  return <section className="space-help">
+    <p className="modal-lead">A place to understand your degree and explore what comes next.</p>
+    <section><span className="eyebrow">01 · Your starting point</span><h3>Declare what you know.</h3><p>Your profile records the programme and modules you tell us about. Unanswered history stays unknown. You can revise it whenever you need.</p><button className="secondary-button" onClick={()=>onNavigate('profile')}>Review your profile</button></section>
+    <section><span className="eyebrow">02 · Academic guidance</span><h3>Understand the requirement.</h3><p>Plan shows recorded curriculum connections. Advisor checks your question against rules and declared context. A plan is not proof of eligibility or an official registration decision.</p><button className="secondary-button" onClick={()=>onNavigate('plan')}>Open your plan</button></section>
+    <section><span className="eyebrow">03 · Read the outcome</span><h3>Different outcomes need different next steps.</h3><dl><dt>Eligible</dt><dd>The recorded requirements are met for the supplied context.</dd><dt>Not eligible</dt><dd>A recorded requirement is not met. Inspect the reason before changing your plan.</dd><dt>Clarification required</dt><dd>Supply the missing information before a conclusion can be reached.</dd><dt>Manual review required</dt><dd>The available rules or evidence need human review. This is a valid outcome, not a loading failure.</dd></dl><button className="secondary-button" onClick={()=>onNavigate('evidence')}>Inspect evidence</button></section>
+    <section><h3>Follow your interests within Wits.</h3><p>Ask for module or elective suggestions based on your interests. Each suggestion explains its relevance and whether your declared history meets the recorded requirements.</p><button className="secondary-button" onClick={()=>onNavigate('explore')}>Explore Wits modules</button></section>
+  </section>;
+}

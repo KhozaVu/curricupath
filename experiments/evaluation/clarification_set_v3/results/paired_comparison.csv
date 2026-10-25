@@ -1,0 +1,4 @@
+arm_a,arm_b,n,a_right_b_wrong,b_right_a_wrong,both_right,both_wrong
+clarify,no_clarification,33,33,0,0,0
+clarify,assume_absent,33,20,0,13,0
+clarify,oracle,33,0,0,33,0

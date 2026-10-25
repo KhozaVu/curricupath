@@ -1,0 +1,9 @@
+{
+  "label_set": "briefing_draft",
+  "source_file": "senate_rules_briefing.docx",
+  "source_sha256": "6339248df6a4449b9c0a96b001d7f366ba703ccb988ee17cab1cf6bbd7babaac",
+  "status": "developer-side draft; no reviewer name, signature or approval recorded in the document",
+  "document_states": "Every suggested label is a draft for the human reviewer's confirmation, override, or escalation",
+  "independent_evidence": false,
+  "use": "Sensitivity analysis only: shows how results depend on the Rule 1.9 planned-corequisite reading. Never a substitute for reference_label."
+}

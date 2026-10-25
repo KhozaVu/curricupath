@@ -89,8 +89,6 @@ def build_release_inputs(
             "catalogue_backend": settings.catalogue_backend,
             "catalogue_csv_fallback": settings.catalogue_csv_fallback,
             "semantic_search_enabled": settings.semantic_search_enabled,
-            "public_course_ranker_enabled": settings.public_course_ranker_enabled,
-            "allow_experimental_ranker": settings.allow_experimental_ranker,
             "reasoning_reviewer_enabled": settings.reasoning_reviewer_enabled,
             "reasoning_reviewer_timeout_ms": settings.reasoning_reviewer_timeout_ms,
             "handbook_rag_demo_enabled": settings.handbook_rag_demo_enabled,

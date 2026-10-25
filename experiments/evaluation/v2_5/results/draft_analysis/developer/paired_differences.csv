@@ -1,0 +1,9 @@
+first_arm,second_arm,metric,difference,ci95_low,ci95_high,verdict
+curricupath,handbook_rag,macro_f1,0.17671957671957672,0.027021505376344124,0.3205100738637325,first arm higher (interval excludes 0)
+curricupath,handbook_rag,balanced_accuracy,0.1166666666666667,-0.031746031746031744,0.26190476190476186,inconclusive (interval includes 0)
+curricupath,structured_rules_llm,macro_f1,0.09103606420679589,-0.03840492862713078,0.2171971193752349,inconclusive (interval includes 0)
+curricupath,structured_rules_llm,balanced_accuracy,0.03333333333333344,-0.09649347728295105,0.1642746069719753,inconclusive (interval includes 0)
+curricupath,rules_only,macro_f1,-0.11111111111111116,-0.19047619047619035,-0.052631578947368474,first arm lower (interval excludes 0)
+curricupath,rules_only,balanced_accuracy,-0.16666666666666663,-0.24242424242424254,-0.09090909090909083,first arm lower (interval excludes 0)
+curricupath,curricupath_no_clarification,macro_f1,0.0,0.0,0.0,identical (no difference in any resample)
+curricupath,curricupath_no_clarification,balanced_accuracy,0.0,0.0,0.0,identical (no difference in any resample)

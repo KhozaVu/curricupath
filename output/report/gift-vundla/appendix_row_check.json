@@ -1,0 +1,34 @@
+{
+  "source": "Partner screenshots image (8).png and image (9).png",
+  "row_count": 10,
+  "rows": [
+    "Project planning and scope",
+    "Curriculum data and evidence",
+    "Eligibility rule design",
+    "Request interpretation and clarification",
+    "Database, retrieval and interface",
+    "Testing and validation",
+    "Experimental cases and baselines",
+    "Experimental evaluation",
+    "Results and reproducibility",
+    "Documentation and presentation"
+  ],
+  "sections": [
+    "A1 Team Reflection",
+    "A2 Changes from the Project Plan",
+    "A3 Actual Work Distribution",
+    "A4 Overall Reflection"
+  ],
+  "columns": [
+    "Work area",
+    "Vukosi Khoza",
+    "Gift Vundla",
+    "Change from project plan"
+  ],
+  "main_figures": [
+    "shared_evidence.pdf",
+    "shared_clarification.pdf"
+  ],
+  "main_table_count": 2,
+  "reference_list_unchanged": true
+}

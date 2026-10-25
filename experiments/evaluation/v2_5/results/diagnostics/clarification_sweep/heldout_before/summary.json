@@ -1,0 +1,215 @@
+{
+  "label": "heldout_before",
+  "set": "heldout",
+  "reply": "name",
+  "n_prompts": 120,
+  "targets": 6,
+  "frames": [
+    "Can you give me info on {x}",
+    "I need details on {x}",
+    "{x} please",
+    "Which lecturer runs {x}?"
+  ],
+  "levels": [
+    {
+      "level": 0,
+      "label": "Exact module code",
+      "n": 24,
+      "single_turn_correct": 24,
+      "single_turn_rate": 1.0,
+      "single_turn_ci": [
+        0.8620194241710247,
+        1.0
+      ],
+      "with_clarification_correct": 24,
+      "with_clarification_rate": 1.0,
+      "with_clarification_ci": [
+        0.8620194241710247,
+        1.0
+      ],
+      "first_turn": {
+        "answered_correct": 24,
+        "answered_wrong": 0,
+        "asked_with_options": 0,
+        "asked_generic": 0,
+        "refused": 0,
+        "other": 0
+      },
+      "asked": 0,
+      "recovered_when_asked": 0,
+      "recovery_rate": null
+    },
+    {
+      "level": 1,
+      "label": "Full module name",
+      "n": 24,
+      "single_turn_correct": 4,
+      "single_turn_rate": 0.16666666666666666,
+      "single_turn_ci": [
+        0.06678568000728924,
+        0.3585347038786943
+      ],
+      "with_clarification_correct": 4,
+      "with_clarification_rate": 0.16666666666666666,
+      "with_clarification_ci": [
+        0.06678568000728924,
+        0.3585347038786943
+      ],
+      "first_turn": {
+        "answered_correct": 4,
+        "answered_wrong": 0,
+        "asked_with_options": 0,
+        "asked_generic": 5,
+        "refused": 15,
+        "other": 0
+      },
+      "asked": 5,
+      "recovered_when_asked": 0,
+      "recovery_rate": 0.0
+    },
+    {
+      "level": 2,
+      "label": "Name without series (I, II, A, B)",
+      "n": 24,
+      "single_turn_correct": 0,
+      "single_turn_rate": 0.0,
+      "single_turn_ci": [
+        0.0,
+        0.13798057582897535
+      ],
+      "with_clarification_correct": 4,
+      "with_clarification_rate": 0.16666666666666666,
+      "with_clarification_ci": [
+        0.06678568000728924,
+        0.3585347038786943
+      ],
+      "first_turn": {
+        "answered_correct": 0,
+        "answered_wrong": 0,
+        "asked_with_options": 0,
+        "asked_generic": 9,
+        "refused": 15,
+        "other": 0
+      },
+      "asked": 9,
+      "recovered_when_asked": 4,
+      "recovery_rate": 0.4444444444444444
+    },
+    {
+      "level": 3,
+      "label": "Single topic word",
+      "n": 24,
+      "single_turn_correct": 0,
+      "single_turn_rate": 0.0,
+      "single_turn_ci": [
+        0.0,
+        0.13798057582897535
+      ],
+      "with_clarification_correct": 1,
+      "with_clarification_rate": 0.041666666666666664,
+      "with_clarification_ci": [
+        0.007393265354805126,
+        0.20242226248842232
+      ],
+      "first_turn": {
+        "answered_correct": 0,
+        "answered_wrong": 0,
+        "asked_with_options": 0,
+        "asked_generic": 6,
+        "refused": 18,
+        "other": 0
+      },
+      "asked": 6,
+      "recovered_when_asked": 1,
+      "recovery_rate": 0.16666666666666666
+    },
+    {
+      "level": 4,
+      "label": "No topic at all",
+      "n": 24,
+      "single_turn_correct": 0,
+      "single_turn_rate": 0.0,
+      "single_turn_ci": [
+        0.0,
+        0.13798057582897535
+      ],
+      "with_clarification_correct": 4,
+      "with_clarification_rate": 0.16666666666666666,
+      "with_clarification_ci": [
+        0.06678568000728924,
+        0.3585347038786943
+      ],
+      "first_turn": {
+        "answered_correct": 0,
+        "answered_wrong": 0,
+        "asked_with_options": 0,
+        "asked_generic": 24,
+        "refused": 0,
+        "other": 0
+      },
+      "asked": 24,
+      "recovered_when_asked": 4,
+      "recovery_rate": 0.16666666666666666
+    }
+  ],
+  "with_clarification_by_frame": {
+    "Can you give me info on {x}": {
+      "0": 1.0,
+      "1": 0.16666666666666666,
+      "2": 0.16666666666666666,
+      "3": 0.0,
+      "4": 0.16666666666666666
+    },
+    "I need details on {x}": {
+      "0": 1.0,
+      "1": 0.16666666666666666,
+      "2": 0.16666666666666666,
+      "3": 0.0,
+      "4": 0.16666666666666666
+    },
+    "{x} please": {
+      "0": 1.0,
+      "1": 0.16666666666666666,
+      "2": 0.16666666666666666,
+      "3": 0.0,
+      "4": 0.16666666666666666
+    },
+    "Which lecturer runs {x}?": {
+      "0": 1.0,
+      "1": 0.16666666666666666,
+      "2": 0.16666666666666666,
+      "3": 0.16666666666666666,
+      "4": 0.16666666666666666
+    }
+  },
+  "single_turn_by_frame": {
+    "Can you give me info on {x}": {
+      "0": 1.0,
+      "1": 0.16666666666666666,
+      "2": 0.0,
+      "3": 0.0,
+      "4": 0.0
+    },
+    "I need details on {x}": {
+      "0": 1.0,
+      "1": 0.16666666666666666,
+      "2": 0.0,
+      "3": 0.0,
+      "4": 0.0
+    },
+    "{x} please": {
+      "0": 1.0,
+      "1": 0.16666666666666666,
+      "2": 0.0,
+      "3": 0.0,
+      "4": 0.0
+    },
+    "Which lecturer runs {x}?": {
+      "0": 1.0,
+      "1": 0.16666666666666666,
+      "2": 0.0,
+      "3": 0.0,
+      "4": 0.0
+    }
+  }
+}

@@ -1,0 +1,49 @@
+/* Owner: local learning collections, private workspace and evidence search. */
+.learning-collections,.course-notebook,.personal-intention,.evidence-search,.task-continuation { border:1px solid var(--border-default); border-top:2px solid var(--atlas-metal); border-radius:var(--radius-panel); background:var(--surface-reading); padding:24px 28px; margin:24px 0; }
+.learning-collections > summary,.personal-intention > summary,.course-notebook > summary { display:flex; align-items:center; justify-content:space-between; gap:16px; min-height:44px; cursor:pointer; font-size:14px; }
+.learning-collections summary span { color:var(--text-secondary); font:400 11px var(--font-code); }
+.learning-collections p,.course-notebook p,.personal-intention p,.privacy-panel p,.task-continuation p { font-size:13px; line-height:1.8; color:var(--text-secondary); overflow-wrap:anywhere; }
+.collection-create { display:flex; align-items:center; flex-wrap:wrap; gap:18px; }
+.collection-create .workspace-field { flex:1; min-width:200px; }
+.collection-item { border-top:1px solid var(--border-default); margin-top:24px; padding-top:20px; }
+.collection-item h3 { font-size:28px; overflow-wrap:anywhere; }
+.collection-item .course-notebook { border-top-width:1px; padding:18px; }
+.learning-collections .workspace-toolbar label { display:inline-flex; min-height:44px; gap:8px; align-items:center; }
+.calendar-fields { display:grid; grid-template-columns:1fr 1fr; gap:18px; }
+.comparison-reading-cards { display:grid; gap:20px; }
+.comparison-reading-cards article { padding:22px; border:1px solid var(--border-default); border-radius:var(--radius-card); background:var(--surface-subtle); }
+.comparison-reading-cards h3 { font-size:28px; overflow-wrap:anywhere; }
+.comparison-reading-cards dl > div { display:grid; grid-template-columns:minmax(90px,.7fr) minmax(0,1fr); gap:16px; padding:12px 0; border-top:1px solid var(--border-default); }
+.comparison-reading-cards dt { font-size:12px; color:var(--text-secondary); }
+.comparison-reading-cards dd { font-size:13px; margin:0; overflow-wrap:anywhere; }
+.comparison-scroll th small { display:block; font-size:11px; color:var(--text-secondary); margin-top:8px; }
+.evidence-search h2,.task-continuation h2 { font-size:32px; margin:14px 0; }
+.evidence-search article { padding:18px 0; border-top:1px solid var(--border-default); }
+.evidence-search article > strong,.evidence-search article > small { display:block; overflow-wrap:anywhere; font-size:13px; line-height:1.8; }
+.evidence-search article > small { color:var(--text-muted); }
+.evidence-reference .helper-text { margin:12px 0; }
+.evidence-panel .section-label,.scenario-results .section-label,.saved-answer .section-label { flex-wrap:wrap; gap:12px; }
+.privacy-panel h3 { font-size:30px; margin:28px 0 16px; }
+.workspace-field input[type=date],.workspace-field input[type=time] { min-height:44px; }
+.app-shell[data-motion-level=off] .notice { animation:none; }
+@media(max-width:600px) { .learning-collections,.course-notebook,.personal-intention,.evidence-search,.task-continuation { padding:20px 16px; } .learning-collections > summary { flex-direction:column; align-items:flex-start; } .calendar-fields { grid-template-columns:1fr; } .collection-create .workspace-field { min-width:0; width:100%; flex-basis:100%; } .comparison-reading-cards dl > div { grid-template-columns:1fr; gap:8px; } .evidence-search .workspace-toolbar > a { width:100%; justify-content:flex-start; } }
+
+.explore-list .course-list-row { content-visibility:visible; contain-intrinsic-size:none; }
+.course-save { z-index:1; }
+
+.course-entry .course-save { position:static; transform:none; width:auto; display:inline-flex; gap:8px; padding:8px 12px; margin:0 12px 12px 56px; font-size:12px; vertical-align:middle; }
+.course-entry .course-save:active:not(:disabled) { transform:none; }
+.course-entry .course-compare { margin-left:0; vertical-align:middle; }
+.course-entry .course-list-row { padding-right:20px; }
+@media(max-width:600px) { .course-entry .course-save { margin-left:0; } }
+
+.concept-search,.plan-check-coverage { margin:20px 0; padding:20px 24px; background:var(--surface-reading); border:1px solid var(--border-default); border-radius:var(--radius-card); }
+.concept-search > summary,.plan-check-coverage > summary { min-height:44px; cursor:pointer; font-size:14px; }
+.concept-search p,.plan-check-coverage p { color:var(--text-secondary); font-size:13px; line-height:1.8; overflow-wrap:anywhere; }
+.concept-search article { border-top:1px solid var(--border-default); padding:18px 0; }
+.concept-search code,.evidence-search code { overflow-wrap:anywhere; }
+
+.review-handoff { padding:18px; margin:20px 0; border:1px solid var(--border-default); border-radius:var(--radius-card); background:var(--surface-reading); }
+.review-handoff > summary { min-height:44px; font-size:13px; cursor:pointer; overflow-wrap:anywhere; }
+.review-history-choice { display:flex; align-items:center; gap:12px; padding:12px 0; min-height:44px; }
+.review-handoff pre { padding:18px; white-space:pre-wrap; overflow-wrap:anywhere; font:11px/1.8 var(--font-code); max-height:360px; overflow:auto; border:1px solid var(--border-default); }

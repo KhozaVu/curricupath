@@ -6,6 +6,8 @@ import csv
 import json
 from pathlib import Path
 
+import pytest
+
 from app.evaluation.models import EvaluationDecision
 from app.evaluation.runner import EvaluationRunner
 from scripts.check_evaluation_readiness import readiness_errors
@@ -106,3 +108,43 @@ def test_official_evaluation_is_blocked_until_human_review() -> None:
     assert any("academic reviewer" in error for error in errors)
     assert any("three-class label" in error for error in errors)
     assert any("grounding judge" in error for error in errors)
+
+
+def _recording_app(seen: list[str]):
+    from fastapi import FastAPI
+
+    fake = FastAPI()
+
+    @fake.post("/advisor")
+    def advisor(body: dict) -> dict:
+        seen.append(body["message"])
+        return {"status": "ok", "decision": "eligible"}
+
+    return fake
+
+
+def test_no_clarification_arm_receives_the_consolidated_fact_up_front() -> None:
+    from scripts.run_evaluation import _curricupath
+
+    case = {"case_id": "X", "question": "Can I take ELEN4011A?", "clarification_permitted": "true",
+            "consolidated_noninteractive_input": "Can I take ELEN4011A? I passed ELEN3009A.",
+            "scripted_reply": "I passed ELEN3009A.",
+            "student_profile": {"programme_code": "EFA04", "completed_modules": [],
+                                "current_modules": [], "planned_modules": []}}
+    seen: list[str] = []
+
+    _curricupath(_recording_app(seen), case, 1, allow_clarification=False)
+    _curricupath(_recording_app(seen), case, 1, allow_clarification=True)
+
+    assert seen == ["Can I take ELEN4011A? I passed ELEN3009A.", "Can I take ELEN4011A?"]
+
+
+def test_negative_pacing_is_refused_before_any_output_file_exists(monkeypatch, tmp_path) -> None:
+    import scripts.run_evaluation as runner
+
+    monkeypatch.setattr(runner, "OUTPUTS", tmp_path)
+    monkeypatch.setattr("sys.argv", ["run_evaluation.py", "--arm", "rules_only", "--pace-seconds", "-1"])
+
+    with pytest.raises(SystemExit, match="pace-seconds"):
+        runner.main()
+    assert list(tmp_path.iterdir()) == []

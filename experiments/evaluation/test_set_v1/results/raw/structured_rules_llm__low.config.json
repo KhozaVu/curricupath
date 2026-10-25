@@ -1,0 +1,11 @@
+{
+  "arm": "structured_rules_llm",
+  "level": "low",
+  "case_file_sha256": "c212469c91068e379668eac3b46d41920298532c16da7d269fbacf46ef723053",
+  "timetable_clash_gate": true,
+  "runs_per_case": 1,
+  "gemini_model": "gemini-3.5-flash-lite",
+  "top_k": 20,
+  "pace_seconds": 4.0,
+  "structured_rules_include_clash_rules": true
+}

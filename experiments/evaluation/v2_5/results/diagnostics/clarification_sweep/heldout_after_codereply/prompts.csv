@@ -1,0 +1,121 @@
+target,target_name,level,frame,prompt,first_status,first_intent,first_outcome,options,target_in_options,single_turn_correct,with_clarification_correct,replied,final_status
+PHYS1033A,Engineering Physics IB,0,Can you give me info on {x},Can you give me info on PHYS1033A,ok,module_information,answered_correct,,False,True,True,False,ok
+PHYS1033A,Engineering Physics IB,0,I need details on {x},I need details on PHYS1033A,ok,module_information,answered_correct,,False,True,True,False,ok
+PHYS1033A,Engineering Physics IB,0,{x} please,PHYS1033A please,ok,module_information,answered_correct,,False,True,True,False,ok
+PHYS1033A,Engineering Physics IB,0,Which lecturer runs {x}?,Which lecturer runs PHYS1033A?,ok,module_information,answered_correct,,False,True,True,False,ok
+PHYS1033A,Engineering Physics IB,1,Can you give me info on {x},Can you give me info on Engineering Physics IB,ok,module_information,answered_correct,,False,True,True,False,ok
+PHYS1033A,Engineering Physics IB,1,I need details on {x},I need details on Engineering Physics IB,ok,module_information,answered_correct,,False,True,True,False,ok
+PHYS1033A,Engineering Physics IB,1,{x} please,Engineering Physics IB please,ok,module_information,answered_correct,,False,True,True,False,ok
+PHYS1033A,Engineering Physics IB,1,Which lecturer runs {x}?,Which lecturer runs Engineering Physics IB?,ok,module_information,answered_correct,,False,True,True,False,ok
+PHYS1033A,Engineering Physics IB,2,Can you give me info on {x},Can you give me info on Engineering Physics,out_of_scope,unknown,refused,,False,False,False,False,out_of_scope
+PHYS1033A,Engineering Physics IB,2,I need details on {x},I need details on Engineering Physics,out_of_scope,unknown,refused,,False,False,False,False,out_of_scope
+PHYS1033A,Engineering Physics IB,2,{x} please,Engineering Physics please,clarification_required,module_information,asked_with_options,PHYS1032A;PHYS1033A,True,False,True,True,ok
+PHYS1033A,Engineering Physics IB,2,Which lecturer runs {x}?,Which lecturer runs Engineering Physics?,clarification_required,unknown,asked_generic,,False,False,True,True,ok
+PHYS1033A,Engineering Physics IB,3,Can you give me info on {x},Can you give me info on physics,out_of_scope,unknown,refused,,False,False,False,False,out_of_scope
+PHYS1033A,Engineering Physics IB,3,I need details on {x},I need details on physics,out_of_scope,unknown,refused,,False,False,False,False,out_of_scope
+PHYS1033A,Engineering Physics IB,3,{x} please,physics please,clarification_required,module_information,asked_with_options,PHYS1034A;PHYS2007A;PHYS1032A;PHYS1033A,True,False,True,True,ok
+PHYS1033A,Engineering Physics IB,3,Which lecturer runs {x}?,Which lecturer runs physics?,clarification_required,unknown,asked_generic,,False,False,True,True,ok
+PHYS1033A,Engineering Physics IB,4,Can you give me info on {x},Can you give me info on that module,clarification_required,unknown,asked_generic,,False,False,True,True,ok
+PHYS1033A,Engineering Physics IB,4,I need details on {x},I need details on that module,clarification_required,unknown,asked_generic,,False,False,True,True,ok
+PHYS1033A,Engineering Physics IB,4,{x} please,that module please,clarification_required,unknown,asked_generic,,False,False,True,True,ok
+PHYS1033A,Engineering Physics IB,4,Which lecturer runs {x}?,Which lecturer runs that module?,clarification_required,unknown,asked_generic,,False,False,True,True,ok
+PHYS1032A,Engineering Physics IA,0,Can you give me info on {x},Can you give me info on PHYS1032A,ok,module_information,answered_correct,,False,True,True,False,ok
+PHYS1032A,Engineering Physics IA,0,I need details on {x},I need details on PHYS1032A,ok,module_information,answered_correct,,False,True,True,False,ok
+PHYS1032A,Engineering Physics IA,0,{x} please,PHYS1032A please,ok,module_information,answered_correct,,False,True,True,False,ok
+PHYS1032A,Engineering Physics IA,0,Which lecturer runs {x}?,Which lecturer runs PHYS1032A?,ok,module_information,answered_correct,,False,True,True,False,ok
+PHYS1032A,Engineering Physics IA,1,Can you give me info on {x},Can you give me info on Engineering Physics IA,ok,module_information,answered_correct,,False,True,True,False,ok
+PHYS1032A,Engineering Physics IA,1,I need details on {x},I need details on Engineering Physics IA,ok,module_information,answered_correct,,False,True,True,False,ok
+PHYS1032A,Engineering Physics IA,1,{x} please,Engineering Physics IA please,ok,module_information,answered_correct,,False,True,True,False,ok
+PHYS1032A,Engineering Physics IA,1,Which lecturer runs {x}?,Which lecturer runs Engineering Physics IA?,ok,module_information,answered_correct,,False,True,True,False,ok
+PHYS1032A,Engineering Physics IA,2,Can you give me info on {x},Can you give me info on Engineering Physics,out_of_scope,unknown,refused,,False,False,False,False,out_of_scope
+PHYS1032A,Engineering Physics IA,2,I need details on {x},I need details on Engineering Physics,out_of_scope,unknown,refused,,False,False,False,False,out_of_scope
+PHYS1032A,Engineering Physics IA,2,{x} please,Engineering Physics please,clarification_required,module_information,asked_with_options,PHYS1032A;PHYS1033A,True,False,True,True,ok
+PHYS1032A,Engineering Physics IA,2,Which lecturer runs {x}?,Which lecturer runs Engineering Physics?,clarification_required,unknown,asked_generic,,False,False,True,True,ok
+PHYS1032A,Engineering Physics IA,3,Can you give me info on {x},Can you give me info on physics,out_of_scope,unknown,refused,,False,False,False,False,out_of_scope
+PHYS1032A,Engineering Physics IA,3,I need details on {x},I need details on physics,out_of_scope,unknown,refused,,False,False,False,False,out_of_scope
+PHYS1032A,Engineering Physics IA,3,{x} please,physics please,clarification_required,module_information,asked_with_options,PHYS1034A;PHYS2007A;PHYS1032A;PHYS1033A,True,False,True,True,ok
+PHYS1032A,Engineering Physics IA,3,Which lecturer runs {x}?,Which lecturer runs physics?,clarification_required,unknown,asked_generic,,False,False,True,True,ok
+PHYS1032A,Engineering Physics IA,4,Can you give me info on {x},Can you give me info on that module,clarification_required,unknown,asked_generic,,False,False,True,True,ok
+PHYS1032A,Engineering Physics IA,4,I need details on {x},I need details on that module,clarification_required,unknown,asked_generic,,False,False,True,True,ok
+PHYS1032A,Engineering Physics IA,4,{x} please,that module please,clarification_required,unknown,asked_generic,,False,False,True,True,ok
+PHYS1032A,Engineering Physics IA,4,Which lecturer runs {x}?,Which lecturer runs that module?,clarification_required,unknown,asked_generic,,False,False,True,True,ok
+FEBE1004A,Engineering Analysis and Design IB,0,Can you give me info on {x},Can you give me info on FEBE1004A,ok,module_information,answered_correct,,False,True,True,False,ok
+FEBE1004A,Engineering Analysis and Design IB,0,I need details on {x},I need details on FEBE1004A,ok,module_information,answered_correct,,False,True,True,False,ok
+FEBE1004A,Engineering Analysis and Design IB,0,{x} please,FEBE1004A please,ok,module_information,answered_correct,,False,True,True,False,ok
+FEBE1004A,Engineering Analysis and Design IB,0,Which lecturer runs {x}?,Which lecturer runs FEBE1004A?,ok,module_information,answered_correct,,False,True,True,False,ok
+FEBE1004A,Engineering Analysis and Design IB,1,Can you give me info on {x},Can you give me info on Engineering Analysis and Design IB,ok,module_information,answered_correct,,False,True,True,False,ok
+FEBE1004A,Engineering Analysis and Design IB,1,I need details on {x},I need details on Engineering Analysis and Design IB,ok,module_information,answered_correct,,False,True,True,False,ok
+FEBE1004A,Engineering Analysis and Design IB,1,{x} please,Engineering Analysis and Design IB please,ok,module_information,answered_correct,,False,True,True,False,ok
+FEBE1004A,Engineering Analysis and Design IB,1,Which lecturer runs {x}?,Which lecturer runs Engineering Analysis and Design IB?,ok,module_information,answered_correct,,False,True,True,False,ok
+FEBE1004A,Engineering Analysis and Design IB,2,Can you give me info on {x},Can you give me info on Engineering Analysis and Design,out_of_scope,unknown,refused,,False,False,False,False,out_of_scope
+FEBE1004A,Engineering Analysis and Design IB,2,I need details on {x},I need details on Engineering Analysis and Design,out_of_scope,unknown,refused,,False,False,False,False,out_of_scope
+FEBE1004A,Engineering Analysis and Design IB,2,{x} please,Engineering Analysis and Design please,out_of_scope,unknown,refused,,False,False,False,False,out_of_scope
+FEBE1004A,Engineering Analysis and Design IB,2,Which lecturer runs {x}?,Which lecturer runs Engineering Analysis and Design?,clarification_required,unknown,asked_generic,,False,False,True,True,ok
+FEBE1004A,Engineering Analysis and Design IB,3,Can you give me info on {x},Can you give me info on analysis,out_of_scope,unknown,refused,,False,False,False,False,out_of_scope
+FEBE1004A,Engineering Analysis and Design IB,3,I need details on {x},I need details on analysis,out_of_scope,unknown,refused,,False,False,False,False,out_of_scope
+FEBE1004A,Engineering Analysis and Design IB,3,{x} please,analysis please,clarification_required,module_information,asked_with_options,ELEN3007A;FEBE1002A;FEBE1004A,True,False,True,True,ok
+FEBE1004A,Engineering Analysis and Design IB,3,Which lecturer runs {x}?,Which lecturer runs analysis?,clarification_required,unknown,asked_generic,,False,False,True,True,ok
+FEBE1004A,Engineering Analysis and Design IB,4,Can you give me info on {x},Can you give me info on that module,clarification_required,unknown,asked_generic,,False,False,True,True,ok
+FEBE1004A,Engineering Analysis and Design IB,4,I need details on {x},I need details on that module,clarification_required,unknown,asked_generic,,False,False,True,True,ok
+FEBE1004A,Engineering Analysis and Design IB,4,{x} please,that module please,clarification_required,unknown,asked_generic,,False,False,True,True,ok
+FEBE1004A,Engineering Analysis and Design IB,4,Which lecturer runs {x}?,Which lecturer runs that module?,clarification_required,unknown,asked_generic,,False,False,True,True,ok
+AFRL1005A,Elementary Sesotho Language and Culture IA,0,Can you give me info on {x},Can you give me info on AFRL1005A,ok,module_information,answered_correct,,False,True,True,False,ok
+AFRL1005A,Elementary Sesotho Language and Culture IA,0,I need details on {x},I need details on AFRL1005A,ok,module_information,answered_correct,,False,True,True,False,ok
+AFRL1005A,Elementary Sesotho Language and Culture IA,0,{x} please,AFRL1005A please,ok,module_information,answered_correct,,False,True,True,False,ok
+AFRL1005A,Elementary Sesotho Language and Culture IA,0,Which lecturer runs {x}?,Which lecturer runs AFRL1005A?,ok,module_information,answered_correct,,False,True,True,False,ok
+AFRL1005A,Elementary Sesotho Language and Culture IA,1,Can you give me info on {x},Can you give me info on Elementary Sesotho Language and Culture IA,ok,module_information,answered_correct,,False,True,True,False,ok
+AFRL1005A,Elementary Sesotho Language and Culture IA,1,I need details on {x},I need details on Elementary Sesotho Language and Culture IA,ok,module_information,answered_correct,,False,True,True,False,ok
+AFRL1005A,Elementary Sesotho Language and Culture IA,1,{x} please,Elementary Sesotho Language and Culture IA please,ok,module_information,answered_correct,,False,True,True,False,ok
+AFRL1005A,Elementary Sesotho Language and Culture IA,1,Which lecturer runs {x}?,Which lecturer runs Elementary Sesotho Language and Culture IA?,ok,module_information,answered_correct,,False,True,True,False,ok
+AFRL1005A,Elementary Sesotho Language and Culture IA,2,Can you give me info on {x},Can you give me info on Language and Culture,out_of_scope,unknown,refused,,False,False,False,False,out_of_scope
+AFRL1005A,Elementary Sesotho Language and Culture IA,2,I need details on {x},I need details on Language and Culture,out_of_scope,unknown,refused,,False,False,False,False,out_of_scope
+AFRL1005A,Elementary Sesotho Language and Culture IA,2,{x} please,Language and Culture please,clarification_required,module_information,asked_with_options,AFRL1003A;AFRL1005A,True,False,True,True,ok
+AFRL1005A,Elementary Sesotho Language and Culture IA,2,Which lecturer runs {x}?,Which lecturer runs Language and Culture?,clarification_required,unknown,asked_generic,,False,False,True,True,ok
+AFRL1005A,Elementary Sesotho Language and Culture IA,3,Can you give me info on {x},Can you give me info on language,out_of_scope,unknown,refused,,False,False,False,False,out_of_scope
+AFRL1005A,Elementary Sesotho Language and Culture IA,3,I need details on {x},I need details on language,out_of_scope,unknown,refused,,False,False,False,False,out_of_scope
+AFRL1005A,Elementary Sesotho Language and Culture IA,3,{x} please,language please,clarification_required,module_information,asked_with_options,AFRL1003A;AFRL1005A,True,False,True,True,ok
+AFRL1005A,Elementary Sesotho Language and Culture IA,3,Which lecturer runs {x}?,Which lecturer runs language?,clarification_required,unknown,asked_generic,,False,False,True,True,ok
+AFRL1005A,Elementary Sesotho Language and Culture IA,4,Can you give me info on {x},Can you give me info on that module,clarification_required,unknown,asked_generic,,False,False,True,True,ok
+AFRL1005A,Elementary Sesotho Language and Culture IA,4,I need details on {x},I need details on that module,clarification_required,unknown,asked_generic,,False,False,True,True,ok
+AFRL1005A,Elementary Sesotho Language and Culture IA,4,{x} please,that module please,clarification_required,unknown,asked_generic,,False,False,True,True,ok
+AFRL1005A,Elementary Sesotho Language and Culture IA,4,Which lecturer runs {x}?,Which lecturer runs that module?,clarification_required,unknown,asked_generic,,False,False,True,True,ok
+COMS2004A,Data Structures and Algorithms,0,Can you give me info on {x},Can you give me info on COMS2004A,ok,module_information,answered_correct,,False,True,True,False,ok
+COMS2004A,Data Structures and Algorithms,0,I need details on {x},I need details on COMS2004A,ok,module_information,answered_correct,,False,True,True,False,ok
+COMS2004A,Data Structures and Algorithms,0,{x} please,COMS2004A please,ok,module_information,answered_correct,,False,True,True,False,ok
+COMS2004A,Data Structures and Algorithms,0,Which lecturer runs {x}?,Which lecturer runs COMS2004A?,ok,module_information,answered_correct,,False,True,True,False,ok
+COMS2004A,Data Structures and Algorithms,1,Can you give me info on {x},Can you give me info on Data Structures and Algorithms,ok,module_information,answered_correct,,False,True,True,False,ok
+COMS2004A,Data Structures and Algorithms,1,I need details on {x},I need details on Data Structures and Algorithms,ok,module_information,answered_correct,,False,True,True,False,ok
+COMS2004A,Data Structures and Algorithms,1,{x} please,Data Structures and Algorithms please,ok,module_information,answered_correct,,False,True,True,False,ok
+COMS2004A,Data Structures and Algorithms,1,Which lecturer runs {x}?,Which lecturer runs Data Structures and Algorithms?,ok,module_information,answered_correct,,False,True,True,False,ok
+COMS2004A,Data Structures and Algorithms,2,Can you give me info on {x},Can you give me info on Data Structures,out_of_scope,unknown,refused,,False,False,False,False,out_of_scope
+COMS2004A,Data Structures and Algorithms,2,I need details on {x},I need details on Data Structures,out_of_scope,unknown,refused,,False,False,False,False,out_of_scope
+COMS2004A,Data Structures and Algorithms,2,{x} please,Data Structures please,ok,module_information,answered_correct,,False,True,True,False,ok
+COMS2004A,Data Structures and Algorithms,2,Which lecturer runs {x}?,Which lecturer runs Data Structures?,clarification_required,unknown,asked_generic,,False,False,True,True,ok
+COMS2004A,Data Structures and Algorithms,3,Can you give me info on {x},Can you give me info on data,out_of_scope,unknown,refused,,False,False,False,False,out_of_scope
+COMS2004A,Data Structures and Algorithms,3,I need details on {x},I need details on data,out_of_scope,unknown,refused,,False,False,False,False,out_of_scope
+COMS2004A,Data Structures and Algorithms,3,{x} please,data please,clarification_required,module_information,asked_with_options,COMS2004A;ELEN3015A;ELEN4020A,True,False,True,True,ok
+COMS2004A,Data Structures and Algorithms,3,Which lecturer runs {x}?,Which lecturer runs data?,clarification_required,unknown,asked_generic,,False,False,True,True,ok
+COMS2004A,Data Structures and Algorithms,4,Can you give me info on {x},Can you give me info on that module,clarification_required,unknown,asked_generic,,False,False,True,True,ok
+COMS2004A,Data Structures and Algorithms,4,I need details on {x},I need details on that module,clarification_required,unknown,asked_generic,,False,False,True,True,ok
+COMS2004A,Data Structures and Algorithms,4,{x} please,that module please,clarification_required,unknown,asked_generic,,False,False,True,True,ok
+COMS2004A,Data Structures and Algorithms,4,Which lecturer runs {x}?,Which lecturer runs that module?,clarification_required,unknown,asked_generic,,False,False,True,True,ok
+ELEN4022A,Full Stack Quantum Computing,0,Can you give me info on {x},Can you give me info on ELEN4022A,ok,module_information,answered_correct,,False,True,True,False,ok
+ELEN4022A,Full Stack Quantum Computing,0,I need details on {x},I need details on ELEN4022A,ok,module_information,answered_correct,,False,True,True,False,ok
+ELEN4022A,Full Stack Quantum Computing,0,{x} please,ELEN4022A please,ok,module_information,answered_correct,,False,True,True,False,ok
+ELEN4022A,Full Stack Quantum Computing,0,Which lecturer runs {x}?,Which lecturer runs ELEN4022A?,ok,module_information,answered_correct,,False,True,True,False,ok
+ELEN4022A,Full Stack Quantum Computing,1,Can you give me info on {x},Can you give me info on Full Stack Quantum Computing,ok,module_information,answered_correct,,False,True,True,False,ok
+ELEN4022A,Full Stack Quantum Computing,1,I need details on {x},I need details on Full Stack Quantum Computing,ok,module_information,answered_correct,,False,True,True,False,ok
+ELEN4022A,Full Stack Quantum Computing,1,{x} please,Full Stack Quantum Computing please,ok,module_information,answered_correct,,False,True,True,False,ok
+ELEN4022A,Full Stack Quantum Computing,1,Which lecturer runs {x}?,Which lecturer runs Full Stack Quantum Computing?,ok,module_information,answered_correct,,False,True,True,False,ok
+ELEN4022A,Full Stack Quantum Computing,2,Can you give me info on {x},Can you give me info on Quantum Computing,clarification_required,public_course_search,asked_generic,,False,False,True,True,ok
+ELEN4022A,Full Stack Quantum Computing,2,I need details on {x},I need details on Quantum Computing,clarification_required,public_course_search,asked_generic,,False,False,True,True,ok
+ELEN4022A,Full Stack Quantum Computing,2,{x} please,Quantum Computing please,ok,module_information,answered_correct,,False,True,True,False,ok
+ELEN4022A,Full Stack Quantum Computing,2,Which lecturer runs {x}?,Which lecturer runs Quantum Computing?,clarification_required,public_course_search,asked_generic,,False,False,True,True,ok
+ELEN4022A,Full Stack Quantum Computing,3,Can you give me info on {x},Can you give me info on computing,out_of_scope,unknown,refused,,False,False,False,False,out_of_scope
+ELEN4022A,Full Stack Quantum Computing,3,I need details on {x},I need details on computing,out_of_scope,unknown,refused,,False,False,False,False,out_of_scope
+ELEN4022A,Full Stack Quantum Computing,3,{x} please,computing please,clarification_required,module_information,asked_with_options,ELEN4024A;ELEN4022A;ELEN4020A,True,False,True,True,ok
+ELEN4022A,Full Stack Quantum Computing,3,Which lecturer runs {x}?,Which lecturer runs computing?,clarification_required,unknown,asked_generic,,False,False,True,True,ok
+ELEN4022A,Full Stack Quantum Computing,4,Can you give me info on {x},Can you give me info on that module,clarification_required,unknown,asked_generic,,False,False,True,True,ok
+ELEN4022A,Full Stack Quantum Computing,4,I need details on {x},I need details on that module,clarification_required,unknown,asked_generic,,False,False,True,True,ok
+ELEN4022A,Full Stack Quantum Computing,4,{x} please,that module please,clarification_required,unknown,asked_generic,,False,False,True,True,ok
+ELEN4022A,Full Stack Quantum Computing,4,Which lecturer runs {x}?,Which lecturer runs that module?,clarification_required,unknown,asked_generic,,False,False,True,True,ok

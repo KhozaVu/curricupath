@@ -1,0 +1,17 @@
+export function validateResponse(url,data){
+ const path=String(url).split('?')[0];const object=d=>d && typeof d==='object' && !Array.isArray(d);const objects=d=>Array.isArray(d) && d.every(object);const strings=d=>Array.isArray(d) && d.every(v=>typeof v==='string');const optionalArrays=(d,keys)=>keys.every(k=>d[k]==null || objects(d[k]));const review=d=>d==null || (object(d) && (d.reason==null || typeof d.reason==='string') && (d.affected_rules==null || strings(d.affected_rules)));let valid=true;
+ if(/^\/programmes\/[^/]+\/modules$/.test(path))valid=Array.isArray(data) && data.every(d=>object(d) && typeof d.course_code==='string' && typeof d.course_name==='string');
+ else if(/^\/programmes\/[^/]+\/graph$/.test(path))valid=object(data) && objects(data.nodes) && objects(data.edges);
+ else if(/^\/modules\/[^/]+$/.test(path))valid=object(data) && typeof data.course_code==='string' && objects(data.rules) && objects(data.memberships) && optionalArrays(data,["sources"]);
+ else if(path==='/advisor')valid=object(data) && typeof data.answer==='string' && review(data.manual_review_package) && optionalArrays(data,['recommendations','citations','rule_trace','module_matches','modules','sources','unresolved_modules','other_modules','interest_matches']) && (data.unresolved_predicates==null || strings(data.unresolved_predicates)) && (data.reasons==null || strings(data.reasons)) && (data.clarification_options==null || strings(data.clarification_options));
+ else if(path==='/eligibility')valid=object(data) && typeof data.eligible==='boolean' && review(data.manual_review_package) && ['eligible','ineligible','needs_clarification','manual_review_required'].includes(data.decision) && strings(data.reasons) && (data.requirements==null || (object(data.requirements) && optionalArrays(data.requirements,["prerequisites","corequisites"])));
+ else if(path==='/evidence')valid=object(data) && object(data.summary) && ['sources','external_references','missing_cbos'].every(k=>objects(data[k])) && (data.index==null || (object(data.index) && typeof data.index.fingerprint==='string' && objects(data.index.records) && data.index.records.every(r=>typeof r.id==='string' && typeof r.title==='string')));
+ else if(path==='/search/semantic')valid=object(data) && objects(data.results) && data.results.every(r=>['module'].includes(r.item_type) && typeof r.item_id==='string');
+ else if(path==='/catalogue/summary')valid=object(data) && Number.isFinite(data.programmes);
+ if(!valid)throw new Error('The server returned incomplete or unexpected catalogue data. No result was inferred. Try again.');return data;
+}
+export async function getJson(url,options={}){
+ const controller=new AbortController();let timedOut=false;const abort=()=>controller.abort(options.signal?.reason);if(options.signal?.aborted)abort();else options.signal?.addEventListener('abort',abort,{once:true});
+ const timer=setTimeout(()=>{timedOut=true;controller.abort();},30000);
+ try{const response=await fetch(url,{...options,signal:controller.signal});let data;try{data=await response.json();}catch(e){if(controller.signal.aborted)throw e;throw new Error(`The server returned an unreadable response (${response.status}). Try again.`);}if(!response.ok)throw new Error(typeof data?.detail==='string'?data.detail:`Request failed (${response.status})`);return validateResponse(url,data);}catch(e){if(timedOut)throw new Error('The request took too long. Your context is preserved; try again.');throw e;}finally{clearTimeout(timer);options.signal?.removeEventListener('abort',abort);}
+}

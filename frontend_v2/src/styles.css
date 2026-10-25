@@ -1,0 +1,25 @@
+@import "./styles/tokens.css";
+@import "./styles/controls.css";
+@import "./styles/domain.css";
+@import "./styles/shell.css";
+@import "./styles/home.css";
+@import "./styles/plan.css";
+@import "./styles/advisor.css";
+@import "./styles/explore.css";
+@import "./styles/responsive.css";
+@import "./styles/refinements.css";
+@import "./styles/beauty.css";
+@import "./styles/drawer-refinement.css";
+@import "./styles/async.css";
+@import "./styles/atlas.css";
+@import "./styles/engagement.css";
+@import "./styles/campus-motion.css";
+@import "./styles/discovery-tools.css";
+@import "./styles/campus.css";
+@import "./styles/experience.css";
+@import "./styles/academic-workspace.css";
+
+@import "./styles/final-workspaces.css";
+@import "./styles/journey-motion.css";
+
+@import "./styles/wits-modules.css";

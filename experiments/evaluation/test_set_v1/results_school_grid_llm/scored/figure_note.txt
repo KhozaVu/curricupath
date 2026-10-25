@@ -1,0 +1,1 @@
+All five systems now have the School-grid requirements (development-informed; labels and grid share a source, so rule-based scores are partly circular). LLM baselines: gemini-3.5-flash-lite, one run per case; Handbook RAG here includes grid evidence.

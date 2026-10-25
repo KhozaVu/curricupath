@@ -1,0 +1,35 @@
+case_id,category,message,programme,accepted_intents,accepted_modules,accepted_status,notes
+F01,typo,Tell me about Electroncs II,EFA03,module_information,ELEN3002A,ok,
+F02,typo,who teaches signls and systms IIA,EFA03,module_information,ELEN3012A,ok,
+F03,typo,Softwear Development I,EFA03,module_information,ELEN2020A,ok,
+F04,typo,Mathmatics II,EFA03,module_information,MATH2014A,ok,
+F05,typo,Electic Circuits,EFA03,module_information,ELEN2017A,ok,
+F06,typo,Contrl I,EFA03,module_information,ELEN3016A,ok,
+F07,typo,Microprocesors,EFA03,module_information,ELEN2021A,ok,
+F08,typo,Probabalistic Systems Analysis,EFA03,module_information,ELEN3007A,ok,
+F09,typo,Enginering Chemistry,EFA03,module_information,CHEM1051A,ok,
+F10,typo,Measurment Systems,EFA03,module_information,ELEN4006A,ok,
+F11,typo,Renewble Energy,EFA03,module_information,ELEN4023A,ok,
+F12,typo,Power Systms,EFA03,module_information,ELEN4018A,ok,
+F13,phrasing,whats the deal with Microprocessors,EFA03,module_information,ELEN2021A,ok,
+F14,phrasing,gimme the rundown on Renewable Energy,EFA03,module_information,ELEN4023A,ok,
+F15,phrasing,Can you give me info on Measurement Systems,EFA03,module_information,ELEN4006A,ok,Phrasing pattern also seen in the held-out sweep; target module is new.
+F16,phrasing,I need details on High Voltage Engineering,EFA03,module_information,ELEN4003A,ok,Phrasing pattern also seen in the held-out sweep; target module is new.
+F17,phrasing,anything I should know about Electromagnetic Engineering?,EFA03,module_information,ELEN3000A,ok,
+F18,phrasing,what do you cover in Electromechanical Conversion,EFA03,module_information,ELEN4014A,ok,
+F19,phrasing,is Economics of Design a hard module,EFA03,module_information,ELEN3018A,ok,
+F20,phrasing,"the microprocessors module, what's in it",EFA03,module_information,ELEN2021A,ok,
+F21,typo_phrasing,wat is mesurement systems about,EFA03,module_information,ELEN4006A,ok,
+F22,typo_phrasing,hw about renewble energy,EFA03,module_information,ELEN4023A,ok,
+F23,typo_phrasing,cn u tell me abt microprocesors,EFA03,module_information,ELEN2021A,ok,
+F24,description,the module where you learn about motors and transformers,EFA03,module_information,ELEN4014A;ELEN3003A,ok,Either electrical-machines module is acceptable.
+F25,description,the course about probability for engineers,EFA03,module_information,ELEN3007A,ok,
+F26,description,the quantum computing module,EFA04,module_information,ELEN4022A,ok,
+F27,description,which module teaches circuit analysis,EFA03,module_information,ELEN2017A,ok,
+N01,negative,Find me an online Python course,EFA03,public_course_search,,,Must stay a public-course search.
+N02,negative,Predict my marks for Control I,EFA03,,,out_of_scope,Prohibited request; must stay refused.
+N03,negative,What is the weather today,EFA03,,,out_of_scope,Must not be turned into a module lookup.
+N04,negative,I want a career in renewable energy,EFA03,career_path;public_course_search,,,Career request; must not become a module lookup.
+N05,negative,Can I take ELEN3002A?,EFA03,eligibility,,,Must stay an eligibility question.
+N06,negative,hello,EFA03,greeting,,,
+N07,negative,What is the Information Engineering degree?,EFA04,programme_information,,,Must stay a programme question.

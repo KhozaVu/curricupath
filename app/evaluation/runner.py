@@ -9,6 +9,7 @@ from time import perf_counter
 from typing import Any, Protocol
 
 from app.data.embeddings import PostgresSemanticSearch
+from app.advisor.eligibility import normalise_rule_course_code
 from app.evaluation.models import EvaluationArm, EvaluationDecision
 
 
@@ -49,6 +50,7 @@ class GeminiDecisionClient:
         if not api_key:
             raise ValueError("GEMINI_API_KEY is required for evaluation generation.")
         self.model_name = model
+        self.last_usage = None  # token counts of the most recent call, for spend tracking
         self._types = types
         self._client = genai.Client(
             api_key=api_key,
@@ -73,6 +75,7 @@ class GeminiDecisionClient:
                 temperature=0,
             ),
         )
+        self.last_usage = getattr(response, "usage_metadata", None)
         return response.text or "", response.parsed
 
 
@@ -88,6 +91,8 @@ class EvaluationRunner:
         source_states: list[dict[str, str]],
         top_k: int,
         retrieval_item_type: str = "evaluation_handbook",
+        grid_requirement_rules: list[dict[str, str]] | None = None,
+        retrieval_cache: dict[str, list[dict[str, Any]]] | None = None,
     ) -> None:
         if top_k <= 0:
             raise ValueError("top_k must be positive.")
@@ -95,6 +100,8 @@ class EvaluationRunner:
         self.client = client
         self.rules = rules
         self.source_states = source_states
+        self.grid_requirement_rules = grid_requirement_rules or []
+        self.retrieval_cache = retrieval_cache or {}
         self.top_k = top_k
         self.retrieval_item_type = retrieval_item_type
         self.prompts = {
@@ -119,11 +126,22 @@ class EvaluationRunner:
         ).strip()
         if not query:
             raise ValueError(f"Case {case.get('case_id', '<unknown>')} has no query.")
-        retrieved = self.search.search(
-            query,
-            item_type=self.retrieval_item_type,
-            limit=self.top_k,
-        )
+        cache_key = f"{case.get('phrasing_level', '')}:{case['case_id']}"
+        if cache_key in self.retrieval_cache:
+            retrieved = [dict(item) for item in self.retrieval_cache[cache_key]]
+        elif self.retrieval_cache:
+            raise ValueError(f"Frozen retrieval cache is missing case {cache_key}.")
+        else:
+            retrieved = self.search.search(
+                query,
+                item_type=self.retrieval_item_type,
+                limit=self.top_k,
+            )
+        grid_evidence = self._school_grid_evidence(case)
+        if grid_evidence is not None:
+            # Both LLM arms receive the same target-specific School facts. The structured arm
+            # additionally receives the complete rule table below, isolating rule access.
+            retrieved = [*retrieved, grid_evidence]
         payload: dict[str, Any] = {
             "case_id": case["case_id"],
             "question": query,
@@ -162,3 +180,56 @@ class EvaluationRunner:
             latency_ms=max(0, round((perf_counter() - started) * 1000)),
             error=error,
         )
+
+    def _school_grid_evidence(self, case: dict[str, Any]) -> dict[str, Any] | None:
+        profile = case.get("student_profile", {})
+        programme = str(profile.get("programme_code", "")).upper()
+        target = normalise_rule_course_code(str(case.get("target_course_code", "")))
+        if not programme or not target:
+            return None
+
+        selected = [
+            rule
+            for rule in self.grid_requirement_rules
+            if normalise_rule_course_code(rule.get("target_course_code", "")) == target
+            and rule.get("rule_type") in {"prerequisite", "corequisite"}
+            and rule.get("scope") in {programme, "ALL_EFA03_EFA04"}
+        ]
+        if not selected:
+            return None
+
+        def codes_for(rule_type: str) -> list[str]:
+            result: list[str] = []
+            for rule in selected:
+                if rule.get("rule_type") != rule_type or rule.get("has_requirement") != "true":
+                    continue
+                try:
+                    condition = json.loads(rule.get("condition_json", "{}"))
+                except json.JSONDecodeError:
+                    continue
+                for code in condition.get("all_of", []):
+                    if code not in result:
+                        result.append(code)
+            return result
+
+        prereqs = codes_for("prerequisite")
+        coreqs = codes_for("corequisite")
+        sheets = sorted({rule.get("source_sheet", "") for rule in selected if rule.get("source_sheet")})
+        locator = ", ".join(sheets)
+        content = (
+            "School of EIE registration-grid requirements. "
+            f"Source: EIE_REG_GRID_2026; sheet: {locator}; programme: {programme}; "
+            f"target module: {target}. "
+            f"Prerequisites listed by the grid: {', '.join(prereqs) if prereqs else 'none listed'}. "
+            f"Corequisites listed by the grid: {', '.join(coreqs) if coreqs else 'none listed'}. "
+            "These statements describe the registration-grid record only; 'none listed' does not "
+            "assert that no requirement exists in other institutional sources."
+        )
+        return {
+            "source_id": "EIE_REG_GRID_2026",
+            "source_locator": f"sheet: {locator}",
+            "item_type": "school_registration_grid_requirement",
+            "item_id": f"{programme}:{target}",
+            "content": content,
+            "similarity": None,
+        }

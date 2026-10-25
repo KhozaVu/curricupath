@@ -1,0 +1,1880 @@
+{
+  "reference_labels": {
+    "ineligible": 70,
+    "manual_review_required": 20,
+    "eligible": 49
+  },
+  "subset_labels": {
+    "ineligible": 20,
+    "manual_review_required": 6,
+    "eligible": 14
+  },
+  "metrics": {
+    "low": {
+      "curricupath": {
+        "n_cases": 40,
+        "macro_f1": 0.9824561403508772,
+        "balanced_accuracy": 0.9666666666666667,
+        "accuracy": 0.95,
+        "per_class": {
+          "eligible": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "support": 14
+          },
+          "ineligible": {
+            "precision": 1.0,
+            "recall": 0.9,
+            "f1": 0.9473684210526316,
+            "support": 20
+          },
+          "manual_review_required": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "support": 6
+          }
+        },
+        "confusion_matrix": {
+          "rows_reference": [
+            "eligible",
+            "ineligible",
+            "manual_review_required"
+          ],
+          "columns_predicted": [
+            "eligible",
+            "ineligible",
+            "manual_review_required",
+            "invalid"
+          ],
+          "counts": [
+            [
+              14,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              18,
+              0,
+              2
+            ],
+            [
+              0,
+              0,
+              6,
+              0
+            ]
+          ]
+        },
+        "safety": {
+          "unsafe_false_positive_rate": {
+            "numerator": 0,
+            "denominator": 26,
+            "rate": 0.0
+          },
+          "overly_conservative_false_negative_rate": {
+            "numerator": 0,
+            "denominator": 14,
+            "rate": 0.0
+          },
+          "correct_escalation_rate": {
+            "numerator": 6,
+            "denominator": 6,
+            "rate": 1.0
+          },
+          "unsafe_overconfidence_rate_on_manual_review": {
+            "numerator": 0,
+            "denominator": 6,
+            "rate": 0.0
+          },
+          "unnecessary_escalation_rate": {
+            "numerator": 0,
+            "denominator": 34,
+            "rate": 0.0
+          },
+          "invalid_output_rate": {
+            "numerator": 2,
+            "denominator": 40,
+            "rate": 0.05
+          }
+        },
+        "macro_f1_ci95": [
+          0.9523809523809524,
+          1.0
+        ]
+      },
+      "curricupath_no_clarification": {
+        "n_cases": 40,
+        "macro_f1": 0.9824561403508772,
+        "balanced_accuracy": 0.9666666666666667,
+        "accuracy": 0.95,
+        "per_class": {
+          "eligible": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "support": 14
+          },
+          "ineligible": {
+            "precision": 1.0,
+            "recall": 0.9,
+            "f1": 0.9473684210526316,
+            "support": 20
+          },
+          "manual_review_required": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "support": 6
+          }
+        },
+        "confusion_matrix": {
+          "rows_reference": [
+            "eligible",
+            "ineligible",
+            "manual_review_required"
+          ],
+          "columns_predicted": [
+            "eligible",
+            "ineligible",
+            "manual_review_required",
+            "invalid"
+          ],
+          "counts": [
+            [
+              14,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              18,
+              0,
+              2
+            ],
+            [
+              0,
+              0,
+              6,
+              0
+            ]
+          ]
+        },
+        "safety": {
+          "unsafe_false_positive_rate": {
+            "numerator": 0,
+            "denominator": 26,
+            "rate": 0.0
+          },
+          "overly_conservative_false_negative_rate": {
+            "numerator": 0,
+            "denominator": 14,
+            "rate": 0.0
+          },
+          "correct_escalation_rate": {
+            "numerator": 6,
+            "denominator": 6,
+            "rate": 1.0
+          },
+          "unsafe_overconfidence_rate_on_manual_review": {
+            "numerator": 0,
+            "denominator": 6,
+            "rate": 0.0
+          },
+          "unnecessary_escalation_rate": {
+            "numerator": 0,
+            "denominator": 34,
+            "rate": 0.0
+          },
+          "invalid_output_rate": {
+            "numerator": 2,
+            "denominator": 40,
+            "rate": 0.05
+          }
+        },
+        "macro_f1_ci95": [
+          0.9523809523809524,
+          1.0
+        ]
+      },
+      "rules_only": {
+        "n_cases": 40,
+        "macro_f1": 1.0,
+        "balanced_accuracy": 1.0,
+        "accuracy": 1.0,
+        "per_class": {
+          "eligible": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "support": 14
+          },
+          "ineligible": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "support": 20
+          },
+          "manual_review_required": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "support": 6
+          }
+        },
+        "confusion_matrix": {
+          "rows_reference": [
+            "eligible",
+            "ineligible",
+            "manual_review_required"
+          ],
+          "columns_predicted": [
+            "eligible",
+            "ineligible",
+            "manual_review_required",
+            "invalid"
+          ],
+          "counts": [
+            [
+              14,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              20,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              6,
+              0
+            ]
+          ]
+        },
+        "safety": {
+          "unsafe_false_positive_rate": {
+            "numerator": 0,
+            "denominator": 26,
+            "rate": 0.0
+          },
+          "overly_conservative_false_negative_rate": {
+            "numerator": 0,
+            "denominator": 14,
+            "rate": 0.0
+          },
+          "correct_escalation_rate": {
+            "numerator": 6,
+            "denominator": 6,
+            "rate": 1.0
+          },
+          "unsafe_overconfidence_rate_on_manual_review": {
+            "numerator": 0,
+            "denominator": 6,
+            "rate": 0.0
+          },
+          "unnecessary_escalation_rate": {
+            "numerator": 0,
+            "denominator": 34,
+            "rate": 0.0
+          },
+          "invalid_output_rate": {
+            "numerator": 0,
+            "denominator": 40,
+            "rate": 0.0
+          }
+        },
+        "macro_f1_ci95": [
+          1.0,
+          1.0
+        ]
+      },
+      "handbook_rag": {
+        "n_cases": 40,
+        "macro_f1": 0.6134259259259259,
+        "balanced_accuracy": 0.6198412698412699,
+        "accuracy": 0.6,
+        "per_class": {
+          "eligible": {
+            "precision": 0.5,
+            "recall": 0.6428571428571429,
+            "f1": 0.5625000000000001,
+            "support": 14
+          },
+          "ineligible": {
+            "precision": 0.6875,
+            "recall": 0.55,
+            "f1": 0.6111111111111112,
+            "support": 20
+          },
+          "manual_review_required": {
+            "precision": 0.6666666666666666,
+            "recall": 0.6666666666666666,
+            "f1": 0.6666666666666666,
+            "support": 6
+          }
+        },
+        "confusion_matrix": {
+          "rows_reference": [
+            "eligible",
+            "ineligible",
+            "manual_review_required"
+          ],
+          "columns_predicted": [
+            "eligible",
+            "ineligible",
+            "manual_review_required",
+            "invalid"
+          ],
+          "counts": [
+            [
+              9,
+              4,
+              1,
+              0
+            ],
+            [
+              8,
+              11,
+              1,
+              0
+            ],
+            [
+              1,
+              1,
+              4,
+              0
+            ]
+          ]
+        },
+        "safety": {
+          "unsafe_false_positive_rate": {
+            "numerator": 9,
+            "denominator": 26,
+            "rate": 0.34615384615384615
+          },
+          "overly_conservative_false_negative_rate": {
+            "numerator": 5,
+            "denominator": 14,
+            "rate": 0.35714285714285715
+          },
+          "correct_escalation_rate": {
+            "numerator": 4,
+            "denominator": 6,
+            "rate": 0.6666666666666666
+          },
+          "unsafe_overconfidence_rate_on_manual_review": {
+            "numerator": 2,
+            "denominator": 6,
+            "rate": 0.3333333333333333
+          },
+          "unnecessary_escalation_rate": {
+            "numerator": 2,
+            "denominator": 34,
+            "rate": 0.058823529411764705
+          },
+          "invalid_output_rate": {
+            "numerator": 0,
+            "denominator": 40,
+            "rate": 0.0
+          }
+        },
+        "macro_f1_ci95": [
+          0.4238084406632794,
+          0.7621273188351078
+        ]
+      },
+      "structured_rules_llm": {
+        "n_cases": 40,
+        "macro_f1": 0.5606060606060606,
+        "balanced_accuracy": 0.5277777777777778,
+        "accuracy": 0.6,
+        "per_class": {
+          "eligible": {
+            "precision": 0.5,
+            "recall": 0.5,
+            "f1": 0.5,
+            "support": 14
+          },
+          "ineligible": {
+            "precision": 0.625,
+            "recall": 0.75,
+            "f1": 0.6818181818181818,
+            "support": 20
+          },
+          "manual_review_required": {
+            "precision": 1.0,
+            "recall": 0.3333333333333333,
+            "f1": 0.5,
+            "support": 6
+          }
+        },
+        "confusion_matrix": {
+          "rows_reference": [
+            "eligible",
+            "ineligible",
+            "manual_review_required"
+          ],
+          "columns_predicted": [
+            "eligible",
+            "ineligible",
+            "manual_review_required",
+            "invalid"
+          ],
+          "counts": [
+            [
+              7,
+              7,
+              0,
+              0
+            ],
+            [
+              5,
+              15,
+              0,
+              0
+            ],
+            [
+              2,
+              2,
+              2,
+              0
+            ]
+          ]
+        },
+        "safety": {
+          "unsafe_false_positive_rate": {
+            "numerator": 7,
+            "denominator": 26,
+            "rate": 0.2692307692307692
+          },
+          "overly_conservative_false_negative_rate": {
+            "numerator": 7,
+            "denominator": 14,
+            "rate": 0.5
+          },
+          "correct_escalation_rate": {
+            "numerator": 2,
+            "denominator": 6,
+            "rate": 0.3333333333333333
+          },
+          "unsafe_overconfidence_rate_on_manual_review": {
+            "numerator": 4,
+            "denominator": 6,
+            "rate": 0.6666666666666666
+          },
+          "unnecessary_escalation_rate": {
+            "numerator": 0,
+            "denominator": 34,
+            "rate": 0.0
+          },
+          "invalid_output_rate": {
+            "numerator": 0,
+            "denominator": 40,
+            "rate": 0.0
+          }
+        },
+        "macro_f1_ci95": [
+          0.34188034188034194,
+          0.7355900621118012
+        ]
+      }
+    },
+    "medium": {
+      "curricupath": {
+        "n_cases": 40,
+        "macro_f1": 0.9729729729729729,
+        "balanced_accuracy": 0.9500000000000001,
+        "accuracy": 0.925,
+        "per_class": {
+          "eligible": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "support": 14
+          },
+          "ineligible": {
+            "precision": 1.0,
+            "recall": 0.85,
+            "f1": 0.9189189189189189,
+            "support": 20
+          },
+          "manual_review_required": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "support": 6
+          }
+        },
+        "confusion_matrix": {
+          "rows_reference": [
+            "eligible",
+            "ineligible",
+            "manual_review_required"
+          ],
+          "columns_predicted": [
+            "eligible",
+            "ineligible",
+            "manual_review_required",
+            "invalid"
+          ],
+          "counts": [
+            [
+              14,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              17,
+              0,
+              3
+            ],
+            [
+              0,
+              0,
+              6,
+              0
+            ]
+          ]
+        },
+        "safety": {
+          "unsafe_false_positive_rate": {
+            "numerator": 0,
+            "denominator": 26,
+            "rate": 0.0
+          },
+          "overly_conservative_false_negative_rate": {
+            "numerator": 0,
+            "denominator": 14,
+            "rate": 0.0
+          },
+          "correct_escalation_rate": {
+            "numerator": 6,
+            "denominator": 6,
+            "rate": 1.0
+          },
+          "unsafe_overconfidence_rate_on_manual_review": {
+            "numerator": 0,
+            "denominator": 6,
+            "rate": 0.0
+          },
+          "unnecessary_escalation_rate": {
+            "numerator": 0,
+            "denominator": 34,
+            "rate": 0.0
+          },
+          "invalid_output_rate": {
+            "numerator": 3,
+            "denominator": 40,
+            "rate": 0.075
+          }
+        },
+        "macro_f1_ci95": [
+          0.936936936936937,
+          1.0
+        ]
+      },
+      "curricupath_no_clarification": {
+        "n_cases": 40,
+        "macro_f1": 0.9729729729729729,
+        "balanced_accuracy": 0.9500000000000001,
+        "accuracy": 0.925,
+        "per_class": {
+          "eligible": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "support": 14
+          },
+          "ineligible": {
+            "precision": 1.0,
+            "recall": 0.85,
+            "f1": 0.9189189189189189,
+            "support": 20
+          },
+          "manual_review_required": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "support": 6
+          }
+        },
+        "confusion_matrix": {
+          "rows_reference": [
+            "eligible",
+            "ineligible",
+            "manual_review_required"
+          ],
+          "columns_predicted": [
+            "eligible",
+            "ineligible",
+            "manual_review_required",
+            "invalid"
+          ],
+          "counts": [
+            [
+              14,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              17,
+              0,
+              3
+            ],
+            [
+              0,
+              0,
+              6,
+              0
+            ]
+          ]
+        },
+        "safety": {
+          "unsafe_false_positive_rate": {
+            "numerator": 0,
+            "denominator": 26,
+            "rate": 0.0
+          },
+          "overly_conservative_false_negative_rate": {
+            "numerator": 0,
+            "denominator": 14,
+            "rate": 0.0
+          },
+          "correct_escalation_rate": {
+            "numerator": 6,
+            "denominator": 6,
+            "rate": 1.0
+          },
+          "unsafe_overconfidence_rate_on_manual_review": {
+            "numerator": 0,
+            "denominator": 6,
+            "rate": 0.0
+          },
+          "unnecessary_escalation_rate": {
+            "numerator": 0,
+            "denominator": 34,
+            "rate": 0.0
+          },
+          "invalid_output_rate": {
+            "numerator": 3,
+            "denominator": 40,
+            "rate": 0.075
+          }
+        },
+        "macro_f1_ci95": [
+          0.936936936936937,
+          1.0
+        ]
+      },
+      "rules_only": {
+        "n_cases": 40,
+        "macro_f1": 1.0,
+        "balanced_accuracy": 1.0,
+        "accuracy": 1.0,
+        "per_class": {
+          "eligible": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "support": 14
+          },
+          "ineligible": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "support": 20
+          },
+          "manual_review_required": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "support": 6
+          }
+        },
+        "confusion_matrix": {
+          "rows_reference": [
+            "eligible",
+            "ineligible",
+            "manual_review_required"
+          ],
+          "columns_predicted": [
+            "eligible",
+            "ineligible",
+            "manual_review_required",
+            "invalid"
+          ],
+          "counts": [
+            [
+              14,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              20,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              6,
+              0
+            ]
+          ]
+        },
+        "safety": {
+          "unsafe_false_positive_rate": {
+            "numerator": 0,
+            "denominator": 26,
+            "rate": 0.0
+          },
+          "overly_conservative_false_negative_rate": {
+            "numerator": 0,
+            "denominator": 14,
+            "rate": 0.0
+          },
+          "correct_escalation_rate": {
+            "numerator": 6,
+            "denominator": 6,
+            "rate": 1.0
+          },
+          "unsafe_overconfidence_rate_on_manual_review": {
+            "numerator": 0,
+            "denominator": 6,
+            "rate": 0.0
+          },
+          "unnecessary_escalation_rate": {
+            "numerator": 0,
+            "denominator": 34,
+            "rate": 0.0
+          },
+          "invalid_output_rate": {
+            "numerator": 0,
+            "denominator": 40,
+            "rate": 0.0
+          }
+        },
+        "macro_f1_ci95": [
+          1.0,
+          1.0
+        ]
+      },
+      "handbook_rag": {
+        "n_cases": 40,
+        "macro_f1": 0.5491039426523298,
+        "balanced_accuracy": 0.6182539682539683,
+        "accuracy": 0.55,
+        "per_class": {
+          "eligible": {
+            "precision": 0.8,
+            "recall": 0.5714285714285714,
+            "f1": 0.6666666666666666,
+            "support": 14
+          },
+          "ineligible": {
+            "precision": 0.8181818181818182,
+            "recall": 0.45,
+            "f1": 0.5806451612903226,
+            "support": 20
+          },
+          "manual_review_required": {
+            "precision": 0.2631578947368421,
+            "recall": 0.8333333333333334,
+            "f1": 0.39999999999999997,
+            "support": 6
+          }
+        },
+        "confusion_matrix": {
+          "rows_reference": [
+            "eligible",
+            "ineligible",
+            "manual_review_required"
+          ],
+          "columns_predicted": [
+            "eligible",
+            "ineligible",
+            "manual_review_required",
+            "invalid"
+          ],
+          "counts": [
+            [
+              8,
+              1,
+              5,
+              0
+            ],
+            [
+              2,
+              9,
+              9,
+              0
+            ],
+            [
+              0,
+              1,
+              5,
+              0
+            ]
+          ]
+        },
+        "safety": {
+          "unsafe_false_positive_rate": {
+            "numerator": 2,
+            "denominator": 26,
+            "rate": 0.07692307692307693
+          },
+          "overly_conservative_false_negative_rate": {
+            "numerator": 6,
+            "denominator": 14,
+            "rate": 0.42857142857142855
+          },
+          "correct_escalation_rate": {
+            "numerator": 5,
+            "denominator": 6,
+            "rate": 0.8333333333333334
+          },
+          "unsafe_overconfidence_rate_on_manual_review": {
+            "numerator": 1,
+            "denominator": 6,
+            "rate": 0.16666666666666666
+          },
+          "unnecessary_escalation_rate": {
+            "numerator": 14,
+            "denominator": 34,
+            "rate": 0.4117647058823529
+          },
+          "invalid_output_rate": {
+            "numerator": 0,
+            "denominator": 40,
+            "rate": 0.0
+          }
+        },
+        "macro_f1_ci95": [
+          0.38302955825536467,
+          0.6941201559168311
+        ]
+      },
+      "structured_rules_llm": {
+        "n_cases": 40,
+        "macro_f1": 0.3682539682539683,
+        "balanced_accuracy": 0.45555555555555555,
+        "accuracy": 0.45,
+        "per_class": {
+          "eligible": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 14
+          },
+          "ineligible": {
+            "precision": 0.4827586206896552,
+            "recall": 0.7,
+            "f1": 0.5714285714285714,
+            "support": 20
+          },
+          "manual_review_required": {
+            "precision": 0.4444444444444444,
+            "recall": 0.6666666666666666,
+            "f1": 0.5333333333333333,
+            "support": 6
+          }
+        },
+        "confusion_matrix": {
+          "rows_reference": [
+            "eligible",
+            "ineligible",
+            "manual_review_required"
+          ],
+          "columns_predicted": [
+            "eligible",
+            "ineligible",
+            "manual_review_required",
+            "invalid"
+          ],
+          "counts": [
+            [
+              0,
+              13,
+              1,
+              0
+            ],
+            [
+              2,
+              14,
+              4,
+              0
+            ],
+            [
+              0,
+              2,
+              4,
+              0
+            ]
+          ]
+        },
+        "safety": {
+          "unsafe_false_positive_rate": {
+            "numerator": 2,
+            "denominator": 26,
+            "rate": 0.07692307692307693
+          },
+          "overly_conservative_false_negative_rate": {
+            "numerator": 14,
+            "denominator": 14,
+            "rate": 1.0
+          },
+          "correct_escalation_rate": {
+            "numerator": 4,
+            "denominator": 6,
+            "rate": 0.6666666666666666
+          },
+          "unsafe_overconfidence_rate_on_manual_review": {
+            "numerator": 2,
+            "denominator": 6,
+            "rate": 0.3333333333333333
+          },
+          "unnecessary_escalation_rate": {
+            "numerator": 5,
+            "denominator": 34,
+            "rate": 0.14705882352941177
+          },
+          "invalid_output_rate": {
+            "numerator": 0,
+            "denominator": 40,
+            "rate": 0.0
+          }
+        },
+        "macro_f1_ci95": [
+          0.22815126050420168,
+          0.48484848484848486
+        ]
+      }
+    },
+    "high": {
+      "curricupath": {
+        "n_cases": 40,
+        "macro_f1": 0.9729729729729729,
+        "balanced_accuracy": 0.9500000000000001,
+        "accuracy": 0.925,
+        "per_class": {
+          "eligible": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "support": 14
+          },
+          "ineligible": {
+            "precision": 1.0,
+            "recall": 0.85,
+            "f1": 0.9189189189189189,
+            "support": 20
+          },
+          "manual_review_required": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "support": 6
+          }
+        },
+        "confusion_matrix": {
+          "rows_reference": [
+            "eligible",
+            "ineligible",
+            "manual_review_required"
+          ],
+          "columns_predicted": [
+            "eligible",
+            "ineligible",
+            "manual_review_required",
+            "invalid"
+          ],
+          "counts": [
+            [
+              14,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              17,
+              0,
+              3
+            ],
+            [
+              0,
+              0,
+              6,
+              0
+            ]
+          ]
+        },
+        "safety": {
+          "unsafe_false_positive_rate": {
+            "numerator": 0,
+            "denominator": 26,
+            "rate": 0.0
+          },
+          "overly_conservative_false_negative_rate": {
+            "numerator": 0,
+            "denominator": 14,
+            "rate": 0.0
+          },
+          "correct_escalation_rate": {
+            "numerator": 6,
+            "denominator": 6,
+            "rate": 1.0
+          },
+          "unsafe_overconfidence_rate_on_manual_review": {
+            "numerator": 0,
+            "denominator": 6,
+            "rate": 0.0
+          },
+          "unnecessary_escalation_rate": {
+            "numerator": 0,
+            "denominator": 34,
+            "rate": 0.0
+          },
+          "invalid_output_rate": {
+            "numerator": 3,
+            "denominator": 40,
+            "rate": 0.075
+          }
+        },
+        "macro_f1_ci95": [
+          0.936936936936937,
+          1.0
+        ]
+      },
+      "curricupath_no_clarification": {
+        "n_cases": 40,
+        "macro_f1": 0.9729729729729729,
+        "balanced_accuracy": 0.9500000000000001,
+        "accuracy": 0.925,
+        "per_class": {
+          "eligible": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "support": 14
+          },
+          "ineligible": {
+            "precision": 1.0,
+            "recall": 0.85,
+            "f1": 0.9189189189189189,
+            "support": 20
+          },
+          "manual_review_required": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "support": 6
+          }
+        },
+        "confusion_matrix": {
+          "rows_reference": [
+            "eligible",
+            "ineligible",
+            "manual_review_required"
+          ],
+          "columns_predicted": [
+            "eligible",
+            "ineligible",
+            "manual_review_required",
+            "invalid"
+          ],
+          "counts": [
+            [
+              14,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              17,
+              0,
+              3
+            ],
+            [
+              0,
+              0,
+              6,
+              0
+            ]
+          ]
+        },
+        "safety": {
+          "unsafe_false_positive_rate": {
+            "numerator": 0,
+            "denominator": 26,
+            "rate": 0.0
+          },
+          "overly_conservative_false_negative_rate": {
+            "numerator": 0,
+            "denominator": 14,
+            "rate": 0.0
+          },
+          "correct_escalation_rate": {
+            "numerator": 6,
+            "denominator": 6,
+            "rate": 1.0
+          },
+          "unsafe_overconfidence_rate_on_manual_review": {
+            "numerator": 0,
+            "denominator": 6,
+            "rate": 0.0
+          },
+          "unnecessary_escalation_rate": {
+            "numerator": 0,
+            "denominator": 34,
+            "rate": 0.0
+          },
+          "invalid_output_rate": {
+            "numerator": 3,
+            "denominator": 40,
+            "rate": 0.075
+          }
+        },
+        "macro_f1_ci95": [
+          0.936936936936937,
+          1.0
+        ]
+      },
+      "rules_only": {
+        "n_cases": 40,
+        "macro_f1": 1.0,
+        "balanced_accuracy": 1.0,
+        "accuracy": 1.0,
+        "per_class": {
+          "eligible": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "support": 14
+          },
+          "ineligible": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "support": 20
+          },
+          "manual_review_required": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "support": 6
+          }
+        },
+        "confusion_matrix": {
+          "rows_reference": [
+            "eligible",
+            "ineligible",
+            "manual_review_required"
+          ],
+          "columns_predicted": [
+            "eligible",
+            "ineligible",
+            "manual_review_required",
+            "invalid"
+          ],
+          "counts": [
+            [
+              14,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              20,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              6,
+              0
+            ]
+          ]
+        },
+        "safety": {
+          "unsafe_false_positive_rate": {
+            "numerator": 0,
+            "denominator": 26,
+            "rate": 0.0
+          },
+          "overly_conservative_false_negative_rate": {
+            "numerator": 0,
+            "denominator": 14,
+            "rate": 0.0
+          },
+          "correct_escalation_rate": {
+            "numerator": 6,
+            "denominator": 6,
+            "rate": 1.0
+          },
+          "unsafe_overconfidence_rate_on_manual_review": {
+            "numerator": 0,
+            "denominator": 6,
+            "rate": 0.0
+          },
+          "unnecessary_escalation_rate": {
+            "numerator": 0,
+            "denominator": 34,
+            "rate": 0.0
+          },
+          "invalid_output_rate": {
+            "numerator": 0,
+            "denominator": 40,
+            "rate": 0.0
+          }
+        },
+        "macro_f1_ci95": [
+          1.0,
+          1.0
+        ]
+      },
+      "handbook_rag": {
+        "n_cases": 40,
+        "macro_f1": 0.5046008741660916,
+        "balanced_accuracy": 0.5484126984126984,
+        "accuracy": 0.525,
+        "per_class": {
+          "eligible": {
+            "precision": 0.6666666666666666,
+            "recall": 0.42857142857142855,
+            "f1": 0.5217391304347826,
+            "support": 14
+          },
+          "ineligible": {
+            "precision": 0.6875,
+            "recall": 0.55,
+            "f1": 0.6111111111111112,
+            "support": 20
+          },
+          "manual_review_required": {
+            "precision": 0.26666666666666666,
+            "recall": 0.6666666666666666,
+            "f1": 0.3809523809523809,
+            "support": 6
+          }
+        },
+        "confusion_matrix": {
+          "rows_reference": [
+            "eligible",
+            "ineligible",
+            "manual_review_required"
+          ],
+          "columns_predicted": [
+            "eligible",
+            "ineligible",
+            "manual_review_required",
+            "invalid"
+          ],
+          "counts": [
+            [
+              6,
+              4,
+              4,
+              0
+            ],
+            [
+              2,
+              11,
+              7,
+              0
+            ],
+            [
+              1,
+              1,
+              4,
+              0
+            ]
+          ]
+        },
+        "safety": {
+          "unsafe_false_positive_rate": {
+            "numerator": 3,
+            "denominator": 26,
+            "rate": 0.11538461538461539
+          },
+          "overly_conservative_false_negative_rate": {
+            "numerator": 8,
+            "denominator": 14,
+            "rate": 0.5714285714285714
+          },
+          "correct_escalation_rate": {
+            "numerator": 4,
+            "denominator": 6,
+            "rate": 0.6666666666666666
+          },
+          "unsafe_overconfidence_rate_on_manual_review": {
+            "numerator": 2,
+            "denominator": 6,
+            "rate": 0.3333333333333333
+          },
+          "unnecessary_escalation_rate": {
+            "numerator": 11,
+            "denominator": 34,
+            "rate": 0.3235294117647059
+          },
+          "invalid_output_rate": {
+            "numerator": 0,
+            "denominator": 40,
+            "rate": 0.0
+          }
+        },
+        "macro_f1_ci95": [
+          0.3356324636324637,
+          0.6521135999426414
+        ]
+      },
+      "structured_rules_llm": {
+        "n_cases": 40,
+        "macro_f1": 0.37898724082934604,
+        "balanced_accuracy": 0.46269841269841266,
+        "accuracy": 0.45,
+        "per_class": {
+          "eligible": {
+            "precision": 0.5,
+            "recall": 0.07142857142857142,
+            "f1": 0.125,
+            "support": 14
+          },
+          "ineligible": {
+            "precision": 0.5416666666666666,
+            "recall": 0.65,
+            "f1": 0.5909090909090908,
+            "support": 20
+          },
+          "manual_review_required": {
+            "precision": 0.3076923076923077,
+            "recall": 0.6666666666666666,
+            "f1": 0.42105263157894735,
+            "support": 6
+          }
+        },
+        "confusion_matrix": {
+          "rows_reference": [
+            "eligible",
+            "ineligible",
+            "manual_review_required"
+          ],
+          "columns_predicted": [
+            "eligible",
+            "ineligible",
+            "manual_review_required",
+            "invalid"
+          ],
+          "counts": [
+            [
+              1,
+              10,
+              3,
+              0
+            ],
+            [
+              1,
+              13,
+              6,
+              0
+            ],
+            [
+              0,
+              1,
+              4,
+              1
+            ]
+          ]
+        },
+        "safety": {
+          "unsafe_false_positive_rate": {
+            "numerator": 1,
+            "denominator": 26,
+            "rate": 0.038461538461538464
+          },
+          "overly_conservative_false_negative_rate": {
+            "numerator": 13,
+            "denominator": 14,
+            "rate": 0.9285714285714286
+          },
+          "correct_escalation_rate": {
+            "numerator": 4,
+            "denominator": 6,
+            "rate": 0.6666666666666666
+          },
+          "unsafe_overconfidence_rate_on_manual_review": {
+            "numerator": 1,
+            "denominator": 6,
+            "rate": 0.16666666666666666
+          },
+          "unnecessary_escalation_rate": {
+            "numerator": 9,
+            "denominator": 34,
+            "rate": 0.2647058823529412
+          },
+          "invalid_output_rate": {
+            "numerator": 1,
+            "denominator": 40,
+            "rate": 0.025
+          }
+        },
+        "macro_f1_ci95": [
+          0.23319738060954914,
+          0.5184143990929702
+        ]
+      }
+    }
+  },
+  "sufficiency": {
+    "curricupath": {
+      "before": {
+        "sufficient": {
+          "correct": 55,
+          "n": 63
+        },
+        "insufficient": {
+          "correct": 39,
+          "n": 57
+        }
+      },
+      "after": {
+        "sufficient": {
+          "correct": 55,
+          "n": 63
+        },
+        "insufficient": {
+          "correct": 57,
+          "n": 57
+        }
+      }
+    },
+    "rules_only": {
+      "before": {
+        "sufficient": {
+          "correct": 63,
+          "n": 63
+        },
+        "insufficient": {
+          "correct": 39,
+          "n": 57
+        }
+      },
+      "after": {
+        "sufficient": {
+          "correct": 63,
+          "n": 63
+        },
+        "insufficient": {
+          "correct": 57,
+          "n": 57
+        }
+      }
+    },
+    "handbook_rag": {
+      "before": {
+        "sufficient": {
+          "correct": 18,
+          "n": 63
+        },
+        "insufficient": {
+          "correct": 18,
+          "n": 57
+        }
+      },
+      "after": {
+        "sufficient": {
+          "correct": 40,
+          "n": 63
+        },
+        "insufficient": {
+          "correct": 27,
+          "n": 57
+        }
+      }
+    }
+  },
+  "hashes": {
+    "results/metrics_summary.json": "bb5c40a685ab8d9ecc1ca50bde54e51a796078e913f6e39baf04b5351f149d13",
+    "results_post_grid_final/metrics_summary.json": "2e1c065545ba26870fe04fbd892742238d769b61299cefb4638b046b77f6faec",
+    "results_school_grid_llm/scored/metrics_summary.json": "089d94cfd89c87048a648271f5df3ce5abdacd8bcc40f52202925d4f2bda7816",
+    "experiments\\evaluation\\test_set_v1\\results_school_grid_llm\\raw\\curricupath__low.jsonl": "ab9a2c08b6fff85f4e4f05fb20cf436cba3089b690677ab56f02ae8ea68d9606",
+    "experiments\\evaluation\\test_set_v1\\results_school_grid_llm\\raw\\curricupath_no_clarification__low.jsonl": "106c16ce1263f83166661963f506cf52a7e55c44cbb8180ee27016afa8841f18",
+    "experiments\\evaluation\\test_set_v1\\results_school_grid_llm\\raw\\rules_only__low.jsonl": "cd723f852e1a45843910a1cda870fb8867055ec43b11415a64f1a547c4ced6ab",
+    "experiments\\evaluation\\test_set_v1\\results_school_grid_llm\\raw\\handbook_rag__low.jsonl": "0d6f9a3dd391bc352ba04bb92e2ec5d8c9ab45c68c6bd0ffdb0de2412d7136ae",
+    "experiments\\evaluation\\test_set_v1\\results_school_grid_llm\\raw\\structured_rules_llm__low.jsonl": "8b3689ded373fdf039d8f286e42a905c56391dd6c849a5827c800d229dda9a92",
+    "experiments\\evaluation\\test_set_v1\\results_school_grid_llm\\raw\\curricupath__medium.jsonl": "20436de25181a4de8d70dbb866608e5b1cf333a752be77ef7b5cd0e5d1da6d40",
+    "experiments\\evaluation\\test_set_v1\\results_school_grid_llm\\raw\\curricupath_no_clarification__medium.jsonl": "f74022f41d8bf0e220e5c166104ad170ed294edb984799f9a47ec904928dd9aa",
+    "experiments\\evaluation\\test_set_v1\\results_school_grid_llm\\raw\\rules_only__medium.jsonl": "194867b2a300947bd2eef0f9120402a01f865d90309bb4fdf774b87de6db704e",
+    "experiments\\evaluation\\test_set_v1\\results_school_grid_llm\\raw\\handbook_rag__medium.jsonl": "cc2bb363ff49ff6e9bb63484eb6083dbe9b0ce02a28e96b0ffa92bc104c7352a",
+    "experiments\\evaluation\\test_set_v1\\results_school_grid_llm\\raw\\structured_rules_llm__medium.jsonl": "47d2d638f337e571bc008d4cdcd6960072ef5044eaaeae95eb77bfd66062ecac",
+    "experiments\\evaluation\\test_set_v1\\results_school_grid_llm\\raw\\curricupath__high.jsonl": "0b6da6b001c1f8a02e01cca5f31795b03ac4a8a99c0a6088aa14afe1be903df1",
+    "experiments\\evaluation\\test_set_v1\\results_school_grid_llm\\raw\\curricupath_no_clarification__high.jsonl": "0e081fe8788b74630df334b92fd46083494e32e2b6291e1a6f81d4f446134382",
+    "experiments\\evaluation\\test_set_v1\\results_school_grid_llm\\raw\\rules_only__high.jsonl": "49bbe721a5a72eaa8876c22a5e7d6eeddcdbad5fd69609b2da7ba83084eb7ee0",
+    "experiments\\evaluation\\test_set_v1\\results_school_grid_llm\\raw\\handbook_rag__high.jsonl": "210d3d3abadefee2ec3865dd3ad283208d53ee60329f4b8bfb76461907daf8a6",
+    "experiments\\evaluation\\test_set_v1\\results_school_grid_llm\\raw\\structured_rules_llm__high.jsonl": "2e448680d30c1af96b2b1654862cd12746b8613e4212e121ecbba9cd0a065da3",
+    "clarification_summary": "35b4490986560a8a2540d8b749b02967d721f8018ce532a6bdac76d237604279"
+  },
+  "historical_config_note": "This reads archived observations; it does not rerun the changed live application.",
+  "clarification": {
+    "case_file_sha256": "9b437c07a7358f799641da3f2da062101f7c5f16bff8a848182bf3ddec936971",
+    "arms": [
+      {
+        "arm": "clarify",
+        "population": "ask",
+        "n": 33,
+        "correct": 33,
+        "accuracy": 1.0,
+        "acc_ci_low": 0.8957,
+        "acc_ci_high": 1.0,
+        "unresolved": 0,
+        "wrong_decision": 0,
+        "unsafe_eligible_on_ineligible": 0,
+        "unsafe_denominator": 16,
+        "questions_asked": 33,
+        "question_rate": 1.0
+      },
+      {
+        "arm": "clarify",
+        "population": "control",
+        "n": 33,
+        "correct": 33,
+        "accuracy": 1.0,
+        "acc_ci_low": 0.8957,
+        "acc_ci_high": 1.0,
+        "unresolved": 0,
+        "wrong_decision": 0,
+        "unsafe_eligible_on_ineligible": 0,
+        "unsafe_denominator": 16,
+        "questions_asked": 0,
+        "question_rate": 0.0
+      },
+      {
+        "arm": "clarify",
+        "population": "irrelevant",
+        "n": 6,
+        "correct": 6,
+        "accuracy": 1.0,
+        "acc_ci_low": 0.6097,
+        "acc_ci_high": 1.0,
+        "unresolved": 0,
+        "wrong_decision": 0,
+        "unsafe_eligible_on_ineligible": 0,
+        "unsafe_denominator": 0,
+        "questions_asked": 0,
+        "question_rate": 0.0
+      },
+      {
+        "arm": "no_clarification",
+        "population": "ask",
+        "n": 33,
+        "correct": 0,
+        "accuracy": 0.0,
+        "acc_ci_low": 0.0,
+        "acc_ci_high": 0.1043,
+        "unresolved": 33,
+        "wrong_decision": 0,
+        "unsafe_eligible_on_ineligible": 0,
+        "unsafe_denominator": 16,
+        "questions_asked": 0,
+        "question_rate": 0.0
+      },
+      {
+        "arm": "no_clarification",
+        "population": "control",
+        "n": 33,
+        "correct": 33,
+        "accuracy": 1.0,
+        "acc_ci_low": 0.8957,
+        "acc_ci_high": 1.0,
+        "unresolved": 0,
+        "wrong_decision": 0,
+        "unsafe_eligible_on_ineligible": 0,
+        "unsafe_denominator": 16,
+        "questions_asked": 0,
+        "question_rate": 0.0
+      },
+      {
+        "arm": "no_clarification",
+        "population": "irrelevant",
+        "n": 6,
+        "correct": 6,
+        "accuracy": 1.0,
+        "acc_ci_low": 0.6097,
+        "acc_ci_high": 1.0,
+        "unresolved": 0,
+        "wrong_decision": 0,
+        "unsafe_eligible_on_ineligible": 0,
+        "unsafe_denominator": 0,
+        "questions_asked": 0,
+        "question_rate": 0.0
+      },
+      {
+        "arm": "assume_absent",
+        "population": "ask",
+        "n": 33,
+        "correct": 13,
+        "accuracy": 0.3939,
+        "acc_ci_low": 0.2468,
+        "acc_ci_high": 0.5632,
+        "unresolved": 9,
+        "wrong_decision": 11,
+        "unsafe_eligible_on_ineligible": 3,
+        "unsafe_denominator": 16,
+        "questions_asked": 0,
+        "question_rate": 0.0
+      },
+      {
+        "arm": "assume_absent",
+        "population": "control",
+        "n": 33,
+        "correct": 30,
+        "accuracy": 0.9091,
+        "acc_ci_low": 0.7643,
+        "acc_ci_high": 0.9686,
+        "unresolved": 3,
+        "wrong_decision": 0,
+        "unsafe_eligible_on_ineligible": 0,
+        "unsafe_denominator": 16,
+        "questions_asked": 0,
+        "question_rate": 0.0
+      },
+      {
+        "arm": "assume_absent",
+        "population": "irrelevant",
+        "n": 6,
+        "correct": 6,
+        "accuracy": 1.0,
+        "acc_ci_low": 0.6097,
+        "acc_ci_high": 1.0,
+        "unresolved": 0,
+        "wrong_decision": 0,
+        "unsafe_eligible_on_ineligible": 0,
+        "unsafe_denominator": 0,
+        "questions_asked": 0,
+        "question_rate": 0.0
+      },
+      {
+        "arm": "oracle",
+        "population": "ask",
+        "n": 33,
+        "correct": 33,
+        "accuracy": 1.0,
+        "acc_ci_low": 0.8957,
+        "acc_ci_high": 1.0,
+        "unresolved": 0,
+        "wrong_decision": 0,
+        "unsafe_eligible_on_ineligible": 0,
+        "unsafe_denominator": 16,
+        "questions_asked": 0,
+        "question_rate": 0.0
+      },
+      {
+        "arm": "oracle",
+        "population": "control",
+        "n": 33,
+        "correct": 33,
+        "accuracy": 1.0,
+        "acc_ci_low": 0.8957,
+        "acc_ci_high": 1.0,
+        "unresolved": 0,
+        "wrong_decision": 0,
+        "unsafe_eligible_on_ineligible": 0,
+        "unsafe_denominator": 16,
+        "questions_asked": 0,
+        "question_rate": 0.0
+      },
+      {
+        "arm": "oracle",
+        "population": "irrelevant",
+        "n": 6,
+        "correct": 6,
+        "accuracy": 1.0,
+        "acc_ci_low": 0.6097,
+        "acc_ci_high": 1.0,
+        "unresolved": 0,
+        "wrong_decision": 0,
+        "unsafe_eligible_on_ineligible": 0,
+        "unsafe_denominator": 0,
+        "questions_asked": 0,
+        "question_rate": 0.0
+      }
+    ],
+    "by_fact_type": [
+      {
+        "arm": "clarify",
+        "fact_type": "clash",
+        "n": 6,
+        "correct": 6,
+        "accuracy": 1.0,
+        "unresolved": 0
+      },
+      {
+        "arm": "clarify",
+        "fact_type": "coreq",
+        "n": 9,
+        "correct": 9,
+        "accuracy": 1.0,
+        "unresolved": 0
+      },
+      {
+        "arm": "clarify",
+        "fact_type": "prereq_multi",
+        "n": 6,
+        "correct": 6,
+        "accuracy": 1.0,
+        "unresolved": 0
+      },
+      {
+        "arm": "clarify",
+        "fact_type": "prereq_single",
+        "n": 12,
+        "correct": 12,
+        "accuracy": 1.0,
+        "unresolved": 0
+      },
+      {
+        "arm": "no_clarification",
+        "fact_type": "clash",
+        "n": 6,
+        "correct": 0,
+        "accuracy": 0.0,
+        "unresolved": 6
+      },
+      {
+        "arm": "no_clarification",
+        "fact_type": "coreq",
+        "n": 9,
+        "correct": 0,
+        "accuracy": 0.0,
+        "unresolved": 9
+      },
+      {
+        "arm": "no_clarification",
+        "fact_type": "prereq_multi",
+        "n": 6,
+        "correct": 0,
+        "accuracy": 0.0,
+        "unresolved": 6
+      },
+      {
+        "arm": "no_clarification",
+        "fact_type": "prereq_single",
+        "n": 12,
+        "correct": 0,
+        "accuracy": 0.0,
+        "unresolved": 12
+      },
+      {
+        "arm": "assume_absent",
+        "fact_type": "clash",
+        "n": 6,
+        "correct": 3,
+        "accuracy": 0.5,
+        "unresolved": 0
+      },
+      {
+        "arm": "assume_absent",
+        "fact_type": "coreq",
+        "n": 9,
+        "correct": 0,
+        "accuracy": 0.0,
+        "unresolved": 9
+      },
+      {
+        "arm": "assume_absent",
+        "fact_type": "prereq_multi",
+        "n": 6,
+        "correct": 4,
+        "accuracy": 0.6667,
+        "unresolved": 0
+      },
+      {
+        "arm": "assume_absent",
+        "fact_type": "prereq_single",
+        "n": 12,
+        "correct": 6,
+        "accuracy": 0.5,
+        "unresolved": 0
+      },
+      {
+        "arm": "oracle",
+        "fact_type": "clash",
+        "n": 6,
+        "correct": 6,
+        "accuracy": 1.0,
+        "unresolved": 0
+      },
+      {
+        "arm": "oracle",
+        "fact_type": "coreq",
+        "n": 9,
+        "correct": 9,
+        "accuracy": 1.0,
+        "unresolved": 0
+      },
+      {
+        "arm": "oracle",
+        "fact_type": "prereq_multi",
+        "n": 6,
+        "correct": 6,
+        "accuracy": 1.0,
+        "unresolved": 0
+      },
+      {
+        "arm": "oracle",
+        "fact_type": "prereq_single",
+        "n": 12,
+        "correct": 12,
+        "accuracy": 1.0,
+        "unresolved": 0
+      }
+    ],
+    "paired": [
+      {
+        "arm_a": "clarify",
+        "arm_b": "no_clarification",
+        "n": 33,
+        "a_right_b_wrong": 33,
+        "b_right_a_wrong": 0,
+        "both_right": 0,
+        "both_wrong": 0
+      },
+      {
+        "arm_a": "clarify",
+        "arm_b": "assume_absent",
+        "n": 33,
+        "a_right_b_wrong": 20,
+        "b_right_a_wrong": 0,
+        "both_right": 13,
+        "both_wrong": 0
+      },
+      {
+        "arm_a": "clarify",
+        "arm_b": "oracle",
+        "n": 33,
+        "a_right_b_wrong": 0,
+        "b_right_a_wrong": 0,
+        "both_right": 33,
+        "both_wrong": 0
+      }
+    ],
+    "clarify_misses": []
+  }
+}

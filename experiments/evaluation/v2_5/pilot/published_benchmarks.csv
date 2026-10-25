@@ -1,0 +1,11 @@
+benchmark_id,system,metric,value,unit,pages,data_note,our_counterpart
+B6,NileAdvisor (Alaa et al. 2025),average_query_time,2.07,seconds,2-5,"single institution; Gemini to Cypher over Neo4j",response_time
+B6,NileAdvisor (Alaa et al. 2025),f1,0.958,proportion,2-5,"300 processed queries listed (420 described); 3 tracks",eligibility_macro_f1
+B6,NileAdvisor (Alaa et al. 2025),query_success,0.93,proportion,2-5,"curated query collection; single institution",intent_accuracy
+B1,Islam and Hosen (2025),prerequisite_classification,0.99,proportion,"1, 23-25","synthetic: 101330 interactions, 10000 simulated students; reported as above 99%",eligibility_macro_f1
+B5,ARGObot (Tamascelli et al. 2025),answer_correctness,0.878,proportion,4-7,"18 handbook questions",none_yet
+B5,ARGObot (Tamascelli et al. 2025),faithfulness,0.927,proportion,4-7,"18 handbook questions",none_yet
+B4,MyAdvisor (Kuhail et al. 2023),student_task_success,0.92,proportion,16-20,"17 students and 4 advisors",none_yet
+B4,MyAdvisor (Kuhail et al. 2023),sus_students,86.47,score_0_100,16-20,"17 students",none_yet
+B3,Course recommender chatbot (Tan et al. 2022),usability_acceptance,8.2,score_0_10,"1, 3-5","35-student requirements survey",none_yet
+B2,Prerequisite-based recommender (Chanaa and El Faddouli 2024),ndcg_at_10,0.8648,proportion,"1, 16-21","public learning objects; not institutional rules",none_yet

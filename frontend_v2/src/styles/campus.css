@@ -1,0 +1,53 @@
+/* Owner: Home's photographic composition. No route-specific overrides elsewhere. */
+.campus-hero { position:relative; isolation:isolate; overflow:hidden; min-height:540px; margin-bottom:var(--space-6); padding:42px 44px 78px; border:1px solid var(--hero-edge); border-radius:var(--radius-panel); color:var(--hero-ink); background:var(--hero-ground); }
+.campus-hero-photo { position:absolute; inset:0; z-index:-1; background:linear-gradient(90deg,rgba(8,17,30,.9),rgba(8,17,30,.74) 38%,rgba(8,17,30,.16) 70%,rgba(8,17,30,.06)),linear-gradient(0deg,rgba(8,17,30,.16),transparent 45%),url('/assets/wits-arm-evening.jpeg') center 30%/cover no-repeat; }
+/* Reveal the original campus photograph without lifting the text surfaces. */
+.app-shell[data-page='home'] .atmosphere-plate { opacity:.48; filter:brightness(1.08) saturate(1.08); }
+.campus-hero .home-heading { position:relative; z-index:1; max-width:52%; padding:0; }
+.home-heading .eyebrow { display:flex; align-items:center; gap:10px; color:var(--hero-muted); }
+.live-dot { width:5px; height:5px; border-radius:50%; background:var(--hero-muted); }
+.campus-hero .home-heading h1 { font-size:clamp(48px,4.8vw,72px); line-height:1.02; letter-spacing:-1.4px; margin:18px 0 22px; text-wrap:balance; }
+.hero-greeting { display:block; font:400 17px/1.5 var(--font-body); color:var(--hero-muted); letter-spacing:0; margin-bottom:12px; }
+.home-heading h1 em { display:block; color:var(--hero-ink); }
+.campus-hero .home-heading > p { color:var(--hero-muted); font-size:var(--type-meta); line-height:1.7; margin:0; max-width:40ch; }
+.home-heading p span { padding-inline:4px; }
+.hero-next-step { margin-top:26px; max-width:42ch; }
+.hero-next-step > .eyebrow { font-size:10px; letter-spacing:1.5px; }
+.hero-next-step > p { color:var(--hero-muted); font-size:13px; margin:8px 0 16px; line-height:1.7; }
+.hero-next-step .primary-button { background:#e9c795; border-color:#e9c795; color:#17233a; text-align:left; }
+.hero-interest-link { display:flex; align-items:center; gap:8px; background:transparent; border:0; color:var(--hero-muted); min-height:44px; font-size:12px; padding:10px 0; }
+.hero-interest-link:hover { color:var(--hero-ink); text-decoration:underline; }
+.campus-window { display:none; position:absolute; right:6%; top:32px; bottom:78px; width:34%; border:1px solid var(--hero-edge); border-radius:220px 220px 8px 8px; pointer-events:none; transform:translate3d(var(--depth-x,0px),var(--depth-y,0px),0); transition:transform var(--motion-page) var(--motion-ease); }
+.campus-window::before { content:''; position:absolute; inset:0; border-radius:inherit; background:url('/assets/wits-arm-evening.jpeg') center top/cover no-repeat; opacity:.6; -webkit-mask-image:linear-gradient(180deg,#000 55%,transparent 100%); mask-image:linear-gradient(180deg,#000 55%,transparent 100%); }
+.campus-window::after { content:''; position:absolute; inset:10px; border:1px solid var(--hero-edge); border-radius:inherit; }
+.window-registration { position:absolute; left:-8px; bottom:-8px; width:16px; height:16px; border-left:1px solid var(--hero-muted); border-bottom:1px solid var(--hero-muted); }
+.window-registration + .window-registration { left:auto; right:-8px; transform:rotate(-90deg); }
+.campus-caption { position:absolute; right:24px; bottom:22px; display:flex; align-items:center; gap:12px; font-size:12px; color:var(--hero-ink); padding:9px 12px; background:rgba(8,17,30,.72); border:1px solid var(--hero-edge); border-radius:10px; }
+.campus-caption-line { width:28px; height:1px; background:var(--hero-edge); }
+.campus-caption > span > span { display:block; font-size:10px; color:var(--hero-muted); margin-top:4px; }
+.campus-hero .hero-light-trails { display:block; left:54%; z-index:0; }
+.app-shell[data-page='home'] .atmosphere .campus-light-trails { display:none; }
+.app-shell[data-motion-level='subtle'] .campus-light-trails { opacity:.45; }
+.app-shell[data-motion-level='subtle'] .campus-light-trail { animation-duration:24s; }
+.app-shell[data-motion-level='off'] .campus-light-trails { display:none; }
+.app-shell[data-page='home'][data-motion-level='subtle'] .atmosphere-light { display:none; }
+.app-shell[data-visibility='hidden'] .campus-light-trail { animation-play-state:paused; }
+@media (max-width:960px) {
+ .campus-hero { padding:32px 30px 72px; min-height:560px; }
+ .campus-hero .home-heading { max-width:60%; }
+ .campus-hero .home-heading h1 { font-size:54px; }
+ .campus-window { width:29%; right:4%; }
+}
+@media (max-width:600px) {
+ .campus-hero { padding:28px 22px 255px; min-height:690px; }
+  .campus-hero-photo { background:linear-gradient(180deg,var(--hero-ground) 0%,var(--hero-ground) 49%,rgba(8,17,30,.2) 60%,transparent 69%),url('/assets/wits-arm-evening.jpeg') center bottom/auto 285px no-repeat; }
+ .campus-hero .home-heading { max-width:100%; }
+ .campus-hero .home-heading h1 { font-size:clamp(39px,11vw,51px); letter-spacing:-.8px; }
+ .hero-greeting { font-size:15px; }
+ .campus-window { display:none; }
+ .hero-next-step { margin-top:22px; }
+ .hero-next-step .primary-button { width:100%; justify-content:space-between; }
+ .campus-hero .hero-light-trails { inset:auto 0 0; height:245px; }
+ .campus-caption { right:12px; bottom:12px; }
+}
+@media (prefers-reduced-motion:reduce) { .campus-window { transform:none; } .campus-light-trails { display:none; } }

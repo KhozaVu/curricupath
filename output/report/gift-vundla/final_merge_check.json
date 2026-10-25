@@ -1,0 +1,322 @@
+{
+  "date": "2026-10-25",
+  "pages": 52,
+  "all_pages_render_identical": true,
+  "link_integrity_checked": true,
+  "link_errors": [],
+  "links_checked": 115,
+  "checks": [
+    {
+      "combined_page": 1,
+      "component_page": 1,
+      "component": "CurricuPath_Gift_Vundla_Main_Paper.pdf",
+      "render_identical": true
+    },
+    {
+      "combined_page": 2,
+      "component_page": 2,
+      "component": "CurricuPath_Gift_Vundla_Main_Paper.pdf",
+      "render_identical": true
+    },
+    {
+      "combined_page": 3,
+      "component_page": 3,
+      "component": "CurricuPath_Gift_Vundla_Main_Paper.pdf",
+      "render_identical": true
+    },
+    {
+      "combined_page": 4,
+      "component_page": 4,
+      "component": "CurricuPath_Gift_Vundla_Main_Paper.pdf",
+      "render_identical": true
+    },
+    {
+      "combined_page": 5,
+      "component_page": 5,
+      "component": "CurricuPath_Gift_Vundla_Main_Paper.pdf",
+      "render_identical": true
+    },
+    {
+      "combined_page": 6,
+      "component_page": 6,
+      "component": "CurricuPath_Gift_Vundla_Main_Paper.pdf",
+      "render_identical": true
+    },
+    {
+      "combined_page": 7,
+      "component_page": 1,
+      "component": "Reflection_on_Group_Work.pdf",
+      "render_identical": true
+    },
+    {
+      "combined_page": 8,
+      "component_page": 2,
+      "component": "Reflection_on_Group_Work.pdf",
+      "render_identical": true
+    },
+    {
+      "combined_page": 9,
+      "component_page": 1,
+      "component": "Appendix_B_Original_Unmarked_Project_Plan.pdf",
+      "render_identical": true
+    },
+    {
+      "combined_page": 10,
+      "component_page": 2,
+      "component": "Appendix_B_Original_Unmarked_Project_Plan.pdf",
+      "render_identical": true
+    },
+    {
+      "combined_page": 11,
+      "component_page": 3,
+      "component": "Appendix_B_Original_Unmarked_Project_Plan.pdf",
+      "render_identical": true
+    },
+    {
+      "combined_page": 12,
+      "component_page": 4,
+      "component": "Appendix_B_Original_Unmarked_Project_Plan.pdf",
+      "render_identical": true
+    },
+    {
+      "combined_page": 13,
+      "component_page": 5,
+      "component": "Appendix_B_Original_Unmarked_Project_Plan.pdf",
+      "render_identical": true
+    },
+    {
+      "combined_page": 14,
+      "component_page": 6,
+      "component": "Appendix_B_Original_Unmarked_Project_Plan.pdf",
+      "render_identical": true
+    },
+    {
+      "combined_page": 15,
+      "component_page": 7,
+      "component": "Appendix_B_Original_Unmarked_Project_Plan.pdf",
+      "render_identical": true
+    },
+    {
+      "combined_page": 16,
+      "component_page": 8,
+      "component": "Appendix_B_Original_Unmarked_Project_Plan.pdf",
+      "render_identical": true
+    },
+    {
+      "combined_page": 17,
+      "component_page": 9,
+      "component": "Appendix_B_Original_Unmarked_Project_Plan.pdf",
+      "render_identical": true
+    },
+    {
+      "combined_page": 18,
+      "component_page": 10,
+      "component": "Appendix_B_Original_Unmarked_Project_Plan.pdf",
+      "render_identical": true
+    },
+    {
+      "combined_page": 19,
+      "component_page": 11,
+      "component": "Appendix_B_Original_Unmarked_Project_Plan.pdf",
+      "render_identical": true
+    },
+    {
+      "combined_page": 20,
+      "component_page": 1,
+      "component": "Appendix_C_Application_Use_Cases.pdf",
+      "render_identical": true
+    },
+    {
+      "combined_page": 21,
+      "component_page": 2,
+      "component": "Appendix_C_Application_Use_Cases.pdf",
+      "render_identical": true
+    },
+    {
+      "combined_page": 22,
+      "component_page": 3,
+      "component": "Appendix_C_Application_Use_Cases.pdf",
+      "render_identical": true
+    },
+    {
+      "combined_page": 23,
+      "component_page": 1,
+      "component": "Appendix_D_Integration_and_Verification.pdf",
+      "render_identical": true
+    },
+    {
+      "combined_page": 24,
+      "component_page": 2,
+      "component": "Appendix_D_Integration_and_Verification.pdf",
+      "render_identical": true
+    },
+    {
+      "combined_page": 25,
+      "component_page": 3,
+      "component": "Appendix_D_Integration_and_Verification.pdf",
+      "render_identical": true
+    },
+    {
+      "combined_page": 26,
+      "component_page": 1,
+      "component": "Appendix_E_Merged_Meeting_Minutes.pdf",
+      "render_identical": true
+    },
+    {
+      "combined_page": 27,
+      "component_page": 2,
+      "component": "Appendix_E_Merged_Meeting_Minutes.pdf",
+      "render_identical": true
+    },
+    {
+      "combined_page": 28,
+      "component_page": 3,
+      "component": "Appendix_E_Merged_Meeting_Minutes.pdf",
+      "render_identical": true
+    },
+    {
+      "combined_page": 29,
+      "component_page": 4,
+      "component": "Appendix_E_Merged_Meeting_Minutes.pdf",
+      "render_identical": true
+    },
+    {
+      "combined_page": 30,
+      "component_page": 5,
+      "component": "Appendix_E_Merged_Meeting_Minutes.pdf",
+      "render_identical": true
+    },
+    {
+      "combined_page": 31,
+      "component_page": 6,
+      "component": "Appendix_E_Merged_Meeting_Minutes.pdf",
+      "render_identical": true
+    },
+    {
+      "combined_page": 32,
+      "component_page": 7,
+      "component": "Appendix_E_Merged_Meeting_Minutes.pdf",
+      "render_identical": true
+    },
+    {
+      "combined_page": 33,
+      "component_page": 8,
+      "component": "Appendix_E_Merged_Meeting_Minutes.pdf",
+      "render_identical": true
+    },
+    {
+      "combined_page": 34,
+      "component_page": 9,
+      "component": "Appendix_E_Merged_Meeting_Minutes.pdf",
+      "render_identical": true
+    },
+    {
+      "combined_page": 35,
+      "component_page": 10,
+      "component": "Appendix_E_Merged_Meeting_Minutes.pdf",
+      "render_identical": true
+    },
+    {
+      "combined_page": 36,
+      "component_page": 11,
+      "component": "Appendix_E_Merged_Meeting_Minutes.pdf",
+      "render_identical": true
+    },
+    {
+      "combined_page": 37,
+      "component_page": 12,
+      "component": "Appendix_E_Merged_Meeting_Minutes.pdf",
+      "render_identical": true
+    },
+    {
+      "combined_page": 38,
+      "component_page": 13,
+      "component": "Appendix_E_Merged_Meeting_Minutes.pdf",
+      "render_identical": true
+    },
+    {
+      "combined_page": 39,
+      "component_page": 14,
+      "component": "Appendix_E_Merged_Meeting_Minutes.pdf",
+      "render_identical": true
+    },
+    {
+      "combined_page": 40,
+      "component_page": 15,
+      "component": "Appendix_E_Merged_Meeting_Minutes.pdf",
+      "render_identical": true
+    },
+    {
+      "combined_page": 41,
+      "component_page": 16,
+      "component": "Appendix_E_Merged_Meeting_Minutes.pdf",
+      "render_identical": true
+    },
+    {
+      "combined_page": 42,
+      "component_page": 17,
+      "component": "Appendix_E_Merged_Meeting_Minutes.pdf",
+      "render_identical": true
+    },
+    {
+      "combined_page": 43,
+      "component_page": 18,
+      "component": "Appendix_E_Merged_Meeting_Minutes.pdf",
+      "render_identical": true
+    },
+    {
+      "combined_page": 44,
+      "component_page": 19,
+      "component": "Appendix_E_Merged_Meeting_Minutes.pdf",
+      "render_identical": true
+    },
+    {
+      "combined_page": 45,
+      "component_page": 20,
+      "component": "Appendix_E_Merged_Meeting_Minutes.pdf",
+      "render_identical": true
+    },
+    {
+      "combined_page": 46,
+      "component_page": 21,
+      "component": "Appendix_E_Merged_Meeting_Minutes.pdf",
+      "render_identical": true
+    },
+    {
+      "combined_page": 47,
+      "component_page": 22,
+      "component": "Appendix_E_Merged_Meeting_Minutes.pdf",
+      "render_identical": true
+    },
+    {
+      "combined_page": 48,
+      "component_page": 23,
+      "component": "Appendix_E_Merged_Meeting_Minutes.pdf",
+      "render_identical": true
+    },
+    {
+      "combined_page": 49,
+      "component_page": 24,
+      "component": "Appendix_E_Merged_Meeting_Minutes.pdf",
+      "render_identical": true
+    },
+    {
+      "combined_page": 50,
+      "component_page": 25,
+      "component": "Appendix_E_Merged_Meeting_Minutes.pdf",
+      "render_identical": true
+    },
+    {
+      "combined_page": 51,
+      "component_page": 26,
+      "component": "Appendix_E_Merged_Meeting_Minutes.pdf",
+      "render_identical": true
+    },
+    {
+      "combined_page": 52,
+      "component_page": 27,
+      "component": "Appendix_E_Merged_Meeting_Minutes.pdf",
+      "render_identical": true
+    }
+  ]
+}

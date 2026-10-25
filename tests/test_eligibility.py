@@ -177,6 +177,8 @@ def test_clarification_payload_targets_first_material_unknown_fact() -> None:
         "reason": "Prerequisite rule PRE_MATH1049 is not satisfied.",
         "unresolved_predicates": ["MATH1048A"],
         "target_predicate": "MATH1048A",
+        "target_predicates": ["MATH1048A"],
+        "gate": "prerequisite",
         "question": "Have you completed MATH1048A?",
         "options": ["Completed", "Not completed"],
     }

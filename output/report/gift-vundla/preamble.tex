@@ -1,0 +1,23 @@
+\documentclass[10pt,twocolumn]{witseiepaper}
+\setlength{\paperwidth}{210mm}
+\setlength{\paperheight}{297mm}
+\usepackage{KJN}
+\usepackage{amsmath}
+\usepackage{times}
+\usepackage{flafter}
+% Compatibility repair for the retained 2005 class with current LaTeX.
+% The class expects a third caption argument; current hyperref supplies two.
+\makeatletter
+\long\def\@makecaption#1#2{%
+  \vskip 5pt
+  \setbox\@tempboxa\hbox{#1~:~#2}%
+  \ifdim\wd\@tempboxa>\hsize
+    {\noindent #1~:~#2\par}%
+  \else
+    \hbox to\hsize{\hfil\box\@tempboxa\hfil}%
+  \fi
+  \vskip 8pt}
+\makeatother
+\hypersetup{pdftitle={AI-Assisted E-Learning Recommendation Platform},pdfauthor={Gift Vundla},pdfsubject={Eligibility integration and reproducible verification}}
+
+

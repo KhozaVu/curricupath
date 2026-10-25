@@ -22,7 +22,7 @@ from app.advisor.interpretation_fallback import (
     is_new_programme_question,
     needs_fallback,
 )
-from app.advisor.intent import build_intent_extractor
+from app.advisor.intent import EXTRACTOR_SOURCE, build_intent_extractor
 from app.advisor.intent import DeterministicIntentExtractor
 from app.advisor.reviewer import (
     GeminiResponseReviewer,
@@ -30,7 +30,6 @@ from app.advisor.reviewer import (
     ReviewCoordinator,
 )
 from app.advisor.scope import classify_scope, is_prohibited, out_of_scope_response
-from app.advisor.ranking import PairwiseLogisticRanker, PublicCourseRanker
 from app.backend import CurricuPathService
 from app.config import PROJECT_ROOT, Settings, get_settings
 from app.data.database import create_database_engine
@@ -53,7 +52,7 @@ from app.data.sessions import (
     SessionStore,
 )
 from app.evaluation.runner import GeminiDecisionClient
-from app.ui.advisor_page import advisor_page_html
+from app.ui.advisor_page import advisor_page_html, advisor_page_v2_html
 
 
 class EligibilityRequest(BaseModel):
@@ -83,6 +82,10 @@ class AdvisorRequest(BaseModel):
     repeating_modules: set[str] = Field(default_factory=set)
     module_states: dict[str, ModuleFactState] = Field(default_factory=dict)
     module_history_confirmed: bool | None = None
+    # Declared circumstances needing academic review (e.g. an unrecorded concession).
+    manual_review_reasons: list[str] = Field(default_factory=list, max_length=10)
+    interests: list[str] = Field(default_factory=list, max_length=20)
+    year_of_study: int | None = Field(default=None, ge=1, le=4)
     ranking_mode: Literal["deterministic", "prototype"] = "deterministic"
     system: Literal["curricupath", "handbook_rag"] = "curricupath"
     # False gives the no-clarification ablation: CurricuPath answers without ever asking.
@@ -96,7 +99,7 @@ class SemanticSearchRequest(BaseModel):
     """One hosted query embedding evaluated against stored pgvector chunks."""
 
     query: str = Field(min_length=1, max_length=1000)
-    item_type: Literal["module", "public_course"] | None = None
+    item_type: Literal["module"] = "module"
     limit: int = Field(default=10, ge=1, le=50)
 
 
@@ -107,7 +110,6 @@ def create_app(
     semantic_search: PostgresSemanticSearch | None = None,
     enable_semantic_search: bool = False,
     recommendation_logger: RecommendationLogger | None = None,
-    public_course_ranker: PublicCourseRanker | None = None,
     response_reviewer: ResponseReviewer | None = None,
     handbook_rag_demo: HandbookRagDemo | None = None,
 ) -> FastAPI:
@@ -120,19 +122,13 @@ def create_app(
             repository,
             str(PROJECT_ROOT),
             timetable_clash_gate_enabled=settings.timetable_clash_gate_enabled,
+            school_grid_requirements_enabled=settings.school_grid_requirements_enabled,
         )
     else:
         settings = get_settings()
 
     if semantic_search is None and enable_semantic_search:
         semantic_search = _build_semantic_search(settings)
-
-    if public_course_ranker is None and settings.public_course_ranker_enabled:
-        public_course_ranker = _build_public_course_ranker(
-            settings,
-            service.repository,
-            semantic_search,
-        )
 
     if advisor_engine is None:
         aliases = service.repository.get_aliases()
@@ -145,7 +141,6 @@ def create_app(
             service,
             extractor,
             semantic_search,
-            public_course_ranker,
         )
     else:
         aliases = service.repository.get_aliases()
@@ -177,7 +172,20 @@ def create_app(
 
     @api.get("/", response_class=HTMLResponse, include_in_schema=False)
     def advisor_page() -> str:
-        return advisor_page_html()
+        return advisor_page_v2_html()
+
+    # New interface, served beside the existing one until it is promoted to "/".
+    assets_v2 = PROJECT_ROOT / "app" / "ui" / "assets_v2"
+    if assets_v2.is_dir():
+        api.mount("/v2/assets", StaticFiles(directory=assets_v2), name="assets_v2")
+
+    @api.get("/v2", response_class=HTMLResponse, include_in_schema=False)
+    def advisor_page_v2() -> str:
+        return advisor_page_v2_html()
+
+    @api.get("/programmes/{programme_code}/graph")
+    def programme_graph(programme_code: str) -> dict[str, object]:
+        return service.programme_graph(programme_code)
 
     @api.get("/health")
     def health() -> dict[str, str]:
@@ -192,22 +200,8 @@ def create_app(
 
     @api.get("/catalogue/summary")
     def catalogue_summary() -> dict[str, object]:
-        learned_ranker_available = advisor_engine.public_course_ranker is not None
-        return {
-            **service.summary(),
-            "public_course_ranking_mode": (
-                advisor_engine.public_course_ranker.mode
-                if learned_ranker_available
-                else "deterministic"
-            ),
-            "available_public_course_ranking_modes": (
-                ["deterministic", "prototype"]
-                if learned_ranker_available
-                else ["deterministic"]
-            ),
-            "reasoning_reviewer_enabled": response_reviewer is not None,
-            "handbook_rag_demo_enabled": handbook_rag_demo is not None,
-        }
+        return {**service.summary(), "reasoning_reviewer_enabled": response_reviewer is not None,
+                "handbook_rag_demo_enabled": handbook_rag_demo is not None}
 
     @api.get("/programmes/{programme_code}/modules")
     def modules(
@@ -222,26 +216,6 @@ def create_app(
         if result is None:
             raise HTTPException(status_code=404, detail="Module not found")
         return result
-
-    @api.get("/courses")
-    def courses(
-        category: str | None = None,
-        interest: str | None = None,
-        career: str | None = None,
-        limit: Annotated[int, Query(ge=1, le=100)] = 50,
-    ) -> list[dict[str, object]]:
-        return service.courses(category, interest, career, limit)
-
-    @api.get("/courses/{course_id}")
-    def course(course_id: str) -> dict[str, object]:
-        result = service.course(course_id)
-        if result is None:
-            raise HTTPException(status_code=404, detail="Course not found")
-        return result
-
-    @api.get("/career-paths")
-    def career_paths() -> list[dict[str, object]]:
-        return service.career_paths()
 
     @api.get("/evidence")
     def evidence() -> dict[str, object]:
@@ -371,6 +345,9 @@ def create_app(
                 module_history_confirmed=request.module_history_confirmed,
                 allow_clarification=request.allow_clarification,
                 repeating_modules=request.repeating_modules,
+                manual_review_reasons=tuple(request.manual_review_reasons),
+                profile_interests=scope_extractor.extract("I enjoy " + ", ".join(request.interests).replace("_", " ")).interests if request.interests else (),
+                profile_year=request.year_of_study,
             )
             result["scope"] = scope.model_dump()
             result = review_coordinator.process(message, result)
@@ -389,6 +366,9 @@ def create_app(
         result["session_id"] = session_id
         if fallback_used is not None:
             result["interpretation_fallback"] = fallback_used
+        # Visible proof of how the message was read: "gemini", "offline" (parser only), or null
+        # (no model configured).
+        result["language_understanding"] = {"extractor": EXTRACTOR_SOURCE.get()}
         return result
 
     @api.delete("/advisor/sessions/{session_id}")
@@ -498,43 +478,6 @@ def _build_catalogue_repository(settings: Settings):
         "PostgreSQL catalogue is unavailable and CSV fallback is disabled."
     )
 
-
-def _build_public_course_ranker(
-    settings: Settings,
-    repository,
-    semantic_search: PostgresSemanticSearch | None,
-) -> PairwiseLogisticRanker | None:
-    """Load an approved ranker or retain the deterministic production fallback."""
-
-    if not isinstance(repository, PostgresCatalogueRepository):
-        warnings.warn(
-            "The learned ranker requires the fingerprinted PostgreSQL catalogue; "
-            "using deterministic ranking.",
-            RuntimeWarning,
-            stacklevel=2,
-        )
-        return None
-    if semantic_search is None:
-        warnings.warn(
-            "The learned ranker requires semantic search; using deterministic ranking.",
-            RuntimeWarning,
-            stacklevel=2,
-        )
-        return None
-    try:
-        return PairwiseLogisticRanker.load(
-            settings.public_course_ranker_model,
-            catalogue_fingerprint=catalogue_version(repository.engine),
-            embedding_model=settings.embedding_model,
-            require_deployment_eligible=not settings.allow_experimental_ranker,
-        )
-    except (OSError, ValueError) as error:
-        warnings.warn(
-            f"Learned ranker was not loaded ({error}); using deterministic ranking.",
-            RuntimeWarning,
-            stacklevel=2,
-        )
-        return None
 
 
 def _build_session_store(repository) -> SessionStore:

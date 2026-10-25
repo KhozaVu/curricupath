@@ -18,11 +18,8 @@ def test_learned_ranker_is_disabled_by_default(monkeypatch) -> None:
 
     settings = get_settings()
 
-    assert settings.public_course_ranker_enabled is False
-    assert settings.allow_experimental_ranker is False
-    assert settings.public_course_ranker_model == Path(
-        "experiments/models/public_course_pairwise_logistic_v1.json"
-    ).resolve()
+    assert not hasattr(settings, "public_course_ranker_enabled")
+
 
 
 def test_reasoning_reviewer_is_disabled_by_default(monkeypatch) -> None:

@@ -1,0 +1,201 @@
+target,target_name,level,frame,prompt,first_status,first_intent,first_outcome,options,target_in_options,single_turn_correct,with_clarification_correct,replied,final_status
+ELEN3012A,Signals and Systems IIA,0,{x},ELEN3012A,ok,module_information,answered_correct,,False,True,True,False,ok
+ELEN3012A,Signals and Systems IIA,0,Tell me about {x},Tell me about ELEN3012A,ok,module_information,answered_correct,,False,True,True,False,ok
+ELEN3012A,Signals and Systems IIA,0,Who teaches {x}?,Who teaches ELEN3012A?,ok,module_information,answered_correct,,False,True,True,False,ok
+ELEN3012A,Signals and Systems IIA,0,What is {x} about?,What is ELEN3012A about?,ok,module_information,answered_correct,,False,True,True,False,ok
+ELEN3012A,Signals and Systems IIA,1,{x},Signals and Systems IIA,out_of_scope,unknown,refused,,False,False,False,False,out_of_scope
+ELEN3012A,Signals and Systems IIA,1,Tell me about {x},Tell me about Signals and Systems IIA,out_of_scope,unknown,refused,,False,False,False,False,out_of_scope
+ELEN3012A,Signals and Systems IIA,1,Who teaches {x}?,Who teaches Signals and Systems IIA?,ok,module_information,answered_correct,,False,True,True,False,ok
+ELEN3012A,Signals and Systems IIA,1,What is {x} about?,What is Signals and Systems IIA about?,out_of_scope,unknown,refused,,False,False,False,False,out_of_scope
+ELEN3012A,Signals and Systems IIA,2,{x},Signals and Systems,out_of_scope,unknown,refused,,False,False,False,False,out_of_scope
+ELEN3012A,Signals and Systems IIA,2,Tell me about {x},Tell me about Signals and Systems,out_of_scope,unknown,refused,,False,False,False,False,out_of_scope
+ELEN3012A,Signals and Systems IIA,2,Who teaches {x}?,Who teaches Signals and Systems?,ok,module_information,answered_wrong,,False,False,False,False,ok
+ELEN3012A,Signals and Systems IIA,2,What is {x} about?,What is Signals and Systems about?,out_of_scope,unknown,refused,,False,False,False,False,out_of_scope
+ELEN3012A,Signals and Systems IIA,3,{x},signals,out_of_scope,unknown,refused,,False,False,False,False,out_of_scope
+ELEN3012A,Signals and Systems IIA,3,Tell me about {x},Tell me about signals,out_of_scope,unknown,refused,,False,False,False,False,out_of_scope
+ELEN3012A,Signals and Systems IIA,3,Who teaches {x}?,Who teaches signals?,clarification_required,module_information,asked_generic,,False,False,True,True,ok
+ELEN3012A,Signals and Systems IIA,3,What is {x} about?,What is signals about?,out_of_scope,unknown,refused,,False,False,False,False,out_of_scope
+ELEN3012A,Signals and Systems IIA,4,{x},that module,clarification_required,unknown,asked_generic,,False,False,False,True,out_of_scope
+ELEN3012A,Signals and Systems IIA,4,Tell me about {x},Tell me about that module,clarification_required,unknown,asked_generic,,False,False,False,True,out_of_scope
+ELEN3012A,Signals and Systems IIA,4,Who teaches {x}?,Who teaches that module?,clarification_required,module_information,asked_generic,,False,False,True,True,ok
+ELEN3012A,Signals and Systems IIA,4,What is {x} about?,What is that module about?,clarification_required,unknown,asked_generic,,False,False,False,True,out_of_scope
+ELEN2005A,Signals and Systems I,0,{x},ELEN2005A,ok,module_information,answered_correct,,False,True,True,False,ok
+ELEN2005A,Signals and Systems I,0,Tell me about {x},Tell me about ELEN2005A,ok,module_information,answered_correct,,False,True,True,False,ok
+ELEN2005A,Signals and Systems I,0,Who teaches {x}?,Who teaches ELEN2005A?,ok,module_information,answered_correct,,False,True,True,False,ok
+ELEN2005A,Signals and Systems I,0,What is {x} about?,What is ELEN2005A about?,ok,module_information,answered_correct,,False,True,True,False,ok
+ELEN2005A,Signals and Systems I,1,{x},Signals and Systems I,out_of_scope,unknown,refused,,False,False,False,False,out_of_scope
+ELEN2005A,Signals and Systems I,1,Tell me about {x},Tell me about Signals and Systems I,out_of_scope,unknown,refused,,False,False,False,False,out_of_scope
+ELEN2005A,Signals and Systems I,1,Who teaches {x}?,Who teaches Signals and Systems I?,ok,module_information,answered_correct,,False,True,True,False,ok
+ELEN2005A,Signals and Systems I,1,What is {x} about?,What is Signals and Systems I about?,out_of_scope,unknown,refused,,False,False,False,False,out_of_scope
+ELEN2005A,Signals and Systems I,2,{x},Signals and Systems,out_of_scope,unknown,refused,,False,False,False,False,out_of_scope
+ELEN2005A,Signals and Systems I,2,Tell me about {x},Tell me about Signals and Systems,out_of_scope,unknown,refused,,False,False,False,False,out_of_scope
+ELEN2005A,Signals and Systems I,2,Who teaches {x}?,Who teaches Signals and Systems?,ok,module_information,answered_correct,,False,True,True,False,ok
+ELEN2005A,Signals and Systems I,2,What is {x} about?,What is Signals and Systems about?,out_of_scope,unknown,refused,,False,False,False,False,out_of_scope
+ELEN2005A,Signals and Systems I,3,{x},signals,out_of_scope,unknown,refused,,False,False,False,False,out_of_scope
+ELEN2005A,Signals and Systems I,3,Tell me about {x},Tell me about signals,out_of_scope,unknown,refused,,False,False,False,False,out_of_scope
+ELEN2005A,Signals and Systems I,3,Who teaches {x}?,Who teaches signals?,clarification_required,module_information,asked_generic,,False,False,True,True,ok
+ELEN2005A,Signals and Systems I,3,What is {x} about?,What is signals about?,out_of_scope,unknown,refused,,False,False,False,False,out_of_scope
+ELEN2005A,Signals and Systems I,4,{x},that module,clarification_required,unknown,asked_generic,,False,False,False,True,out_of_scope
+ELEN2005A,Signals and Systems I,4,Tell me about {x},Tell me about that module,clarification_required,unknown,asked_generic,,False,False,False,True,out_of_scope
+ELEN2005A,Signals and Systems I,4,Who teaches {x}?,Who teaches that module?,clarification_required,module_information,asked_generic,,False,False,True,True,ok
+ELEN2005A,Signals and Systems I,4,What is {x} about?,What is that module about?,clarification_required,unknown,asked_generic,,False,False,False,True,out_of_scope
+ELEN3009A,Software Development II,0,{x},ELEN3009A,ok,module_information,answered_correct,,False,True,True,False,ok
+ELEN3009A,Software Development II,0,Tell me about {x},Tell me about ELEN3009A,ok,module_information,answered_correct,,False,True,True,False,ok
+ELEN3009A,Software Development II,0,Who teaches {x}?,Who teaches ELEN3009A?,ok,module_information,answered_correct,,False,True,True,False,ok
+ELEN3009A,Software Development II,0,What is {x} about?,What is ELEN3009A about?,ok,module_information,answered_correct,,False,True,True,False,ok
+ELEN3009A,Software Development II,1,{x},Software Development II,ok,module_information,answered_correct,,False,True,True,False,ok
+ELEN3009A,Software Development II,1,Tell me about {x},Tell me about Software Development II,ok,module_information,answered_correct,,False,True,True,False,ok
+ELEN3009A,Software Development II,1,Who teaches {x}?,Who teaches Software Development II?,ok,module_information,answered_correct,,False,True,True,False,ok
+ELEN3009A,Software Development II,1,What is {x} about?,What is Software Development II about?,ok,module_information,answered_correct,,False,True,True,False,ok
+ELEN3009A,Software Development II,2,{x},Software Development,ok,public_course_search,answered_wrong,,False,False,False,False,ok
+ELEN3009A,Software Development II,2,Tell me about {x},Tell me about Software Development,ok,public_course_search,answered_wrong,,False,False,False,False,ok
+ELEN3009A,Software Development II,2,Who teaches {x}?,Who teaches Software Development?,clarification_required,module_information,asked_generic,,False,False,True,True,ok
+ELEN3009A,Software Development II,2,What is {x} about?,What is Software Development about?,ok,public_course_search,answered_wrong,,False,False,False,False,ok
+ELEN3009A,Software Development II,3,{x},software,out_of_scope,unknown,refused,,False,False,False,False,out_of_scope
+ELEN3009A,Software Development II,3,Tell me about {x},Tell me about software,out_of_scope,unknown,refused,,False,False,False,False,out_of_scope
+ELEN3009A,Software Development II,3,Who teaches {x}?,Who teaches software?,clarification_required,module_information,asked_generic,,False,False,True,True,ok
+ELEN3009A,Software Development II,3,What is {x} about?,What is software about?,out_of_scope,unknown,refused,,False,False,False,False,out_of_scope
+ELEN3009A,Software Development II,4,{x},that module,clarification_required,unknown,asked_generic,,False,False,True,True,ok
+ELEN3009A,Software Development II,4,Tell me about {x},Tell me about that module,clarification_required,unknown,asked_generic,,False,False,True,True,ok
+ELEN3009A,Software Development II,4,Who teaches {x}?,Who teaches that module?,clarification_required,module_information,asked_generic,,False,False,True,True,ok
+ELEN3009A,Software Development II,4,What is {x} about?,What is that module about?,clarification_required,unknown,asked_generic,,False,False,True,True,ok
+ELEN2020A,Software Development I,0,{x},ELEN2020A,ok,module_information,answered_correct,,False,True,True,False,ok
+ELEN2020A,Software Development I,0,Tell me about {x},Tell me about ELEN2020A,ok,module_information,answered_correct,,False,True,True,False,ok
+ELEN2020A,Software Development I,0,Who teaches {x}?,Who teaches ELEN2020A?,ok,module_information,answered_correct,,False,True,True,False,ok
+ELEN2020A,Software Development I,0,What is {x} about?,What is ELEN2020A about?,ok,module_information,answered_correct,,False,True,True,False,ok
+ELEN2020A,Software Development I,1,{x},Software Development I,ok,module_information,answered_correct,,False,True,True,False,ok
+ELEN2020A,Software Development I,1,Tell me about {x},Tell me about Software Development I,ok,module_information,answered_correct,,False,True,True,False,ok
+ELEN2020A,Software Development I,1,Who teaches {x}?,Who teaches Software Development I?,ok,module_information,answered_correct,,False,True,True,False,ok
+ELEN2020A,Software Development I,1,What is {x} about?,What is Software Development I about?,ok,module_information,answered_correct,,False,True,True,False,ok
+ELEN2020A,Software Development I,2,{x},Software Development,ok,public_course_search,answered_wrong,,False,False,False,False,ok
+ELEN2020A,Software Development I,2,Tell me about {x},Tell me about Software Development,ok,public_course_search,answered_wrong,,False,False,False,False,ok
+ELEN2020A,Software Development I,2,Who teaches {x}?,Who teaches Software Development?,clarification_required,module_information,asked_generic,,False,False,True,True,ok
+ELEN2020A,Software Development I,2,What is {x} about?,What is Software Development about?,ok,public_course_search,answered_wrong,,False,False,False,False,ok
+ELEN2020A,Software Development I,3,{x},software,out_of_scope,unknown,refused,,False,False,False,False,out_of_scope
+ELEN2020A,Software Development I,3,Tell me about {x},Tell me about software,out_of_scope,unknown,refused,,False,False,False,False,out_of_scope
+ELEN2020A,Software Development I,3,Who teaches {x}?,Who teaches software?,clarification_required,module_information,asked_generic,,False,False,True,True,ok
+ELEN2020A,Software Development I,3,What is {x} about?,What is software about?,out_of_scope,unknown,refused,,False,False,False,False,out_of_scope
+ELEN2020A,Software Development I,4,{x},that module,clarification_required,unknown,asked_generic,,False,False,True,True,ok
+ELEN2020A,Software Development I,4,Tell me about {x},Tell me about that module,clarification_required,unknown,asked_generic,,False,False,True,True,ok
+ELEN2020A,Software Development I,4,Who teaches {x}?,Who teaches that module?,clarification_required,module_information,asked_generic,,False,False,True,True,ok
+ELEN2020A,Software Development I,4,What is {x} about?,What is that module about?,clarification_required,unknown,asked_generic,,False,False,True,True,ok
+MATH1049A,Engineering Mathematics IB,0,{x},MATH1049A,ok,module_information,answered_correct,,False,True,True,False,ok
+MATH1049A,Engineering Mathematics IB,0,Tell me about {x},Tell me about MATH1049A,ok,module_information,answered_correct,,False,True,True,False,ok
+MATH1049A,Engineering Mathematics IB,0,Who teaches {x}?,Who teaches MATH1049A?,ok,module_information,answered_correct,,False,True,True,False,ok
+MATH1049A,Engineering Mathematics IB,0,What is {x} about?,What is MATH1049A about?,ok,module_information,answered_correct,,False,True,True,False,ok
+MATH1049A,Engineering Mathematics IB,1,{x},Engineering Mathematics IB,out_of_scope,unknown,refused,,False,False,False,False,out_of_scope
+MATH1049A,Engineering Mathematics IB,1,Tell me about {x},Tell me about Engineering Mathematics IB,out_of_scope,unknown,refused,,False,False,False,False,out_of_scope
+MATH1049A,Engineering Mathematics IB,1,Who teaches {x}?,Who teaches Engineering Mathematics IB?,ok,module_information,answered_correct,,False,True,True,False,ok
+MATH1049A,Engineering Mathematics IB,1,What is {x} about?,What is Engineering Mathematics IB about?,out_of_scope,unknown,refused,,False,False,False,False,out_of_scope
+MATH1049A,Engineering Mathematics IB,2,{x},Engineering Mathematics,out_of_scope,unknown,refused,,False,False,False,False,out_of_scope
+MATH1049A,Engineering Mathematics IB,2,Tell me about {x},Tell me about Engineering Mathematics,out_of_scope,unknown,refused,,False,False,False,False,out_of_scope
+MATH1049A,Engineering Mathematics IB,2,Who teaches {x}?,Who teaches Engineering Mathematics?,clarification_required,module_information,asked_generic,,False,False,True,True,ok
+MATH1049A,Engineering Mathematics IB,2,What is {x} about?,What is Engineering Mathematics about?,out_of_scope,unknown,refused,,False,False,False,False,out_of_scope
+MATH1049A,Engineering Mathematics IB,3,{x},mathematics,out_of_scope,unknown,refused,,False,False,False,False,out_of_scope
+MATH1049A,Engineering Mathematics IB,3,Tell me about {x},Tell me about mathematics,out_of_scope,unknown,refused,,False,False,False,False,out_of_scope
+MATH1049A,Engineering Mathematics IB,3,Who teaches {x}?,Who teaches mathematics?,clarification_required,module_information,asked_generic,,False,False,True,True,ok
+MATH1049A,Engineering Mathematics IB,3,What is {x} about?,What is mathematics about?,out_of_scope,unknown,refused,,False,False,False,False,out_of_scope
+MATH1049A,Engineering Mathematics IB,4,{x},that module,clarification_required,unknown,asked_generic,,False,False,False,True,out_of_scope
+MATH1049A,Engineering Mathematics IB,4,Tell me about {x},Tell me about that module,clarification_required,unknown,asked_generic,,False,False,False,True,out_of_scope
+MATH1049A,Engineering Mathematics IB,4,Who teaches {x}?,Who teaches that module?,clarification_required,module_information,asked_generic,,False,False,True,True,ok
+MATH1049A,Engineering Mathematics IB,4,What is {x} about?,What is that module about?,clarification_required,unknown,asked_generic,,False,False,False,True,out_of_scope
+ELEN3016A,Control I,0,{x},ELEN3016A,ok,module_information,answered_correct,,False,True,True,False,ok
+ELEN3016A,Control I,0,Tell me about {x},Tell me about ELEN3016A,ok,module_information,answered_correct,,False,True,True,False,ok
+ELEN3016A,Control I,0,Who teaches {x}?,Who teaches ELEN3016A?,ok,module_information,answered_correct,,False,True,True,False,ok
+ELEN3016A,Control I,0,What is {x} about?,What is ELEN3016A about?,ok,module_information,answered_correct,,False,True,True,False,ok
+ELEN3016A,Control I,1,{x},Control I,ok,module_information,answered_correct,,False,True,True,False,ok
+ELEN3016A,Control I,1,Tell me about {x},Tell me about Control I,ok,module_information,answered_correct,,False,True,True,False,ok
+ELEN3016A,Control I,1,Who teaches {x}?,Who teaches Control I?,ok,module_information,answered_correct,,False,True,True,False,ok
+ELEN3016A,Control I,1,What is {x} about?,What is Control I about?,ok,module_information,answered_correct,,False,True,True,False,ok
+ELEN3016A,Control I,2,{x},Control,ok,public_course_search,answered_wrong,,False,False,False,False,ok
+ELEN3016A,Control I,2,Tell me about {x},Tell me about Control,ok,public_course_search,answered_wrong,,False,False,False,False,ok
+ELEN3016A,Control I,2,Who teaches {x}?,Who teaches Control?,clarification_required,module_information,asked_generic,,False,False,True,True,ok
+ELEN3016A,Control I,2,What is {x} about?,What is Control about?,ok,public_course_search,answered_wrong,,False,False,False,False,ok
+ELEN3016A,Control I,3,{x},control,ok,public_course_search,answered_wrong,,False,False,False,False,ok
+ELEN3016A,Control I,3,Tell me about {x},Tell me about control,ok,public_course_search,answered_wrong,,False,False,False,False,ok
+ELEN3016A,Control I,3,Who teaches {x}?,Who teaches control?,clarification_required,module_information,asked_generic,,False,False,True,True,ok
+ELEN3016A,Control I,3,What is {x} about?,What is control about?,ok,public_course_search,answered_wrong,,False,False,False,False,ok
+ELEN3016A,Control I,4,{x},that module,clarification_required,unknown,asked_generic,,False,False,True,True,ok
+ELEN3016A,Control I,4,Tell me about {x},Tell me about that module,clarification_required,unknown,asked_generic,,False,False,True,True,ok
+ELEN3016A,Control I,4,Who teaches {x}?,Who teaches that module?,clarification_required,module_information,asked_generic,,False,False,True,True,ok
+ELEN3016A,Control I,4,What is {x} about?,What is that module about?,clarification_required,unknown,asked_generic,,False,False,True,True,ok
+ELEN3002A,Electronics II,0,{x},ELEN3002A,ok,module_information,answered_correct,,False,True,True,False,ok
+ELEN3002A,Electronics II,0,Tell me about {x},Tell me about ELEN3002A,ok,module_information,answered_correct,,False,True,True,False,ok
+ELEN3002A,Electronics II,0,Who teaches {x}?,Who teaches ELEN3002A?,ok,module_information,answered_correct,,False,True,True,False,ok
+ELEN3002A,Electronics II,0,What is {x} about?,What is ELEN3002A about?,ok,module_information,answered_correct,,False,True,True,False,ok
+ELEN3002A,Electronics II,1,{x},Electronics II,out_of_scope,unknown,refused,,False,False,False,False,out_of_scope
+ELEN3002A,Electronics II,1,Tell me about {x},Tell me about Electronics II,out_of_scope,unknown,refused,,False,False,False,False,out_of_scope
+ELEN3002A,Electronics II,1,Who teaches {x}?,Who teaches Electronics II?,ok,module_information,answered_correct,,False,True,True,False,ok
+ELEN3002A,Electronics II,1,What is {x} about?,What is Electronics II about?,out_of_scope,unknown,refused,,False,False,False,False,out_of_scope
+ELEN3002A,Electronics II,2,{x},Electronics,out_of_scope,unknown,refused,,False,False,False,False,out_of_scope
+ELEN3002A,Electronics II,2,Tell me about {x},Tell me about Electronics,out_of_scope,unknown,refused,,False,False,False,False,out_of_scope
+ELEN3002A,Electronics II,2,Who teaches {x}?,Who teaches Electronics?,clarification_required,module_information,asked_generic,,False,False,True,True,ok
+ELEN3002A,Electronics II,2,What is {x} about?,What is Electronics about?,out_of_scope,unknown,refused,,False,False,False,False,out_of_scope
+ELEN3002A,Electronics II,3,{x},electronics,out_of_scope,unknown,refused,,False,False,False,False,out_of_scope
+ELEN3002A,Electronics II,3,Tell me about {x},Tell me about electronics,out_of_scope,unknown,refused,,False,False,False,False,out_of_scope
+ELEN3002A,Electronics II,3,Who teaches {x}?,Who teaches electronics?,clarification_required,module_information,asked_generic,,False,False,True,True,ok
+ELEN3002A,Electronics II,3,What is {x} about?,What is electronics about?,out_of_scope,unknown,refused,,False,False,False,False,out_of_scope
+ELEN3002A,Electronics II,4,{x},that module,clarification_required,unknown,asked_generic,,False,False,False,True,out_of_scope
+ELEN3002A,Electronics II,4,Tell me about {x},Tell me about that module,clarification_required,unknown,asked_generic,,False,False,False,True,out_of_scope
+ELEN3002A,Electronics II,4,Who teaches {x}?,Who teaches that module?,clarification_required,module_information,asked_generic,,False,False,True,True,ok
+ELEN3002A,Electronics II,4,What is {x} about?,What is that module about?,clarification_required,unknown,asked_generic,,False,False,False,True,out_of_scope
+ELEN2016A,Electronics I,0,{x},ELEN2016A,ok,module_information,answered_correct,,False,True,True,False,ok
+ELEN2016A,Electronics I,0,Tell me about {x},Tell me about ELEN2016A,ok,module_information,answered_correct,,False,True,True,False,ok
+ELEN2016A,Electronics I,0,Who teaches {x}?,Who teaches ELEN2016A?,ok,module_information,answered_correct,,False,True,True,False,ok
+ELEN2016A,Electronics I,0,What is {x} about?,What is ELEN2016A about?,ok,module_information,answered_correct,,False,True,True,False,ok
+ELEN2016A,Electronics I,1,{x},Electronics I,out_of_scope,unknown,refused,,False,False,False,False,out_of_scope
+ELEN2016A,Electronics I,1,Tell me about {x},Tell me about Electronics I,out_of_scope,unknown,refused,,False,False,False,False,out_of_scope
+ELEN2016A,Electronics I,1,Who teaches {x}?,Who teaches Electronics I?,ok,module_information,answered_correct,,False,True,True,False,ok
+ELEN2016A,Electronics I,1,What is {x} about?,What is Electronics I about?,out_of_scope,unknown,refused,,False,False,False,False,out_of_scope
+ELEN2016A,Electronics I,2,{x},Electronics,out_of_scope,unknown,refused,,False,False,False,False,out_of_scope
+ELEN2016A,Electronics I,2,Tell me about {x},Tell me about Electronics,out_of_scope,unknown,refused,,False,False,False,False,out_of_scope
+ELEN2016A,Electronics I,2,Who teaches {x}?,Who teaches Electronics?,clarification_required,module_information,asked_generic,,False,False,True,True,ok
+ELEN2016A,Electronics I,2,What is {x} about?,What is Electronics about?,out_of_scope,unknown,refused,,False,False,False,False,out_of_scope
+ELEN2016A,Electronics I,3,{x},electronics,out_of_scope,unknown,refused,,False,False,False,False,out_of_scope
+ELEN2016A,Electronics I,3,Tell me about {x},Tell me about electronics,out_of_scope,unknown,refused,,False,False,False,False,out_of_scope
+ELEN2016A,Electronics I,3,Who teaches {x}?,Who teaches electronics?,clarification_required,module_information,asked_generic,,False,False,True,True,ok
+ELEN2016A,Electronics I,3,What is {x} about?,What is electronics about?,out_of_scope,unknown,refused,,False,False,False,False,out_of_scope
+ELEN2016A,Electronics I,4,{x},that module,clarification_required,unknown,asked_generic,,False,False,False,True,out_of_scope
+ELEN2016A,Electronics I,4,Tell me about {x},Tell me about that module,clarification_required,unknown,asked_generic,,False,False,False,True,out_of_scope
+ELEN2016A,Electronics I,4,Who teaches {x}?,Who teaches that module?,clarification_required,module_information,asked_generic,,False,False,True,True,ok
+ELEN2016A,Electronics I,4,What is {x} about?,What is that module about?,clarification_required,unknown,asked_generic,,False,False,False,True,out_of_scope
+ELEN4018A,Power Systems,0,{x},ELEN4018A,ok,module_information,answered_correct,,False,True,True,False,ok
+ELEN4018A,Power Systems,0,Tell me about {x},Tell me about ELEN4018A,ok,module_information,answered_correct,,False,True,True,False,ok
+ELEN4018A,Power Systems,0,Who teaches {x}?,Who teaches ELEN4018A?,ok,module_information,answered_correct,,False,True,True,False,ok
+ELEN4018A,Power Systems,0,What is {x} about?,What is ELEN4018A about?,ok,module_information,answered_correct,,False,True,True,False,ok
+ELEN4018A,Power Systems,1,{x},Power Systems,ok,module_information,answered_correct,,False,True,True,False,ok
+ELEN4018A,Power Systems,1,Tell me about {x},Tell me about Power Systems,ok,module_information,answered_correct,,False,True,True,False,ok
+ELEN4018A,Power Systems,1,Who teaches {x}?,Who teaches Power Systems?,ok,module_information,answered_correct,,False,True,True,False,ok
+ELEN4018A,Power Systems,1,What is {x} about?,What is Power Systems about?,ok,module_information,answered_correct,,False,True,True,False,ok
+ELEN4018A,Power Systems,2,{x},Power,out_of_scope,unknown,refused,,False,False,False,False,out_of_scope
+ELEN4018A,Power Systems,2,Tell me about {x},Tell me about Power,out_of_scope,unknown,refused,,False,False,False,False,out_of_scope
+ELEN4018A,Power Systems,2,Who teaches {x}?,Who teaches Power?,clarification_required,module_information,asked_generic,,False,False,True,True,ok
+ELEN4018A,Power Systems,2,What is {x} about?,What is Power about?,out_of_scope,unknown,refused,,False,False,False,False,out_of_scope
+ELEN4018A,Power Systems,3,{x},power,out_of_scope,unknown,refused,,False,False,False,False,out_of_scope
+ELEN4018A,Power Systems,3,Tell me about {x},Tell me about power,out_of_scope,unknown,refused,,False,False,False,False,out_of_scope
+ELEN4018A,Power Systems,3,Who teaches {x}?,Who teaches power?,clarification_required,module_information,asked_generic,,False,False,True,True,ok
+ELEN4018A,Power Systems,3,What is {x} about?,What is power about?,out_of_scope,unknown,refused,,False,False,False,False,out_of_scope
+ELEN4018A,Power Systems,4,{x},that module,clarification_required,unknown,asked_generic,,False,False,True,True,ok
+ELEN4018A,Power Systems,4,Tell me about {x},Tell me about that module,clarification_required,unknown,asked_generic,,False,False,True,True,ok
+ELEN4018A,Power Systems,4,Who teaches {x}?,Who teaches that module?,clarification_required,module_information,asked_generic,,False,False,True,True,ok
+ELEN4018A,Power Systems,4,What is {x} about?,What is that module about?,clarification_required,unknown,asked_generic,,False,False,True,True,ok
+ELEN3017A,Electrical Engineering Design,0,{x},ELEN3017A,ok,module_information,answered_correct,,False,True,True,False,ok
+ELEN3017A,Electrical Engineering Design,0,Tell me about {x},Tell me about ELEN3017A,ok,module_information,answered_correct,,False,True,True,False,ok
+ELEN3017A,Electrical Engineering Design,0,Who teaches {x}?,Who teaches ELEN3017A?,ok,module_information,answered_correct,,False,True,True,False,ok
+ELEN3017A,Electrical Engineering Design,0,What is {x} about?,What is ELEN3017A about?,ok,module_information,answered_correct,,False,True,True,False,ok
+ELEN3017A,Electrical Engineering Design,1,{x},Electrical Engineering Design,ok,module_information,answered_correct,,False,True,True,False,ok
+ELEN3017A,Electrical Engineering Design,1,Tell me about {x},Tell me about Electrical Engineering Design,ok,module_information,answered_correct,,False,True,True,False,ok
+ELEN3017A,Electrical Engineering Design,1,Who teaches {x}?,Who teaches Electrical Engineering Design?,ok,module_information,answered_correct,,False,True,True,False,ok
+ELEN3017A,Electrical Engineering Design,1,What is {x} about?,What is Electrical Engineering Design about?,ok,module_information,answered_correct,,False,True,True,False,ok
+ELEN3017A,Electrical Engineering Design,2,{x},Engineering Design,out_of_scope,unknown,refused,,False,False,False,False,out_of_scope
+ELEN3017A,Electrical Engineering Design,2,Tell me about {x},Tell me about Engineering Design,out_of_scope,unknown,refused,,False,False,False,False,out_of_scope
+ELEN3017A,Electrical Engineering Design,2,Who teaches {x}?,Who teaches Engineering Design?,clarification_required,module_information,asked_generic,,False,False,True,True,ok
+ELEN3017A,Electrical Engineering Design,2,What is {x} about?,What is Engineering Design about?,out_of_scope,unknown,refused,,False,False,False,False,out_of_scope
+ELEN3017A,Electrical Engineering Design,3,{x},design,out_of_scope,unknown,refused,,False,False,False,False,out_of_scope
+ELEN3017A,Electrical Engineering Design,3,Tell me about {x},Tell me about design,out_of_scope,unknown,refused,,False,False,False,False,out_of_scope
+ELEN3017A,Electrical Engineering Design,3,Who teaches {x}?,Who teaches design?,clarification_required,module_information,asked_generic,,False,False,True,True,ok
+ELEN3017A,Electrical Engineering Design,3,What is {x} about?,What is design about?,out_of_scope,unknown,refused,,False,False,False,False,out_of_scope
+ELEN3017A,Electrical Engineering Design,4,{x},that module,clarification_required,unknown,asked_generic,,False,False,True,True,ok
+ELEN3017A,Electrical Engineering Design,4,Tell me about {x},Tell me about that module,clarification_required,unknown,asked_generic,,False,False,True,True,ok
+ELEN3017A,Electrical Engineering Design,4,Who teaches {x}?,Who teaches that module?,clarification_required,module_information,asked_generic,,False,False,True,True,ok
+ELEN3017A,Electrical Engineering Design,4,What is {x} about?,What is that module about?,clarification_required,unknown,asked_generic,,False,False,True,True,ok

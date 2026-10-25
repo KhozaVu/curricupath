@@ -149,6 +149,14 @@ def test_draft_eligibility_expectations_match_the_current_engine() -> None:
             data.sources,
             source_root=PROJECT_ROOT,
         )
+        if row["case_id"] == "RULE127":
+            # Preserve the frozen draft's original label. The 2026-10-20 source
+            # audit restored PHYS1033A prerequisites from Faculty printed p.95.
+            assert row["target"] == "PHYS1033A"
+            assert row["expected_eligible"] == "true"
+            assert result.decision == "ineligible"
+            assert any("PRE_PHYS1033" in reason for reason in result.reasons)
+            continue
         assert result.eligible is (row["expected_eligible"] == "true"), row["case_id"]
         assert result.needs_clarification is (
             row["expected_needs_clarification"] == "true"

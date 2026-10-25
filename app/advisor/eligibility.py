@@ -37,6 +37,8 @@ class EligibilityTrace:
     decision: EligibilityDecision
     reasons: tuple[str, ...] = ()
     rule_ids: tuple[str, ...] = ()
+    # Modules behind the outcome: unmet or unknown prerequisites/corequisites, or clash partners.
+    blocking_modules: tuple[str, ...] = ()
 
 
 @dataclass(frozen=True)
@@ -58,6 +60,8 @@ class StudentProfile:
     current_modules: frozenset[str]
     planned_modules: frozenset[str]
     repeating_modules: frozenset[str] = frozenset()
+    # Modules the student confirmed they are not repeating, taking or planning (clash check only).
+    clash_cleared_modules: frozenset[str] = frozenset()
     manual_review_reasons: tuple[str, ...] = ()
     module_states: Mapping[str, ModuleFactState] | None = None
     module_history_confirmed: bool | None = None
@@ -82,6 +86,13 @@ class StudentProfile:
             self,
             "repeating_modules",
             frozenset(normalise_rule_course_code(code) for code in self.repeating_modules),
+        )
+        object.__setattr__(
+            self,
+            "clash_cleared_modules",
+            frozenset(
+                normalise_rule_course_code(code) for code in self.clash_cleared_modules
+            ),
         )
         normalized_states = {
             code.upper(): state for code, state in (self.module_states or {}).items()
@@ -166,6 +177,7 @@ class EligibilityResult:
 
 ProgrammeYearCourses = Mapping[tuple[str, int], frozenset[str]]
 ClashRule = Mapping[str, str]
+GridRequirementRule = Mapping[str, str]
 
 LEGACY_RULE_CODES = {
     "ELEN2004": "ELEN2020",
@@ -214,6 +226,106 @@ def load_clash_rules(path: Path | str) -> tuple[dict[str, str], ...]:
             + ", ".join(sorted(missing))
         )
     return rows
+
+
+def load_grid_requirement_rules(path: Path | str) -> tuple[dict[str, str], ...]:
+    """Load programme-scoped prerequisite/corequisite rules from the School grid."""
+
+    grid_path = Path(path)
+    if not grid_path.exists():
+        raise FileNotFoundError(f"School registration requirements are missing: {grid_path}")
+    with grid_path.open(encoding="utf-8") as grid_file:
+        payload = json.load(grid_file)
+    tables = payload.get("requirements_from_cross_curricular_tables")
+    if not isinstance(tables, dict):
+        raise ValueError("grid_rules.json has no requirement table.")
+
+    scopes = {
+        "EE YOS 2": "ALL_EFA03_EFA04",
+        "EE YOS 3": "EFA03",
+        "IE YOS 3": "EFA04",
+    }
+    loaded: list[dict[str, str]] = []
+    for key, requirements in sorted(tables.items()):
+        sheet, separator, raw_target = key.partition("|")
+        if not separator or sheet not in scopes or not isinstance(requirements, dict):
+            raise ValueError(f"Invalid School registration requirement entry: {key!r}.")
+        target = normalise_rule_course_code(raw_target)
+        if not target:
+            raise ValueError(f"Invalid School registration target: {raw_target!r}.")
+        for rule_type, field, prefix in (
+            ("prerequisite", "prereq", "GRID_PRE"),
+            ("corequisite", "coreq", "GRID_CORE"),
+        ):
+            raw_codes = requirements.get(field, [])
+            if not isinstance(raw_codes, list):
+                raise ValueError(f"{key} has an invalid {field} list.")
+            codes = tuple(
+                dict.fromkeys(
+                    code
+                    for item in raw_codes
+                    if (code := normalise_rule_course_code(str(item)))
+                )
+            )
+            loaded.append(
+                {
+                    "rule_id": f"{prefix}_{target}",
+                    "scope": scopes[sheet],
+                    "rule_type": rule_type,
+                    "target_course_code": target,
+                    "condition_json": (
+                        json.dumps({"all_of": list(codes)}, separators=(",", ":"))
+                        if codes
+                        else ""
+                    ),
+                    "has_requirement": "true" if codes else "false",
+                    "source_id": "EIE_REG_GRID_2026",
+                    "source_sheet": sheet,
+                    "handbook_page": "",
+                    "notes": "School registration reference requirement.",
+                }
+            )
+    return tuple(loaded)
+
+
+def apply_grid_requirement_overrides(
+    rules: Iterable[dict[str, str]],
+    grid_rules: Iterable[GridRequirementRule],
+    course_code: str,
+    programme_code: str,
+) -> list[dict[str, str]]:
+    """Replace handbook requirements with the programme's School-grid requirements."""
+
+    target = course_code.upper()
+    base_rules = [dict(rule) for rule in rules]
+    selected = [
+        dict(rule)
+        for rule in grid_rules
+        if rule.get("target_course_code") == target
+        and rule.get("rule_type") in {"prerequisite", "corequisite"}
+        and _scope_applies(rule.get("scope", ""), programme_code)
+    ]
+    if not selected:
+        return base_rules
+
+    for replacement in selected:
+        rule_type = replacement["rule_type"]
+        replaced = [
+            rule
+            for rule in base_rules
+            if rule.get("target_course_code") == target
+            and rule.get("rule_type") == rule_type
+            and _scope_applies(rule.get("scope", ""), programme_code)
+        ]
+        if replaced:
+            # Preserve the established rule identity/page while changing only its authority's
+            # requirement expression. Grid-only requirements keep their GRID_* identity.
+            replacement["rule_id"] = replaced[0].get("rule_id", replacement["rule_id"])
+            replacement["handbook_page"] = replaced[0].get("handbook_page", "")
+        base_rules = [rule for rule in base_rules if rule not in replaced]
+        if replacement.get("has_requirement") == "true":
+            base_rules.append(replacement)
+    return base_rules
 
 
 def requirement_satisfied(
@@ -616,36 +728,88 @@ def check_timetable_clashes(
     profile: StudentProfile,
     clash_rules: Iterable[ClashRule],
 ) -> EligibilityResult:
-    """Reject targets that clash with any module the student is repeating."""
+    """Reject a target that shares a timetable slot with a module the student will attend.
+
+    A listed pair clashes when the student is repeating the pair's first module (the School
+    tables are written for repeating students), or is currently taking or planning either module
+    of the pair while asking about the other (two modules in one slot clash both ways). When the
+    student's module history is explicitly unconfirmed and a partner's status is unknown, the
+    gate asks rather than assuming the student is free.
+    """
 
     target = normalise_rule_course_code(course_code)
-    repeating = {
+    repeating = {code for code in profile.repeating_modules if code}
+    concurrent = {
         normalise_rule_course_code(code)
-        for code in profile.repeating_modules
-        if normalise_rule_course_code(code)
+        for code in (*profile.current_modules, *profile.planned_modules)
+    } | {
+        normalise_rule_course_code(code)
+        for code, state in (profile.module_states or {}).items()
+        if state in {"current", "planned"}
     }
-    matching = sorted(
-        (
-            rule
-            for rule in clash_rules
-            if rule.get("rule_type") == "timetable_clash"
-            and _scope_applies(rule.get("scope", ""), profile.programme_code)
-            and normalise_rule_course_code(rule.get("target_course_code", "")) == target
-            and normalise_rule_course_code(rule.get("repeating_course", "")) in repeating
-        ),
-        key=lambda rule: rule.get("rule_id", ""),
+    known = (
+        {normalise_rule_course_code(code) for code in profile.completed_modules}
+        | {
+            normalise_rule_course_code(code)
+            for code, state in (profile.module_states or {}).items()
+            if state != "unknown"
+        }
+        | repeating
+        | concurrent
+        | set(profile.clash_cleared_modules)
     )
-    if not matching:
-        return _gate_result("timetable_clash", "eligible")
-    return _gate_result(
-        "timetable_clash",
-        "ineligible",
-        tuple(_timetable_clash_reason(rule) for rule in matching),
-        rule_ids=tuple(rule.get("rule_id", "<unknown>") for rule in matching),
-    )
+    clashes: list[tuple[ClashRule, str, str]] = []
+    unknown_partners: dict[str, None] = {}
+    for rule in sorted(clash_rules, key=lambda item: item.get("rule_id", "")):
+        if rule.get("rule_type") != "timetable_clash" or not _scope_applies(
+            rule.get("scope", ""), profile.programme_code
+        ):
+            continue
+        first = normalise_rule_course_code(rule.get("repeating_course", ""))
+        second = normalise_rule_course_code(rule.get("target_course_code", ""))
+        if target not in {first, second}:
+            continue
+        partner = second if target == first else first
+        if target == second and first in repeating:
+            clashes.append((rule, first, "repeating"))
+        elif partner in concurrent:
+            clashes.append((rule, partner, "concurrent"))
+        elif (
+            target == second
+            and profile.module_history_confirmed is False
+            and partner not in known
+        ):
+            # Ask only about the pair's listed (usually lower-year) module; a reverse-direction
+            # partner blocks only when the student has declared it current or planned.
+            unknown_partners.setdefault(partner)
+    if clashes:
+        return _gate_result(
+            "timetable_clash",
+            "ineligible",
+            tuple(
+                _timetable_clash_reason(rule, target, partner, kind)
+                for rule, partner, kind in clashes
+            ),
+            rule_ids=tuple(rule.get("rule_id", "<unknown>") for rule, _, _ in clashes),
+            blocking_modules=tuple(dict.fromkeys(partner for _, partner, _ in clashes)),
+        )
+    if unknown_partners:
+        return _gate_result(
+            "timetable_clash",
+            "needs_clarification",
+            (f"{target} shares a timetable slot with modules whose status is unknown.",),
+            unresolved_predicates=tuple(unknown_partners),
+            blocking_modules=tuple(unknown_partners),
+        )
+    return _gate_result("timetable_clash", "eligible")
 
 
-def _timetable_clash_reason(rule: ClashRule) -> str:
+def _timetable_clash_reason(
+    rule: ClashRule,
+    target: str | None = None,
+    partner: str | None = None,
+    kind: str = "repeating",
+) -> str:
     clash_type = rule.get("clash_type", "UNSPECIFIED").upper()
     description = {
         "LEC": "lecture timetable clash",
@@ -653,8 +817,13 @@ def _timetable_clash_reason(rule: ClashRule) -> str:
         "TUT": "tutorial timetable clash",
         "UNSPECIFIED": "timetable clash",
     }.get(clash_type, "timetable clash")
-    repeating = normalise_rule_course_code(rule.get("repeating_course", ""))
-    target = normalise_rule_course_code(rule.get("target_course_code", ""))
+    partner = partner or normalise_rule_course_code(rule.get("repeating_course", ""))
+    target = target or normalise_rule_course_code(rule.get("target_course_code", ""))
+    held = (
+        "which the student is repeating"
+        if kind == "repeating"
+        else "which the student is taking or planning in the same period"
+    )
     locations: dict[str, list[str]] = {}
     for value in rule.get("sheet", "").split(";"):
         source, separator, sheet = value.partition(":")
@@ -670,7 +839,7 @@ def _timetable_clash_reason(rule: ClashRule) -> str:
     citation = "; ".join(citations) or "School registration reference"
     return (
         f"{rule.get('rule_id', '<unknown>')}: {target} has a {description} with "
-        f"{repeating}, which the student is repeating, so it cannot be taken "
+        f"{partner}, {held}, so it cannot be taken "
         f"({citation})."
     )
 
@@ -685,8 +854,10 @@ def check_eligibility(
     *,
     clash_rules: Iterable[ClashRule] = (),
     enable_timetable_clashes: bool = False,
+    grid_requirement_rules: Iterable[GridRequirementRule] = (),
+    enable_school_grid_requirements: bool = False,
 ) -> EligibilityResult:
-    """Run deterministic eligibility gates, optionally including timetable clashes."""
+    """Run deterministic eligibility gates with optional School-reference controls."""
 
     if profile.manual_review_reasons:
         return _gate_result(
@@ -698,6 +869,13 @@ def check_eligibility(
     module_rows = list(modules)
     rule_rows = list(rules)
     source_rows = list(sources)
+    if enable_school_grid_requirements:
+        rule_rows = apply_grid_requirement_overrides(
+            rule_rows,
+            grid_requirement_rules,
+            course_code,
+            profile.programme_code,
+        )
     programme_year_courses = programme_year_course_map(module_rows)
     initial_gates = (
         lambda: check_source(
@@ -837,10 +1015,20 @@ def _check_requirement_rules(
             rule_type,
             "ineligible",
             tuple(
-                f"{rule_type.capitalize()} rule {rule['rule_id']} is not satisfied."
-                for rule, _ in unsatisfied
+                reason
+                for rule, result in unsatisfied
+                for reason in _requirement_failure_reasons(
+                    rule, result.unsatisfied_predicates, course_code, rule_type
+                )
             ),
             rule_ids=tuple(rule["rule_id"] for rule, _ in unsatisfied),
+            blocking_modules=tuple(
+                dict.fromkeys(
+                    code
+                    for _, result in unsatisfied
+                    for code in result.unsatisfied_predicates
+                )
+            ),
         )
 
     unknown = [
@@ -865,6 +1053,7 @@ def _check_requirement_rules(
             ),
             rule_ids=tuple(rule["rule_id"] for rule, _ in unknown),
             unresolved_predicates=unresolved,
+            blocking_modules=unresolved,
         )
     return _gate_result(
         rule_type,
@@ -873,6 +1062,36 @@ def _check_requirement_rules(
             rule.get("rule_id", "<unknown>")
             for rule in matching_rules
         ),
+    )
+
+
+def _requirement_failure_reasons(
+    rule: Mapping[str, str],
+    missing_codes: tuple[str, ...],
+    target_course_code: str,
+    rule_type: str,
+) -> tuple[str, ...]:
+    """Explain School-grid failures atomically with their institutional citations."""
+
+    if rule.get("source_id") != "EIE_REG_GRID_2026":
+        return (f"{rule_type.capitalize()} rule {rule['rule_id']} is not satisfied.",)
+    sheet = rule.get("source_sheet", "")
+    citation = "EIE_REG_GRID_2026"
+    if sheet:
+        citation += f", sheet '{sheet}'"
+    page = rule.get("handbook_page", "")
+    if page:
+        citation += f"; EBE_2026 p.{page}"
+    if rule_type == "prerequisite":
+        return tuple(
+            f"{rule['rule_id']}: {code} is required before {target_course_code} and is not "
+            f"listed as completed ({citation})."
+            for code in missing_codes
+        )
+    return tuple(
+        f"{rule['rule_id']}: {code} must be taken with {target_course_code} and is not "
+        f"completed, current or planned ({citation})."
+        for code in missing_codes
     )
 
 
@@ -902,6 +1121,7 @@ def _gate_result(
     rule_ids: tuple[str, ...] = (),
     unresolved_predicates: tuple[str, ...] = (),
     evidence_issues: tuple[str, ...] = (),
+    blocking_modules: tuple[str, ...] = (),
 ) -> EligibilityResult:
     """Build one internally consistent gate result."""
 
@@ -913,6 +1133,7 @@ def _gate_result(
             "unresolved_predicates": list(unresolved_predicates),
             "target_predicate": target,
             "target_predicates": list(unresolved_predicates),
+            "gate": gate,
             "question": _clarification_question(gate, target, unresolved_predicates),
             "options": (
                 list(_clarification_options(gate, len(unresolved_predicates) > 1))
@@ -938,6 +1159,7 @@ def _gate_result(
                 decision=decision,
                 reasons=reasons,
                 rule_ids=rule_ids,
+                blocking_modules=blocking_modules,
             ),
         ),
         unresolved_predicates=unresolved_predicates,
@@ -954,6 +1176,18 @@ def _clarification_question(
 ) -> str:
     if course_code is None:
         return "Could you provide the missing module information?"
+    if gate == "timetable_clash":
+        if len(all_codes) > 1:
+            listed = ", ".join(all_codes)
+            return (
+                f"{listed} share a timetable slot with this module. Are you repeating, "
+                "currently taking or planning to take any of them? For example "
+                f"'{all_codes[0]} repeating, the rest none'."
+            )
+        return (
+            f"{course_code} shares a timetable slot with this module. Are you repeating it, "
+            "currently taking it, planning to take it, or none of these?"
+        )
     if len(all_codes) > 1:
         listed = ", ".join(all_codes)
         first, second = all_codes[0], all_codes[1]
@@ -983,6 +1217,10 @@ def _clarification_question(
 
 
 def _clarification_options(gate: str, several: bool = False) -> tuple[str, ...]:
+    if gate == "timetable_clash":
+        return ("None of these",) if several else (
+            "Repeating", "Current", "Planned", "None of these"
+        )
     if several:
         return ("All completed", "None completed") if gate == "prerequisite" else ()
     if gate == "prerequisite":

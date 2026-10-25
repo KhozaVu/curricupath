@@ -1,0 +1,17 @@
+{
+  "recorded": "2026-09-24",
+  "purpose": "Pilot (draft) runs. Not the frozen official protocol; all results are DRAFT.",
+  "arms": {
+    "rules_only": {"runs": 1, "model": null, "note": "deterministic gates, no language layer; regenerated 2026-09-29 so ELIG031-040 receive the declared completeness fact as module_history_confirmed=true"},
+    "curricupath": {"runs": 1, "intent_extraction": "deterministic only (GEMINI_API_KEY blank)", "clarification": "one scripted reply allowed"},
+    "curricupath_no_clarification": {"runs": 1, "intent_extraction": "deterministic only (GEMINI_API_KEY blank)", "clarification": "none", "note": "regenerated 2026-09-29; receives consolidated_noninteractive_input"},
+    "handbook_rag": {"runs": 1, "model": "gemini-3.5-flash-lite", "top_k": 20, "pace_seconds": 3.5},
+    "structured_rules_llm": {"runs": 1, "model": "gemini-3.5-flash-lite", "top_k": 20, "pace_seconds": 3.5}
+  },
+  "deviations_from_frozen_protocol": [
+    "One run per case instead of three, so repeatability is not measured.",
+    "LLM arms used gemini-3.5-flash-lite, not the pinned gemini-3.6-flash, because of quota.",
+    "CurricuPath arms ran without Gemini intent extraction, so they show the deterministic path only.",
+    "An earlier Handbook-RAG attempt lost 27 of 60 runs to a per-minute quota limit; it was re-run paced and all 60 are valid."
+  ]
+}

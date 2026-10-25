@@ -1,0 +1,27 @@
+{
+  "date": "2026-10-25",
+  "scope": "Gift's report, appendices and reusable partner assets",
+  "automated_constraint_checks": "passed",
+  "main_pages": 6,
+  "combined_pages": 52,
+  "main_tables": 2,
+  "main_figures": 2,
+  "equations": 2,
+  "references": 22,
+  "literature_review_section": 2,
+  "work_distribution_rows": 10,
+  "reflection_pages": 2,
+  "focused_verification": {
+    "passed": 55,
+    "skipped": 7,
+    "failed": 0
+  },
+  "external_confirmations": [
+    "Identity of supplied unmarked plan as the exact originally submitted file",
+    "Partner's final manuscript uses the corrected shared assets"
+  ],
+  "unexecuted_validation": [
+    "Seven live PostgreSQL comparisons remain skipped"
+  ],
+  "pdf_sha256": "4e9fbbe9b55c1bf9490dc975c34aed6aef93cdd02a04c9e3532b20f1b5c96574"
+}

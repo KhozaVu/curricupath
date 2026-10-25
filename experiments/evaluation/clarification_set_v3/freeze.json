@@ -1,0 +1,22 @@
+{
+  "file": "clarification_set_v3.csv",
+  "sha256": "9b437c07a7358f799641da3f2da062101f7c5f16bff8a848182bf3ddec936971",
+  "cases": 72,
+  "kinds": {
+    "ask": 33,
+    "control": 33,
+    "irrelevant": 6
+  },
+  "ask_cases_by_fact_type": {
+    "prereq_single": 12,
+    "prereq_multi": 6,
+    "coreq": 9,
+    "clash": 6
+  },
+  "labels": {
+    "eligible": 40,
+    "ineligible": 32
+  },
+  "label_status": "developer-proposed, pending academic review; NOT independent evidence",
+  "rule": "Frozen at creation. Do not edit; make a v3 and a deviations entry instead."
+}

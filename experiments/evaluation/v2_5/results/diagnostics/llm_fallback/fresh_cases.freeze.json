@@ -1,0 +1,6 @@
+{
+  "frozen_at": "2026-09-28T21:48:34.915430+00:00",
+  "sha256": "3890a65fa009144a9c5d364a68dfac3a9c7af01772af0922d59b268656592900",
+  "n_cases": 34,
+  "rule": "Written and frozen before any fuzzy-matching or LLM-fallback code existed. Do not edit after seeing system output; add a new file instead."
+}

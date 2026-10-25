@@ -1,0 +1,95 @@
+\section{METHODOLOGY}
+
+\subsection{Study Design}
+CurricuPath was tested on 139 synthetic cases for the Wits EFA03 and EFA04
+programmes, based on handbook rules and School registration workbooks. No
+real student records were used. The case file was frozen by hash before the
+reported runs. The cases cover programme membership, prerequisites,
+corequisites, timetable clashes, missing student information, incomplete
+evidence and institutional discretion. Each case was phrased with course
+codes, module names and informal language. The module-name and informal
+levels use only three and four sentence templates, so they test coverage of
+a few phrasings rather than ambiguity in general.
+
+CurricuPath was compared with a version without clarification, a rules-only
+evaluator, a Handbook RAG baseline and a structured-rules LLM baseline.
+CurricuPath and the first two alternatives were tested on all 139 cases.
+API costs and quotas limited the two LLM baselines to a 40-case subset,
+drawn with a fixed seed before any baseline result was read, preserving the
+outcome proportions: 14 eligible, 20 ineligible and 6 manual review
+required. All five systems were compared on this subset.
+
+\subsection{Case Construction and Controls}
+Cases were constructed from the 2026 EBE handbook \cite{wits2026ebe},
+processed curriculum rules and School of EIE registration workbooks. Cases,
+student profiles, questions and reference outcomes were frozen before the
+reported runs, and all systems received the same profile facts, including
+declared review reasons. The systems were not frozen. After the first
+results, the parser was extended to recognise registration wording (for
+example, ``allowed to register for''), the School grid prerequisites were
+loaded, and review reasons were passed to the engine. Scores after these
+changes are development-informed; the earlier scores (Macro-F1 0.00 at the
+module-name level and 0.35 at the informal level) are retained. The
+workbooks, supplied by the School's Admin Manager on 30 September 2026, were
+the primary reference. As no independent academic reviewer was obtained,
+the results measure agreement with this School reference rather than
+independently validated academic accuracy.
+
+\subsection{System Comparison}
+CurricuPath applies fixed eligibility rules and asks a follow-up question when
+a material student fact is missing. In the reported runs it read questions
+with a deterministic parser and called Gemini only for messages the parser
+could not resolve. Its no-clarification version uses the same rules but never
+asks. The rules-only evaluator applies the rules directly to the structured
+profile. Handbook RAG answers from retrieved handbook passages, while the
+structured-rules LLM receives the rule table and student profile.
+
+Both baselines used \texttt{gemini-\allowbreak 3.5-\allowbreak flash-\allowbreak lite}
+\cite{googleGemini35FlashLite}. The planned model, \texttt{gemini-3.6-flash},
+could not be used within the free-tier quota, so the same lower-cost model
+served both baselines; their results therefore describe a low-cost model.
+Temperature zero and one run per case were used. The initial baseline runs
+lacked the School grid prerequisites and corequisites, so both were rerun with
+that evidence added. The Handbook RAG arm is therefore no longer
+handbook-only. Both reruns completed; one structured-rules run (informal
+wording) failed with a network disconnect and counts as an invalid output.
+
+\subsection{Reference Decisions}
+Each case has one reference outcome: \textit{eligible}, \textit{ineligible} or
+\textit{manual review required}, taken from the School registration
+workbooks. Handbook-only labels are stored with each case but were not
+analysed. No reviewer agreement is reported because no independent reviewers
+were available. A timetable clash involving a module the student was
+repeating made the case ineligible; the clash rule is a reviewer statement
+still awaiting written confirmation.
+
+\subsection{Evaluation Measures}
+The main measure was Macro-F1, which weights the three outcomes equally
+\cite{sokolova2009performance}, with bootstrap intervals over cases. We also
+report balanced accuracy, precision and recall by outcome, confusion matrices
+and raw counts. The unsafe false-positive rate is the proportion of
+\textit{ineligible} or \textit{manual review required} cases labelled
+\textit{eligible}. Results are also split by whether the handbook alone could
+answer the case and by wording level, and abstention is measured as precision
+and recall of deferring to manual review, with over- and under-referral
+rates. Proportions use Wilson intervals. Invalid outputs remain in the totals.
+Response time and provider failures were recorded.
+
+Clarification was tested separately, because the main set's clarification
+cases use a scripted reply the system cannot read. Two dedicated sets of 72
+cases each contain 33 cases missing one needed fact, 33 matched controls with
+the fact known, and 6 with an unrelated unknown. A scripted reply supplies the
+fact and the final decision is scored. In the first set, 8 of 33 cases ended
+undecided because of an extra clash-partner question; the second removed that
+side effect. Their labels are developer-proposed, pending academic review.
+
+\subsection{Interpretation Constraints}
+The rules-only evaluator was built from the same School workbooks used to set
+the reference outcomes. Its perfect agreement shows faithful implementation of
+those workbooks, not independently established correctness, and CurricuPath's
+scores share this limit. The second baseline runs have a similar limitation:
+the cases had already been inspected, and the added grid evidence came from
+those workbooks. The baselines used one low-cost model, one run per case and
+40 cases, six of them manual review, so their intervals are wide. Stronger
+claims require new cases and reference outcomes established independently of
+the systems.

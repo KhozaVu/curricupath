@@ -1,0 +1,35 @@
+{
+  "run_date": "23 October 2026",
+  "passed": 55,
+  "skipped": 7,
+  "failed": 0,
+  "groups": {
+    "tests.test_eligibility": {
+      "passed": 21,
+      "skipped": 0,
+      "failed": 0
+    },
+    "tests.test_clarification_fixes": {
+      "passed": 20,
+      "skipped": 0,
+      "failed": 0
+    },
+    "tests.test_response_invariants": {
+      "passed": 6,
+      "skipped": 0,
+      "failed": 0
+    },
+    "tests.test_postgres_schema": {
+      "passed": 7,
+      "skipped": 0,
+      "failed": 0
+    },
+    "tests.test_postgres_repository": {
+      "passed": 1,
+      "skipped": 7,
+      "failed": 0
+    }
+  },
+  "skip_reason": "Imported PostgreSQL catalogue unavailable",
+  "limits": "Focused existing-test run; no hosted-model benchmark rerun or successful live-database verification claimed."
+}

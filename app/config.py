@@ -22,6 +22,7 @@ class Settings:
     catalogue_backend: str
     catalogue_csv_fallback: bool
     timetable_clash_gate_enabled: bool
+    school_grid_requirements_enabled: bool
     gemini_api_key: str | None
     gemini_model: str
     hf_token: str | None
@@ -29,9 +30,6 @@ class Settings:
     embedding_model: str
     embedding_dimension: int
     semantic_search_enabled: bool
-    public_course_ranker_enabled: bool
-    public_course_ranker_model: Path
-    allow_experimental_ranker: bool
     reasoning_reviewer_enabled: bool
     reasoning_reviewer_model: str
     reasoning_reviewer_timeout_ms: int
@@ -59,6 +57,9 @@ def get_settings() -> Settings:
         timetable_clash_gate_enabled=_environment_flag(
             "TIMETABLE_CLASH_GATE_ENABLED", default=False
         ),
+        school_grid_requirements_enabled=_environment_flag(
+            "SCHOOL_GRID_REQUIREMENTS_ENABLED", default=False
+        ),
         gemini_api_key=os.getenv("GEMINI_API_KEY"),
         gemini_model=os.getenv("GEMINI_MODEL", "gemini-3.6-flash"),
         hf_token=os.getenv("HF_TOKEN"),
@@ -69,18 +70,6 @@ def get_settings() -> Settings:
         embedding_dimension=int(os.getenv("EMBEDDING_DIMENSION", "384")),
         semantic_search_enabled=_environment_flag(
             "SEMANTIC_SEARCH_ENABLED", default=False
-        ),
-        public_course_ranker_enabled=_environment_flag(
-            "PUBLIC_COURSE_RANKER_ENABLED", default=False
-        ),
-        public_course_ranker_model=_project_path(
-            os.getenv(
-                "PUBLIC_COURSE_RANKER_MODEL",
-                "experiments/models/public_course_pairwise_logistic_v1.json",
-            )
-        ),
-        allow_experimental_ranker=_environment_flag(
-            "ALLOW_EXPERIMENTAL_RANKER", default=False
         ),
         reasoning_reviewer_enabled=_environment_flag(
             "REASONING_REVIEWER_ENABLED", default=False

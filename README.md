@@ -1,6 +1,6 @@
 # CurricuPath
 
-CurricuPath is a deterministic curriculum and public-course advisor backed by
+CurricuPath is a Wits curriculum and module advisor backed by
 PostgreSQL and pgvector. Reviewed CSV files remain the authoritative import
 sources. Gemini may extract structured intent from a user's wording, but
 programme membership, prerequisites, corequisites, exclusions, source
@@ -18,6 +18,8 @@ described in the
 [reviewer implementation plan](docs/context_constrained_reviewer_plan_2026-09-17.md).
 
 ## Run locally
+
+The current Wits-only interface is served at both `/` and `/v2`. The advisor can list eligible modules by year, check electives, and explain interest-based Wits module suggestions. Public-course discovery and recommendation endpoints have been retired; historical research inputs are retained separately.
 
 The compiled React interface is included in the repository, so Node.js is not
 required just to run CurricuPath. Install the Python dependencies and start the
@@ -113,7 +115,7 @@ default CurricuPath experience.
 - `GET /programmes/{programme_code}/modules` lists curriculum membership.
 - `GET /modules/{course_code}` returns curriculum and verified CBO facts, including staff, workload, scope, materials, and deterministic plain-English rule summaries.
 - `GET /cbos/missing` returns the explicit list of curriculum modules whose CBOs are still needed.
-- `GET /courses` returns only verified, available, recommendable public courses.
+- `POST /advisor` can list eligible Wits modules by year and recommend Wits electives from stated interests.
 - `POST /search/semantic` embeds a query through hosted Hugging Face inference and searches pgvector.
 
 The advisor also answers source-backed catalogue questions such as:

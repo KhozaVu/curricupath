@@ -1,0 +1,454 @@
+{
+  "failures": {
+    "low": {
+      "counts": {
+        "status_reply_unresolved": 8
+      },
+      "cases": [
+        {
+          "case_id": "TS022",
+          "target": "ELEN3000A",
+          "reference": "ineligible",
+          "cause": "status_reply_unresolved",
+          "reply": "I have listed every module I am currently taking or planning.",
+          "answer": "I could not interpret your status for MATH3025A. The clarification limit for ELEN3000A has been reached. Update that module in Profile setup, then ask the eligibility question again.",
+          "unresolved_predicates": [
+            "MATH3025A"
+          ]
+        },
+        {
+          "case_id": "TS041",
+          "target": "ELEN3013A",
+          "reference": "ineligible",
+          "cause": "status_reply_unresolved",
+          "reply": "I have listed every module I am currently taking or planning.",
+          "answer": "I could not interpret your status for ELEN3012A. The clarification limit for ELEN3013A has been reached. Update that module in Profile setup, then ask the eligibility question again.",
+          "unresolved_predicates": [
+            "ELEN3012A"
+          ]
+        },
+        {
+          "case_id": "TS077",
+          "target": "ELEN3015A",
+          "reference": "ineligible",
+          "cause": "status_reply_unresolved",
+          "reply": "I have listed every module I am currently taking or planning.",
+          "answer": "I could not interpret your status for APPM3021A. The clarification limit for ELEN3015A has been reached. Update that module in Profile setup, then ask the eligibility question again.",
+          "unresolved_predicates": [
+            "APPM3021A"
+          ]
+        },
+        {
+          "case_id": "TS078",
+          "target": "ELEN3013A",
+          "reference": "ineligible",
+          "cause": "status_reply_unresolved",
+          "reply": "I have listed every module I am currently taking or planning.",
+          "answer": "I could not interpret your status for ELEN3012A. The clarification limit for ELEN3013A has been reached. Update that module in Profile setup, then ask the eligibility question again.",
+          "unresolved_predicates": [
+            "ELEN3012A"
+          ]
+        },
+        {
+          "case_id": "TS081",
+          "target": "ELEN3015A",
+          "reference": "ineligible",
+          "cause": "status_reply_unresolved",
+          "reply": "I have listed every module I am currently taking or planning.",
+          "answer": "I could not interpret your status for APPM3021A. The clarification limit for ELEN3015A has been reached. Update that module in Profile setup, then ask the eligibility question again.",
+          "unresolved_predicates": [
+            "APPM3021A"
+          ]
+        },
+        {
+          "case_id": "TS089",
+          "target": "ELEN3016A",
+          "reference": "ineligible",
+          "cause": "status_reply_unresolved",
+          "reply": "I have listed every module I am currently taking or planning.",
+          "answer": "I could not interpret your status for ELEN3012A. The clarification limit for ELEN3016A has been reached. Update that module in Profile setup, then ask the eligibility question again.",
+          "unresolved_predicates": [
+            "ELEN3012A"
+          ]
+        },
+        {
+          "case_id": "TS110",
+          "target": "ELEN3016A",
+          "reference": "ineligible",
+          "cause": "status_reply_unresolved",
+          "reply": "I have listed every module I am currently taking or planning.",
+          "answer": "I could not interpret your status for ELEN3012A. The clarification limit for ELEN3016A has been reached. Update that module in Profile setup, then ask the eligibility question again.",
+          "unresolved_predicates": [
+            "ELEN3012A"
+          ]
+        },
+        {
+          "case_id": "TS134",
+          "target": "ELEN3016A",
+          "reference": "ineligible",
+          "cause": "status_reply_unresolved",
+          "reply": "I have listed every module I am currently taking or planning.",
+          "answer": "I could not interpret your status for ELEN3012A. The clarification limit for ELEN3016A has been reached. Update that module in Profile setup, then ask the eligibility question again.",
+          "unresolved_predicates": [
+            "ELEN3012A"
+          ]
+        }
+      ],
+      "raw_sha256": "ab9a2c08b6fff85f4e4f05fb20cf436cba3089b690677ab56f02ae8ea68d9606"
+    },
+    "medium": {
+      "counts": {
+        "status_reply_unresolved": 8,
+        "target_unresolved": 4
+      },
+      "cases": [
+        {
+          "case_id": "TS022",
+          "target": "ELEN3000A",
+          "reference": "ineligible",
+          "cause": "status_reply_unresolved",
+          "reply": "I have listed every module I am currently taking or planning.",
+          "answer": "I could not interpret your status for MATH3025A. The clarification limit for ELEN3000A has been reached. Update that module in Profile setup, then ask the eligibility question again.",
+          "unresolved_predicates": [
+            "MATH3025A"
+          ]
+        },
+        {
+          "case_id": "TS027",
+          "target": "ELEN4014A",
+          "reference": "ineligible",
+          "cause": "target_unresolved",
+          "reply": "",
+          "answer": "Which module code or full module name should I check?",
+          "unresolved_predicates": []
+        },
+        {
+          "case_id": "TS041",
+          "target": "ELEN3013A",
+          "reference": "ineligible",
+          "cause": "status_reply_unresolved",
+          "reply": "I have listed every module I am currently taking or planning.",
+          "answer": "I could not interpret your status for ELEN3012A. The clarification limit for ELEN3013A has been reached. Update that module in Profile setup, then ask the eligibility question again.",
+          "unresolved_predicates": [
+            "ELEN3012A"
+          ]
+        },
+        {
+          "case_id": "TS057",
+          "target": "ELEN4025A",
+          "reference": "ineligible",
+          "cause": "target_unresolved",
+          "reply": "",
+          "answer": "Which module code or full module name should I check?",
+          "unresolved_predicates": []
+        },
+        {
+          "case_id": "TS064",
+          "target": "ELEN4024A",
+          "reference": "ineligible",
+          "cause": "target_unresolved",
+          "reply": "",
+          "answer": "Which module code or full module name should I check?",
+          "unresolved_predicates": []
+        },
+        {
+          "case_id": "TS069",
+          "target": "ELEN4017A",
+          "reference": "ineligible",
+          "cause": "target_unresolved",
+          "reply": "",
+          "answer": "Which module code or full module name should I check?",
+          "unresolved_predicates": []
+        },
+        {
+          "case_id": "TS077",
+          "target": "ELEN3015A",
+          "reference": "ineligible",
+          "cause": "status_reply_unresolved",
+          "reply": "I have listed every module I am currently taking or planning.",
+          "answer": "I could not interpret your status for APPM3021A. The clarification limit for ELEN3015A has been reached. Update that module in Profile setup, then ask the eligibility question again.",
+          "unresolved_predicates": [
+            "APPM3021A"
+          ]
+        },
+        {
+          "case_id": "TS078",
+          "target": "ELEN3013A",
+          "reference": "ineligible",
+          "cause": "status_reply_unresolved",
+          "reply": "I have listed every module I am currently taking or planning.",
+          "answer": "I could not interpret your status for ELEN3012A. The clarification limit for ELEN3013A has been reached. Update that module in Profile setup, then ask the eligibility question again.",
+          "unresolved_predicates": [
+            "ELEN3012A"
+          ]
+        },
+        {
+          "case_id": "TS081",
+          "target": "ELEN3015A",
+          "reference": "ineligible",
+          "cause": "status_reply_unresolved",
+          "reply": "I have listed every module I am currently taking or planning.",
+          "answer": "I could not interpret your status for APPM3021A. The clarification limit for ELEN3015A has been reached. Update that module in Profile setup, then ask the eligibility question again.",
+          "unresolved_predicates": [
+            "APPM3021A"
+          ]
+        },
+        {
+          "case_id": "TS089",
+          "target": "ELEN3016A",
+          "reference": "ineligible",
+          "cause": "status_reply_unresolved",
+          "reply": "I have listed every module I am currently taking or planning.",
+          "answer": "I could not interpret your status for ELEN3012A. The clarification limit for ELEN3016A has been reached. Update that module in Profile setup, then ask the eligibility question again.",
+          "unresolved_predicates": [
+            "ELEN3012A"
+          ]
+        },
+        {
+          "case_id": "TS110",
+          "target": "ELEN3016A",
+          "reference": "ineligible",
+          "cause": "status_reply_unresolved",
+          "reply": "I have listed every module I am currently taking or planning.",
+          "answer": "I could not interpret your status for ELEN3012A. The clarification limit for ELEN3016A has been reached. Update that module in Profile setup, then ask the eligibility question again.",
+          "unresolved_predicates": [
+            "ELEN3012A"
+          ]
+        },
+        {
+          "case_id": "TS134",
+          "target": "ELEN3016A",
+          "reference": "ineligible",
+          "cause": "status_reply_unresolved",
+          "reply": "I have listed every module I am currently taking or planning.",
+          "answer": "I could not interpret your status for ELEN3012A. The clarification limit for ELEN3016A has been reached. Update that module in Profile setup, then ask the eligibility question again.",
+          "unresolved_predicates": [
+            "ELEN3012A"
+          ]
+        }
+      ],
+      "raw_sha256": "20436de25181a4de8d70dbb866608e5b1cf333a752be77ef7b5cd0e5d1da6d40"
+    },
+    "high": {
+      "counts": {
+        "status_reply_unresolved": 8,
+        "target_unresolved": 3
+      },
+      "cases": [
+        {
+          "case_id": "TS022",
+          "target": "ELEN3000A",
+          "reference": "ineligible",
+          "cause": "status_reply_unresolved",
+          "reply": "I have listed every module I am currently taking or planning.",
+          "answer": "I could not interpret your status for MATH3025A. The clarification limit for ELEN3000A has been reached. Update that module in Profile setup, then ask the eligibility question again.",
+          "unresolved_predicates": [
+            "MATH3025A"
+          ]
+        },
+        {
+          "case_id": "TS027",
+          "target": "ELEN4014A",
+          "reference": "ineligible",
+          "cause": "target_unresolved",
+          "reply": "",
+          "answer": "Which module code or full module name should I check?",
+          "unresolved_predicates": []
+        },
+        {
+          "case_id": "TS041",
+          "target": "ELEN3013A",
+          "reference": "ineligible",
+          "cause": "status_reply_unresolved",
+          "reply": "I have listed every module I am currently taking or planning.",
+          "answer": "I could not interpret your status for ELEN3012A. The clarification limit for ELEN3013A has been reached. Update that module in Profile setup, then ask the eligibility question again.",
+          "unresolved_predicates": [
+            "ELEN3012A"
+          ]
+        },
+        {
+          "case_id": "TS064",
+          "target": "ELEN4024A",
+          "reference": "ineligible",
+          "cause": "target_unresolved",
+          "reply": "",
+          "answer": "Which module code or full module name should I check?",
+          "unresolved_predicates": []
+        },
+        {
+          "case_id": "TS069",
+          "target": "ELEN4017A",
+          "reference": "ineligible",
+          "cause": "target_unresolved",
+          "reply": "",
+          "answer": "Which module code or full module name should I check?",
+          "unresolved_predicates": []
+        },
+        {
+          "case_id": "TS077",
+          "target": "ELEN3015A",
+          "reference": "ineligible",
+          "cause": "status_reply_unresolved",
+          "reply": "I have listed every module I am currently taking or planning.",
+          "answer": "I could not interpret your status for APPM3021A. The clarification limit for ELEN3015A has been reached. Update that module in Profile setup, then ask the eligibility question again.",
+          "unresolved_predicates": [
+            "APPM3021A"
+          ]
+        },
+        {
+          "case_id": "TS078",
+          "target": "ELEN3013A",
+          "reference": "ineligible",
+          "cause": "status_reply_unresolved",
+          "reply": "I have listed every module I am currently taking or planning.",
+          "answer": "I could not interpret your status for ELEN3012A. The clarification limit for ELEN3013A has been reached. Update that module in Profile setup, then ask the eligibility question again.",
+          "unresolved_predicates": [
+            "ELEN3012A"
+          ]
+        },
+        {
+          "case_id": "TS081",
+          "target": "ELEN3015A",
+          "reference": "ineligible",
+          "cause": "status_reply_unresolved",
+          "reply": "I have listed every module I am currently taking or planning.",
+          "answer": "I could not interpret your status for APPM3021A. The clarification limit for ELEN3015A has been reached. Update that module in Profile setup, then ask the eligibility question again.",
+          "unresolved_predicates": [
+            "APPM3021A"
+          ]
+        },
+        {
+          "case_id": "TS089",
+          "target": "ELEN3016A",
+          "reference": "ineligible",
+          "cause": "status_reply_unresolved",
+          "reply": "I have listed every module I am currently taking or planning.",
+          "answer": "I could not interpret your status for ELEN3012A. The clarification limit for ELEN3016A has been reached. Update that module in Profile setup, then ask the eligibility question again.",
+          "unresolved_predicates": [
+            "ELEN3012A"
+          ]
+        },
+        {
+          "case_id": "TS110",
+          "target": "ELEN3016A",
+          "reference": "ineligible",
+          "cause": "status_reply_unresolved",
+          "reply": "I have listed every module I am currently taking or planning.",
+          "answer": "I could not interpret your status for ELEN3012A. The clarification limit for ELEN3016A has been reached. Update that module in Profile setup, then ask the eligibility question again.",
+          "unresolved_predicates": [
+            "ELEN3012A"
+          ]
+        },
+        {
+          "case_id": "TS134",
+          "target": "ELEN3016A",
+          "reference": "ineligible",
+          "cause": "status_reply_unresolved",
+          "reply": "I have listed every module I am currently taking or planning.",
+          "answer": "I could not interpret your status for ELEN3012A. The clarification limit for ELEN3016A has been reached. Update that module in Profile setup, then ask the eligibility question again.",
+          "unresolved_predicates": [
+            "ELEN3012A"
+          ]
+        }
+      ],
+      "raw_sha256": "0b6da6b001c1f8a02e01cca5f31795b03ac4a8a99c0a6088aa14afe1be903df1"
+    }
+  },
+  "pre_post_grid": {
+    "before": {
+      "low": {
+        "correct": 119,
+        "n": 139,
+        "macro_f1": 0.9087179487179488,
+        "unsafe": {
+          "numerator": 7,
+          "denominator": 90,
+          "rate": 0.07777777777777778
+        },
+        "invalid": {
+          "numerator": 8,
+          "denominator": 139,
+          "rate": 0.05755395683453238
+        }
+      },
+      "medium": {
+        "correct": 115,
+        "n": 139,
+        "macro_f1": 0.8965079365079364,
+        "unsafe": {
+          "numerator": 7,
+          "denominator": 90,
+          "rate": 0.07777777777777778
+        },
+        "invalid": {
+          "numerator": 12,
+          "denominator": 139,
+          "rate": 0.08633093525179857
+        }
+      },
+      "high": {
+        "correct": 116,
+        "n": 139,
+        "macro_f1": 0.8996325459317586,
+        "unsafe": {
+          "numerator": 7,
+          "denominator": 90,
+          "rate": 0.07777777777777778
+        },
+        "invalid": {
+          "numerator": 11,
+          "denominator": 139,
+          "rate": 0.07913669064748201
+        }
+      }
+    },
+    "after": {
+      "low": {
+        "correct": 131,
+        "n": 139,
+        "macro_f1": 0.9797979797979798,
+        "unsafe": {
+          "numerator": 0,
+          "denominator": 90,
+          "rate": 0.0
+        },
+        "invalid": {
+          "numerator": 8,
+          "denominator": 139,
+          "rate": 0.05755395683453238
+        }
+      },
+      "medium": {
+        "correct": 127,
+        "n": 139,
+        "macro_f1": 0.96875,
+        "unsafe": {
+          "numerator": 0,
+          "denominator": 90,
+          "rate": 0.0
+        },
+        "invalid": {
+          "numerator": 12,
+          "denominator": 139,
+          "rate": 0.08633093525179857
+        }
+      },
+      "high": {
+        "correct": 128,
+        "n": 139,
+        "macro_f1": 0.9715762273901808,
+        "unsafe": {
+          "numerator": 0,
+          "denominator": 90,
+          "rate": 0.0
+        },
+        "invalid": {
+          "numerator": 11,
+          "denominator": 139,
+          "rate": 0.07913669064748201
+        }
+      }
+    }
+  },
+  "failure_interpretation": "All eight common failures were exhausted status-reply clarification, not missing target resolution. Rules-only receives module_history_confirmed=True from the benchmark adapter when the scripted reply contains every module, whereas the conversational payload relies on the text reply. No historical observations were changed."
+}

@@ -1,0 +1,55 @@
+\input{reflection_preamble.tex}
+\hypersetup{pdftitle={CurricuPath Appendix A Team Reflection and Actual Work Distribution},pdfauthor={Gift Vundla}}
+\begin{document}
+\thispagestyle{empty}\pagestyle{empty}
+\begin{center}
+\textbf{APPENDIX A}\\[10pt]
+\textbf{TEAM REFLECTION AND ACTUAL WORK DISTRIBUTION}\\[6pt]
+Gift Vundla (2550723)
+\end{center}
+\noindent This individual reflection draws on the team's shared account supplied by Vukosi Khoza. It records the same allocation of responsibilities while explaining the collaboration from Gift's perspective.
+
+\subsection*{A1 Team Reflection}
+Working on one system required regular coordination because our technical interests and approaches did not always coincide. The main challenge was to combine those approaches into a consistent implementation without losing the investigation's focus. Tasks that exceeded their expected duration also made a rigid allocation impractical.
+
+We responded by helping each other resolve technical obstacles and, where necessary, temporarily taking on parts of the other's task. Responsibilities consequently overlapped more than the original plan suggested. That flexibility supported progress and knowledge sharing, but also required us to coordinate changes across evidence preparation, interpretation, backend integration and testing.
+
+\subsection*{A2 Changes from the Project Plan}
+The initial proposal described a wider e-learning and curriculum-recommendation platform, including personalised ranking, a course library, feedback-based reranking, progress tracking and usability evaluation. The completed investigation instead concentrated on clarification, deterministic eligibility reasoning and the sufficiency of institutional evidence.
+
+Implementation also departed from the proposed Streamlit, SQLite and CSV/JSON approach. The working architecture used FastAPI, React, PostgreSQL and pgvector, with language-model assistance for interpreting requests. These changes altered both the technical workload and the questions that could be evaluated.
+
+The original distribution was retained where practical, but implementation delays and difficult tasks required support across the planned boundaries. Table \ref{tab:split} records the completed work and the corresponding changes in scope; primary responsibility denotes a lead role, rather than exclusive authorship.
+
+\subsection*{A3 Actual Work Distribution}
+The ten work areas preserve the responsibilities in the shared team account. My principal responsibilities concerned engine and backend integration, automated verification and reproducible execution. Vukosi led evidence preparation, interpretation and clarification, interface/retrieval and experimental-case preparation. Evaluation and presentation remained collaborative.
+\newpage
+\setcounter{table}{2}
+\begin{table}[!ht]
+\caption{Actual project work distribution.}
+\label{tab:split}
+\centering
+\small
+\setlength{\tabcolsep}{1mm}
+\renewcommand{\arraystretch}{1.12}
+\begin{tabular}{p{27mm}p{43mm}p{43mm}p{49mm}}
+\hline
+\textbf{Work area} & \textbf{Vukosi Khoza} & \textbf{Gift Vundla} & \textbf{Change from project plan}\\
+\hline
+Project planning and scope & Jointly refined the investigation question, evidence needs and evaluation scope. & Jointly refined scope, architecture and implementation priorities. & The broad recommendation platform narrowed to clarification, deterministic eligibility and evidence sufficiency.\\
+Curriculum data and evidence & Led extraction and organisation of modules, rules, aliases, sources and School evidence, with rule-source links. & Reviewed rule interpretations and helped check consistency. & The planned course database became a source-linked curriculum and rule collection with evidence-status records.\\
+Eligibility rule design & Defined and checked curriculum conditions and behaviour when evidence was missing or incomplete. & Led integration of programme, prerequisite, corequisite, exclusion and source-verification checks. & The ranking-oriented gate pipeline developed into a deterministic eligibility engine.\\
+Request interpretation and clarification & Led deterministic parsing, aliases, module resolution, clarification logic and Gemini fallback behaviour. & Connected interpreted requests to eligibility evaluation and tested failure handling. & Preference extraction was reduced; clarification became a central experimental variable.\\
+Database, retrieval and interface & Led the user workflow and semantic retrieval with BGE embeddings and pgvector. & Led backend and database integration using FastAPI, PostgreSQL, SQLAlchemy and Alembic. & Streamlit, SQLite and CSV/JSON plans gave way to React, FastAPI, PostgreSQL and embedding-based retrieval.\\
+Testing and validation & Checked expected cases, evidence conditions, clarification behaviour and interpretation failures. & Led automated tests, regression and integration checks, and reproducible execution. & Validation moved from ranking relevance to eligibility correctness and system reliability.\\
+Experimental cases and baselines & Led preparation and checking of synthetic cases, clarification cases and evidence-sufficiency groups. & Supported baseline integration and execution. & Planned recommender variants became CurricuPath, no clarification, rules-only, Handbook RAG and structured-rules LLM comparisons.\\
+Experimental evaluation & Jointly analysed accuracy, Macro-F1, unsafe decisions, clarification and evidence effects. & Jointly analysed findings and verified system outputs and failure cases. & Ranking and usability measures were replaced by decision accuracy, Macro-F1, unsafe-decision rate and controlled evidence experiments.\\
+Results and reproducibility & Led interpretation of clarification, evidence-completeness and wording-sensitivity results. & Led checks of implementation behaviour and reproducible runs. & The investigation moved from recommendation usefulness to the reliability of eligibility decisions.\\
+Documentation and presentation & Prepared an individual technical report and contributed to the poster, presentation and evidence pack. & Prepared an individual technical report and contributed to the poster, presentation and evidence pack. & Documentation stayed collaborative; each individual report emphasised its author's contribution.\\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection*{A4 Overall Reflection}
+The revised scope gave the investigation a clearer focus on reliable AI-assisted eligibility decisions. Reassigning tasks, learning unfamiliar tools and helping each other through implementation problems became part of the engineering work itself. Much of that work extended beyond our coursework and required independent learning under time constraints. The final allocation therefore reflects both individual leadership and the joint effort needed to integrate and evaluate a complete system.
+\end{document}

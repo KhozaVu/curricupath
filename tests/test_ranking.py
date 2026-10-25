@@ -250,134 +250,22 @@ def test_ranker_artifact_rejects_stale_catalogue(tmp_path: Path) -> None:
         )
 
 
-def test_advisor_uses_valid_learned_ranker_with_complete_semantics() -> None:
+@pytest.mark.parametrize("ranking_mode", [None, "deterministic", "prototype", "pairwise_logistic"])
+def test_archived_ranking_modes_cannot_restore_public_recommendations(ranking_mode) -> None:
     repository = CsvCatalogueRepository(PROCESSED_DATA)
-    service = CurricuPathService(repository, str(PROJECT_ROOT))
-    ranker = PairwiseLogisticRanker(
-        coefficients=(1.0,) * len(FEATURE_ORDER),
-        catalogue_fingerprint="test",
-        embedding_model="test",
-        model_checksum="test",
-        deployment_eligible=True,
-    )
     engine = AdvisorEngine(
-        service,
+        CurricuPathService(repository, str(PROJECT_ROOT)),
         DeterministicIntentExtractor(repository.data.aliases),
-        CompleteSemanticMatcher(),
-        ranker,
-    )
-
-    result = engine.advise("Find an electric circuits course")
-
-    assert result["ranking_mode"] == "pairwise_logistic"
-    assert all(
-        item["ranking_mode"] == "pairwise_logistic"
-        for item in result["recommendations"]
-    )
-    assert "model_contributions" in result["recommendations"][0]["score_components"]
-
-
-def test_advisor_can_explicitly_select_deterministic_ranking() -> None:
-    repository = CsvCatalogueRepository(PROCESSED_DATA)
-    service = CurricuPathService(repository, str(PROJECT_ROOT))
-    ranker = PairwiseLogisticRanker(
-        coefficients=(1.0,) * len(FEATURE_ORDER),
-        catalogue_fingerprint="test",
-        embedding_model="test",
-        model_checksum="test",
-        deployment_eligible=False,
-    )
-    engine = AdvisorEngine(
-        service,
-        DeterministicIntentExtractor(repository.data.aliases),
-        CompleteSemanticMatcher(),
-        ranker,
-    )
-
-    result = engine.advise(
-        "Find an electric circuits course",
-        ranking_mode="deterministic",
-    )
-
-    assert result["ranking_mode"] == "deterministic"
-    assert all(
-        "model_contributions" not in item["score_components"]
-        for item in result["recommendations"]
-    )
-
-
-def test_prototype_collects_and_applies_workload_and_difficulty() -> None:
-    repository = CsvCatalogueRepository(PROCESSED_DATA)
-    service = CurricuPathService(repository, str(PROJECT_ROOT))
-    ranker = PairwiseLogisticRanker(
-        coefficients=(1.0,) * len(FEATURE_ORDER),
-        catalogue_fingerprint="test",
-        embedding_model="test",
-        model_checksum="test",
-        deployment_eligible=False,
-    )
-    engine = AdvisorEngine(
-        service,
-        DeterministicIntentExtractor(repository.data.aliases),
-        CompleteSemanticMatcher(),
-        ranker,
-    )
-
-    workload = engine.advise(
-        "Find a networking course",
-        ranking_mode="prototype",
-    )
-    difficulty = engine.advise(
-        "Light workload",
-        context=ConversationContext.from_dict(workload["conversation_context"]),
-        ranking_mode="prototype",
     )
     result = engine.advise(
-        "Beginner",
-        context=ConversationContext.from_dict(difficulty["conversation_context"]),
-        ranking_mode="prototype",
+        "Recommend EE electives for renewable energy with brief reasons",
+        programme_code="EFA03", ranking_mode=ranking_mode,
+        module_history_confirmed=False,
     )
-
-    assert workload["clarification_options"] == [
-        "Light workload",
-        "Moderate workload",
-        "Heavy workload",
-    ]
-    assert difficulty["clarification_options"] == ["Beginner", "Intermediate"]
-    assert result["status"] == "ok"
-    assert result["preferences_applied"] == {
-        "workload": "light",
-        "difficulty": "beginner",
-    }
-    assert all(course["level"] == "beginner" for course in result["recommendations"])
-    assert all(
-        "networking" in course["interest_tags"]
-        for course in result["recommendations"]
-    )
-    assert result["recommendations"][0]["workload"] == "light"
-    assert "explicit_workload_match" in result["recommendations"][0]["score_components"]
-
-
-def test_advisor_falls_back_for_whole_request_without_semantics() -> None:
-    repository = CsvCatalogueRepository(PROCESSED_DATA)
-    service = CurricuPathService(repository, str(PROJECT_ROOT))
-    ranker = PairwiseLogisticRanker(
-        coefficients=(1.0,) * len(FEATURE_ORDER),
-        catalogue_fingerprint="test",
-        embedding_model="test",
-        model_checksum="test",
-        deployment_eligible=True,
-    )
-    engine = AdvisorEngine(
-        service,
-        DeterministicIntentExtractor(repository.data.aliases),
-        public_course_ranker=ranker,
-    )
-
-    result = engine.advise("Find an electric circuits course")
-
-    assert result["ranking_mode"] == "deterministic"
-    assert all(
-        item["ranking_mode"] == "deterministic"
-        for item in result["recommendations"]
-    )
+    assert result["intent"] == "module_recommendations"
+    candidates = [*result.get("recommendations", []), *result.get("unresolved_modules", []), *result.get("interest_matches", [])]
+    assert candidates
+    wits_codes = {m["course_code"] for m in repository.data.modules if m["programme_code"] == "EFA03"}
+    assert all(item["course_code"] in wits_codes for item in candidates)
+    assert all(not item.get("course_id") for item in candidates)
+    assert not result.get("courses")

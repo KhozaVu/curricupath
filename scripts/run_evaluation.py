@@ -7,7 +7,7 @@ import csv
 import json
 import sys
 from pathlib import Path
-from time import perf_counter
+from time import perf_counter, sleep
 from typing import Any
 
 
@@ -104,6 +104,11 @@ def _curricupath_components():
     return service, app
 
 
+def _declares_module_history(case: dict[str, Any]) -> bool:
+    consolidated = case.get("consolidated_noninteractive_input") or ""
+    return consolidated.strip() != case["question"].strip() and "every module" in consolidated
+
+
 def _rules_only(service: CurricuPathService, case: dict[str, Any]) -> dict[str, Any]:
     profile = case["student_profile"]
     started = perf_counter()
@@ -114,6 +119,11 @@ def _rules_only(service: CurricuPathService, case: dict[str, Any]) -> dict[str, 
         set(profile["current_modules"]),
         set(profile["planned_modules"]),
         tuple(profile.get("manual_review_reasons", [])),
+        # The scripted completeness fact ("I have listed every module...") is the same declared
+        # fact the other non-interactive arms receive in consolidated_noninteractive_input.
+        module_history_confirmed=(
+            True if _declares_module_history(case) else None
+        ),
     )
     return {
         "case_id": case["case_id"],
@@ -137,14 +147,18 @@ def _curricupath(
     from fastapi.testclient import TestClient
 
     profile = case["student_profile"]
+    # Protocol: every non-interactive arm receives the scripted fact up front, as the RAG arm does.
+    message = case["question"] if allow_clarification else (
+        case.get("consolidated_noninteractive_input") or case["question"])
     started = perf_counter()
     with TestClient(app) as client:
         payload = AdvisorRequest(
-            message=case["question"],
+            message=message,
             programme_code=profile["programme_code"],
             completed_modules=set(profile["completed_modules"]),
             current_modules=set(profile["current_modules"]),
             planned_modules=set(profile["planned_modules"]),
+            allow_clarification=allow_clarification,
         ).model_dump(mode="json")
         response = client.post("/advisor", json=payload)
         response.raise_for_status()
@@ -188,7 +202,25 @@ def main() -> None:
         action="store_true",
         help="Exercise the harness before approval; output is marked draft.",
     )
+    parser.add_argument(
+        "--runs",
+        type=int,
+        choices=(1, 2, 3),
+        default=3,
+        help="Runs per case for LLM-dependent arms. Draft only; official runs always use 3.",
+    )
+    parser.add_argument(
+        "--pace-seconds",
+        type=float,
+        default=0.0,
+        help="Pause after each model call to stay under a provider's per-minute limit. "
+        "Spacing only; requests are unchanged.",
+    )
     args = parser.parse_args()
+    if args.pace_seconds < 0:
+        raise SystemExit("--pace-seconds must be zero or positive.")
+    if args.runs != 3 and not args.allow_draft:
+        raise SystemExit("Official runs require --runs 3; fewer runs are draft-only.")
     if not args.allow_draft:
         errors = readiness_errors()
         if errors:
@@ -209,13 +241,15 @@ def main() -> None:
     with output_path.open("w" if args.allow_draft else "x", encoding="utf-8") as output:
         for case in cases:
             if llm is not None:
-                for run_number in range(1, 4):
+                for run_number in range(1, args.runs + 1):
                     record = llm.run_case(case, args.arm, run_number).as_dict()
                     output.write(json.dumps(record, sort_keys=True, default=str) + "\n")
+                    output.flush()
+                    sleep(args.pace_seconds)
             elif args.arm == "rules_only":
                 output.write(json.dumps(_rules_only(service, case), sort_keys=True) + "\n")
             else:
-                for run_number in range(1, 4):
+                for run_number in range(1, args.runs + 1):
                     record = _curricupath(
                         app,
                         case,

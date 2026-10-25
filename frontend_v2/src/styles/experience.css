@@ -1,0 +1,71 @@
+/* Owner: command navigation, continuation, help and appearance choices. */
+.breadcrumb { flex-wrap:wrap; }
+.breadcrumb-context { display:block; width:100%; color:var(--text-muted); font-size:11px; margin-top:4px; }
+.global-search-trigger kbd { font-size:10px; white-space:nowrap; color:var(--text-muted); margin-left:12px; }
+.command-hint { display:flex; align-items:center; flex-wrap:wrap; gap:6px; margin:14px 0 20px; font-size:12px; color:var(--text-muted); }
+.command-input { margin-bottom:0; }
+.command-results { margin-top:0; }
+.command-group { color:var(--text-muted); font:400 11px/1.6 var(--font-code); letter-spacing:.8px; padding:22px 4px 10px; }
+.command-option { border:1px solid transparent; border-radius:var(--radius-control); }
+.command-option.is-selected { background:var(--accent-wash); border-color:var(--focus-ring); }
+.command-option > button { width:100%; margin:0; border:0; min-height:64px; text-align:left; }
+.command-option > button > span { min-width:0; }
+.command-option strong { overflow-wrap:anywhere; }
+.command-option small { display:block; margin-top:5px; font-size:11px; color:var(--text-muted); }
+.command-option .command-kind { margin-left:auto; font:400 10px/1.5 var(--font-code); flex-shrink:0; color:var(--text-muted); }
+.motion-choices { display:grid; gap:10px; }
+.motion-choice { display:flex; gap:12px; align-items:flex-start; min-height:64px; padding:14px; border:1px solid var(--border-default); border-radius:var(--radius-control); cursor:pointer; background:var(--surface-base); }
+.motion-choice:has(input:checked) { border-color:var(--accent); background:var(--accent-wash); }
+.motion-choice input { margin:4px 0 0; }
+.motion-choice strong,.motion-choice small { display:block; }
+.motion-choice small { color:var(--text-muted); margin-top:5px; font-size:12px; line-height:1.6; }
+.setting-card fieldset { padding:0; margin:0; border:0; }
+.setting-card legend { font:400 var(--type-section)/1.2 var(--font-display); margin-bottom:16px; }
+.motion-system-note { padding:12px; border-left:2px solid var(--status-attention); color:var(--text-secondary); font-size:12px; }
+.history-context { padding:28px 30px; background:var(--surface-reading); border:1px solid var(--atlas-rule); border-radius:var(--radius-panel); }
+.history-context h2 { margin:18px 0 12px; font-size:var(--type-section); }
+.history-context p { color:var(--text-muted); font-size:var(--type-body); max-width:55ch; }
+.history-context .text-button { display:flex; margin-top:12px; padding-left:0; }
+.atlas-home .home-focus-grid { margin-bottom:var(--space-6); }
+.continuation-space { border:1px solid var(--atlas-rule); border-top:2px solid var(--atlas-metal); border-radius:var(--radius-panel); background:var(--surface-reading); padding:28px 30px; margin-bottom:var(--space-6); }
+.continuation-space h2 { font-size:var(--type-section); margin:8px 0 0; }
+.continuation-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr)); gap:26px; margin-top:28px; }
+.continuation-grid > section { min-width:0; }
+.continuation-grid h3 { font-family:var(--font-body); font-size:13px; color:var(--text-secondary); margin-bottom:12px; }
+.continuation-grid .collection-row { grid-template-columns:minmax(0,1fr) auto; align-items:start; padding:14px 0; width:100%; }
+.continuation-grid .collection-row > span { grid-column:1; color:var(--text-muted); font-size:11px; }
+.continuation-grid .collection-row strong { grid-column:1; font-size:13px; line-height:1.6; overflow-wrap:anywhere; }
+.continuation-grid .collection-row svg { grid-column:2; grid-row:1/3; align-self:center; }
+.continuation-grid .text-button { font-size:11px; }
+.continuation-grid p { color:var(--text-muted); font-size:12px; }
+.milestone-disclosure > summary { display:flex; justify-content:space-between; gap:16px; cursor:pointer; min-height:44px; align-items:center; font:400 var(--type-section)/1.2 var(--font-display); }
+.milestone-disclosure > summary span { font:400 11px/1.5 var(--font-code); color:var(--text-muted); }
+.milestone-disclosure[open] > summary { margin-bottom:24px; }
+.space-help > section { border-top:1px solid var(--border-default); padding:24px 0; }
+.space-help h3 { font-size:var(--type-section); margin:12px 0; }
+.space-help p,.space-help dd { font-size:var(--type-body); color:var(--text-secondary); line-height:1.8; }
+.space-help dt { font-size:13px; color:var(--text-primary); font-weight:600; margin-top:16px; }
+.space-help dd { margin:6px 0 0; }
+.drawer-content { overscroll-behavior:contain; }
+@media (max-width:760px) { .breadcrumb-context { display:none; } .global-search-trigger kbd { display:none; } }
+@media (max-width:600px) { .top-actions { gap:2px; } .top-bar .help-trigger { display:none; } .history-context,.continuation-space { padding:24px 20px; } .milestone-disclosure > summary { flex-direction:column; align-items:flex-start; } .command-option .command-kind { display:none; } }
+.overlay-return-icon { transform:rotate(180deg); }
+.specimen-shell { background:var(--navy-950); }
+.specimen-page { max-width:var(--content-max); margin:auto; padding:40px 24px; }
+.specimen-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr)); gap:24px; }
+.specimen-grid > section { border:1px solid var(--border-default); border-radius:var(--radius-panel); background:var(--surface-reading); padding:24px; }
+.specimen-grid h2 { font-size:var(--type-section); }
+.specimen-grid p { font-size:var(--type-body); color:var(--text-secondary); }
+.specimen-actions { display:flex; gap:12px; flex-wrap:wrap; }
+.specimen-field { display:grid; gap:8px; margin-bottom:16px; }
+.specimen-field input { width:100%; padding:12px; border:1px solid var(--border-emphasis); border-radius:var(--radius-control); background:var(--surface-base); }
+.specimen-field input[aria-invalid='true'] { border-color:var(--status-error); }
+.field-error { color:var(--status-error) !important; }
+.specimen-card { display:grid; gap:18px; width:100%; padding:24px; text-align:left; border:1px solid var(--border-emphasis); border-radius:var(--radius-card); background:var(--surface-subtle); }
+.specimen-card strong { font:400 28px/1.2 var(--font-display); overflow-wrap:anywhere; }
+.specimen-card > span:last-child,.specimen-notice { display:flex; align-items:center; gap:10px; }
+.specimen-card:hover { border-color:var(--accent); }
+.specimen-notice { min-height:52px; margin-top:24px; }
+@supports not (backdrop-filter: blur(1px)) { .glass-control { background:var(--surface-base); } }
+.rail-item { text-decoration:none; }
+.app-shell:not([data-motion-level='expressive']) .campus-window { transform:none; }

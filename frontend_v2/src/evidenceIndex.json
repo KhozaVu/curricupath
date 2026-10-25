@@ -1,0 +1,957 @@
+[
+  {
+    "kind": "module",
+    "id": "CHEM1051A",
+    "title": "Engineering Chemistry",
+    "source_id": "EBE_2026",
+    "page": "46"
+  },
+  {
+    "kind": "module",
+    "id": "FEBE1000A",
+    "title": "Introduction to the Engineering Profession",
+    "source_id": "EBE_2026",
+    "page": "46"
+  },
+  {
+    "kind": "module",
+    "id": "FEBE1002A",
+    "title": "Engineering Analysis and Design IA",
+    "source_id": "EBE_2026",
+    "page": "46"
+  },
+  {
+    "kind": "module",
+    "id": "FEBE1004A",
+    "title": "Engineering Analysis and Design IB",
+    "source_id": "EBE_2026",
+    "page": "46"
+  },
+  {
+    "kind": "module",
+    "id": "MATH1048A",
+    "title": "Engineering Mathematics IA",
+    "source_id": "EBE_2026",
+    "page": "46"
+  },
+  {
+    "kind": "module",
+    "id": "MATH1049A",
+    "title": "Engineering Mathematics IB",
+    "source_id": "EBE_2026",
+    "page": "46"
+  },
+  {
+    "kind": "module",
+    "id": "PHYS1032A",
+    "title": "Engineering Physics IA",
+    "source_id": "EBE_2026",
+    "page": "46"
+  },
+  {
+    "kind": "module",
+    "id": "PHYS1033A",
+    "title": "Engineering Physics IB",
+    "source_id": "EBE_2026",
+    "page": "46"
+  },
+  {
+    "kind": "module",
+    "id": "PHYS1034A",
+    "title": "Applied Physics I",
+    "source_id": "EBE_2026",
+    "page": "46"
+  },
+  {
+    "kind": "module",
+    "id": "AFRL1003A",
+    "title": "Elementary IsiZulu Language and Culture IA",
+    "source_id": "EBE_2026",
+    "page": "46"
+  },
+  {
+    "kind": "module",
+    "id": "AFRL1005A",
+    "title": "Elementary Sesotho Language and Culture IA",
+    "source_id": "EBE_2026",
+    "page": "46"
+  },
+  {
+    "kind": "module",
+    "id": "INTR1012A",
+    "title": "The International Relations of South Africa and Africa",
+    "source_id": "EBE_2026",
+    "page": "46"
+  },
+  {
+    "kind": "module",
+    "id": "POLS1007A",
+    "title": "Introduction to Political Studies",
+    "source_id": "EBE_2026",
+    "page": "46"
+  },
+  {
+    "kind": "module",
+    "id": "SOCL1013A",
+    "title": "Southern Africa in the Era of Globalisation",
+    "source_id": "EBE_2026",
+    "page": "46"
+  },
+  {
+    "kind": "module",
+    "id": "SOCL1014A",
+    "title": "Identity and Society",
+    "source_id": "EBE_2026",
+    "page": "46"
+  },
+  {
+    "kind": "module",
+    "id": "PHIL1002A",
+    "title": "Introduction to Ethics I",
+    "source_id": "EBE_2026",
+    "page": "46"
+  },
+  {
+    "kind": "module",
+    "id": "PHIL1003A",
+    "title": "Introduction to Philosophy: Knowledge and Reality",
+    "source_id": "EBE_2026",
+    "page": "46"
+  },
+  {
+    "kind": "module",
+    "id": "HIST1011A",
+    "title": "Global Encounters and Contemporary Realities IA",
+    "source_id": "EBE_2026",
+    "page": "46"
+  },
+  {
+    "kind": "module",
+    "id": "COMS2004A",
+    "title": "Data Structures and Algorithms",
+    "source_id": "EBE_2026",
+    "page": "46"
+  },
+  {
+    "kind": "module",
+    "id": "ELEN2003A",
+    "title": "Electric and Magnetic Systems",
+    "source_id": "EBE_2026",
+    "page": "46"
+  },
+  {
+    "kind": "module",
+    "id": "ELEN2005A",
+    "title": "Signals and Systems I",
+    "source_id": "EBE_2026",
+    "page": "46"
+  },
+  {
+    "kind": "module",
+    "id": "ELEN2016A",
+    "title": "Electronics I",
+    "source_id": "EBE_2026",
+    "page": "46"
+  },
+  {
+    "kind": "module",
+    "id": "ELEN2017A",
+    "title": "Electric Circuits",
+    "source_id": "EBE_2026",
+    "page": "46"
+  },
+  {
+    "kind": "module",
+    "id": "ELEN2020A",
+    "title": "Software Development I",
+    "source_id": "EBE_2026",
+    "page": "46"
+  },
+  {
+    "kind": "module",
+    "id": "ELEN2021A",
+    "title": "Microprocessors",
+    "source_id": "EBE_2026",
+    "page": "46"
+  },
+  {
+    "kind": "module",
+    "id": "MATH2014A",
+    "title": "Mathematics II",
+    "source_id": "EBE_2026",
+    "page": "46"
+  },
+  {
+    "kind": "module",
+    "id": "PHYS2007A",
+    "title": "Physics II (Electrical)",
+    "source_id": "EBE_2026",
+    "page": "46"
+  },
+  {
+    "kind": "module",
+    "id": "ELEN1998A",
+    "title": "Vacation Work I (Electrical)",
+    "source_id": "EBE_2026",
+    "page": "46"
+  },
+  {
+    "kind": "module",
+    "id": "ELEN3000A",
+    "title": "Electromagnetic Engineering",
+    "source_id": "EBE_2026",
+    "page": "47"
+  },
+  {
+    "kind": "module",
+    "id": "ELEN3002A",
+    "title": "Electronics II",
+    "source_id": "EBE_2026",
+    "page": "47"
+  },
+  {
+    "kind": "module",
+    "id": "ELEN3003A",
+    "title": "Power Engineering",
+    "source_id": "EBE_2026",
+    "page": "47"
+  },
+  {
+    "kind": "module",
+    "id": "ELEN3007A",
+    "title": "Probabilistic Systems Analysis",
+    "source_id": "EBE_2026",
+    "page": "47"
+  },
+  {
+    "kind": "module",
+    "id": "ELEN3009A",
+    "title": "Software Development II",
+    "source_id": "EBE_2026",
+    "page": "47"
+  },
+  {
+    "kind": "module",
+    "id": "ELEN3012A",
+    "title": "Signals and Systems IIA",
+    "source_id": "EBE_2026",
+    "page": "47"
+  },
+  {
+    "kind": "module",
+    "id": "ELEN3013A",
+    "title": "Signals and Systems IIB",
+    "source_id": "EBE_2026",
+    "page": "47"
+  },
+  {
+    "kind": "module",
+    "id": "ELEN3016A",
+    "title": "Control I",
+    "source_id": "EBE_2026",
+    "page": "47"
+  },
+  {
+    "kind": "module",
+    "id": "ELEN3017A",
+    "title": "Electrical Engineering Design",
+    "source_id": "EBE_2026",
+    "page": "47"
+  },
+  {
+    "kind": "module",
+    "id": "ELEN3018A",
+    "title": "Economics of Design",
+    "source_id": "EBE_2026",
+    "page": "47"
+  },
+  {
+    "kind": "module",
+    "id": "MATH3025A",
+    "title": "Mathematical Methods",
+    "source_id": "EBE_2026",
+    "page": "47"
+  },
+  {
+    "kind": "module",
+    "id": "ELEN4000A",
+    "title": "Electrical Engineering Design II",
+    "source_id": "EBE_2026",
+    "page": "47"
+  },
+  {
+    "kind": "module",
+    "id": "ELEN4002A",
+    "title": "Electrical Engineering Laboratory",
+    "source_id": "EBE_2026",
+    "page": "47"
+  },
+  {
+    "kind": "module",
+    "id": "ELEN4006A",
+    "title": "Measurement Systems",
+    "source_id": "EBE_2026",
+    "page": "47"
+  },
+  {
+    "kind": "module",
+    "id": "ELEN4019A",
+    "title": "Selected Topics in Sociology",
+    "source_id": "EBE_2026",
+    "page": "47"
+  },
+  {
+    "kind": "module",
+    "id": "MECN4020A",
+    "title": "Systems Management and Integration",
+    "source_id": "EBE_2026",
+    "page": "47"
+  },
+  {
+    "kind": "module",
+    "id": "ELEN4001A",
+    "title": "High Frequency Techniques",
+    "source_id": "EBE_2026",
+    "page": "47"
+  },
+  {
+    "kind": "module",
+    "id": "ELEN4003A",
+    "title": "High Voltage Engineering",
+    "source_id": "EBE_2026",
+    "page": "47"
+  },
+  {
+    "kind": "module",
+    "id": "ELEN4014A",
+    "title": "Electromechanical Conversion",
+    "source_id": "EBE_2026",
+    "page": "47"
+  },
+  {
+    "kind": "module",
+    "id": "ELEN4016A",
+    "title": "Control II",
+    "source_id": "EBE_2026",
+    "page": "47"
+  },
+  {
+    "kind": "module",
+    "id": "ELEN4018A",
+    "title": "Power Systems",
+    "source_id": "EBE_2026",
+    "page": "47"
+  },
+  {
+    "kind": "module",
+    "id": "ELEN4023A",
+    "title": "Renewable Energy",
+    "source_id": "EBE_2026",
+    "page": "47"
+  },
+  {
+    "kind": "module",
+    "id": "APPM3021A",
+    "title": "Computational Mathematics",
+    "source_id": "EBE_2026",
+    "page": "48"
+  },
+  {
+    "kind": "module",
+    "id": "ELEN3015A",
+    "title": "Data and Information Management",
+    "source_id": "EBE_2026",
+    "page": "48"
+  },
+  {
+    "kind": "module",
+    "id": "ELEN3024A",
+    "title": "Communication Fundamentals",
+    "source_id": "EBE_2026",
+    "page": "48"
+  },
+  {
+    "kind": "module",
+    "id": "ELEN4011A",
+    "title": "Information Engineering Design",
+    "source_id": "EBE_2026",
+    "page": "48"
+  },
+  {
+    "kind": "module",
+    "id": "ELEN4012A",
+    "title": "Information Engineering Laboratory",
+    "source_id": "EBE_2026",
+    "page": "48"
+  },
+  {
+    "kind": "module",
+    "id": "ELEN4010A",
+    "title": "Software Development III",
+    "source_id": "EBE_2026",
+    "page": "48"
+  },
+  {
+    "kind": "module",
+    "id": "ELEN4017A",
+    "title": "Network Fundamentals",
+    "source_id": "EBE_2026",
+    "page": "48"
+  },
+  {
+    "kind": "module",
+    "id": "ELEN4020A",
+    "title": "Data Intensive Computing in Data Science",
+    "source_id": "EBE_2026",
+    "page": "48"
+  },
+  {
+    "kind": "module",
+    "id": "ELEN4022A",
+    "title": "Full Stack Quantum Computing",
+    "source_id": "EBE_2026",
+    "page": "48"
+  },
+  {
+    "kind": "module",
+    "id": "ELEN4024A",
+    "title": "Secure Computing",
+    "source_id": "EBE_2026",
+    "page": "48"
+  },
+  {
+    "kind": "module",
+    "id": "ELEN4025A",
+    "title": "Introduction to Machine Learning",
+    "source_id": "EBE_2026",
+    "page": "48"
+  },
+  {
+    "kind": "rule",
+    "id": "DEF_COREQUISITE",
+    "title": "ALL",
+    "module": "",
+    "source_id": "EBE_2026",
+    "page": "8"
+  },
+  {
+    "kind": "rule",
+    "id": "DEF_PREREQUISITE",
+    "title": "ALL",
+    "module": "",
+    "source_id": "EBE_2026",
+    "page": "10"
+  },
+  {
+    "kind": "rule",
+    "id": "PROGRAMME_EFA03",
+    "title": "EFA03",
+    "module": "",
+    "source_id": "EBE_2026",
+    "page": "46"
+  },
+  {
+    "kind": "rule",
+    "id": "PROGRAMME_EFA04",
+    "title": "EFA04",
+    "module": "",
+    "source_id": "EBE_2026",
+    "page": "47"
+  },
+  {
+    "kind": "rule",
+    "id": "BRANCH_SELECTION",
+    "title": "EFA03|EFA04",
+    "module": "",
+    "source_id": "EBE_2026",
+    "page": "47"
+  },
+  {
+    "kind": "rule",
+    "id": "SELECT_EFA03_Y4",
+    "title": "EFA03",
+    "module": "",
+    "source_id": "EBE_2026",
+    "page": "47"
+  },
+  {
+    "kind": "rule",
+    "id": "SELECT_EFA04_Y4",
+    "title": "EFA04",
+    "module": "",
+    "source_id": "EBE_2026",
+    "page": "48"
+  },
+  {
+    "kind": "rule",
+    "id": "SELECT_Y1_HUMANITIES",
+    "title": "EFA03|EFA04",
+    "module": "",
+    "source_id": "EBE_2026",
+    "page": "46"
+  },
+  {
+    "kind": "rule",
+    "id": "PRE_ELEN2003",
+    "title": "ELEN2003A",
+    "module": "ELEN2003A",
+    "source_id": "EBE_2026",
+    "page": "80"
+  },
+  {
+    "kind": "rule",
+    "id": "CORE_ELEN2003",
+    "title": "ELEN2003A",
+    "module": "ELEN2003A",
+    "source_id": "EBE_2026",
+    "page": "80"
+  },
+  {
+    "kind": "rule",
+    "id": "PRE_ELEN2005",
+    "title": "ELEN2005A",
+    "module": "ELEN2005A",
+    "source_id": "EBE_2026",
+    "page": "80"
+  },
+  {
+    "kind": "rule",
+    "id": "CORE_ELEN2005",
+    "title": "ELEN2005A",
+    "module": "ELEN2005A",
+    "source_id": "EBE_2026",
+    "page": "80"
+  },
+  {
+    "kind": "rule",
+    "id": "PRE_ELEN2016",
+    "title": "ELEN2016A",
+    "module": "ELEN2016A",
+    "source_id": "EBE_2026",
+    "page": "81"
+  },
+  {
+    "kind": "rule",
+    "id": "CORE_ELEN2016",
+    "title": "ELEN2016A",
+    "module": "ELEN2016A",
+    "source_id": "EBE_2026",
+    "page": "81"
+  },
+  {
+    "kind": "rule",
+    "id": "PRE_ELEN2017",
+    "title": "ELEN2017A",
+    "module": "ELEN2017A",
+    "source_id": "EBE_2026",
+    "page": "81"
+  },
+  {
+    "kind": "rule",
+    "id": "PRE_ELEN2020",
+    "title": "ELEN2020A",
+    "module": "ELEN2020A",
+    "source_id": "EBE_2026",
+    "page": "80"
+  },
+  {
+    "kind": "rule",
+    "id": "CORE_ELEN2020",
+    "title": "ELEN2020A",
+    "module": "ELEN2020A",
+    "source_id": "EBE_2026",
+    "page": "80"
+  },
+  {
+    "kind": "rule",
+    "id": "PRE_ELEN2021",
+    "title": "ELEN2021A",
+    "module": "ELEN2021A",
+    "source_id": "EBE_2026",
+    "page": "80"
+  },
+  {
+    "kind": "rule",
+    "id": "CORE_ELEN2021",
+    "title": "ELEN2021A",
+    "module": "ELEN2021A",
+    "source_id": "EBE_2026",
+    "page": "81"
+  },
+  {
+    "kind": "rule",
+    "id": "PRE_ELEN3000",
+    "title": "ELEN3000A",
+    "module": "ELEN3000A",
+    "source_id": "EBE_2026",
+    "page": "81"
+  },
+  {
+    "kind": "rule",
+    "id": "CORE_ELEN3000",
+    "title": "ELEN3000A",
+    "module": "ELEN3000A",
+    "source_id": "EBE_2026",
+    "page": "81"
+  },
+  {
+    "kind": "rule",
+    "id": "PRE_ELEN3002",
+    "title": "ELEN3002A",
+    "module": "ELEN3002A",
+    "source_id": "EBE_2026",
+    "page": "81"
+  },
+  {
+    "kind": "rule",
+    "id": "PRE_ELEN3003",
+    "title": "ELEN3003A",
+    "module": "ELEN3003A",
+    "source_id": "EBE_2026",
+    "page": "81"
+  },
+  {
+    "kind": "rule",
+    "id": "PRE_ELEN3007",
+    "title": "ELEN3007A",
+    "module": "ELEN3007A",
+    "source_id": "EBE_2026",
+    "page": "81"
+  },
+  {
+    "kind": "rule",
+    "id": "CORE_ELEN3007",
+    "title": "ELEN3007A",
+    "module": "ELEN3007A",
+    "source_id": "EBE_2026",
+    "page": "81"
+  },
+  {
+    "kind": "rule",
+    "id": "PRE_ELEN3009",
+    "title": "ELEN3009A",
+    "module": "ELEN3009A",
+    "source_id": "EBE_2026",
+    "page": "81"
+  },
+  {
+    "kind": "rule",
+    "id": "PRE_ELEN3012",
+    "title": "ELEN3012A",
+    "module": "ELEN3012A",
+    "source_id": "EBE_2026",
+    "page": "82"
+  },
+  {
+    "kind": "rule",
+    "id": "PRE_ELEN3013",
+    "title": "ELEN3013A",
+    "module": "ELEN3013A",
+    "source_id": "EBE_2026",
+    "page": "82"
+  },
+  {
+    "kind": "rule",
+    "id": "CORE_ELEN3013",
+    "title": "ELEN3013A",
+    "module": "ELEN3013A",
+    "source_id": "EBE_2026",
+    "page": "82"
+  },
+  {
+    "kind": "rule",
+    "id": "PRE_ELEN3015",
+    "title": "ELEN3015A",
+    "module": "ELEN3015A",
+    "source_id": "EBE_2026",
+    "page": "82"
+  },
+  {
+    "kind": "rule",
+    "id": "CORE_ELEN3015",
+    "title": "ELEN3015A",
+    "module": "ELEN3015A",
+    "source_id": "EBE_2026",
+    "page": "82"
+  },
+  {
+    "kind": "rule",
+    "id": "PRE_ELEN3016",
+    "title": "ELEN3016A",
+    "module": "ELEN3016A",
+    "source_id": "EBE_2026",
+    "page": "82"
+  },
+  {
+    "kind": "rule",
+    "id": "CORE_ELEN3016",
+    "title": "ELEN3016A",
+    "module": "ELEN3016A",
+    "source_id": "EBE_2026",
+    "page": "82"
+  },
+  {
+    "kind": "rule",
+    "id": "PRE_ELEN3017",
+    "title": "ELEN3017A",
+    "module": "ELEN3017A",
+    "source_id": "EBE_2026",
+    "page": "82"
+  },
+  {
+    "kind": "rule",
+    "id": "PRE_ELEN3018",
+    "title": "ELEN3018A",
+    "module": "ELEN3018A",
+    "source_id": "EBE_2026",
+    "page": "83"
+  },
+  {
+    "kind": "rule",
+    "id": "PRE_ELEN3024",
+    "title": "ELEN3024A",
+    "module": "ELEN3024A",
+    "source_id": "EBE_2026",
+    "page": "83"
+  },
+  {
+    "kind": "rule",
+    "id": "CORE_ELEN3024",
+    "title": "ELEN3024A",
+    "module": "ELEN3024A",
+    "source_id": "EBE_2026",
+    "page": "83"
+  },
+  {
+    "kind": "rule",
+    "id": "PRE_MATH3025",
+    "title": "MATH3025A",
+    "module": "MATH3025A",
+    "source_id": "EBE_2026",
+    "page": "85"
+  },
+  {
+    "kind": "rule",
+    "id": "CORE_MATH3025",
+    "title": "MATH3025A",
+    "module": "MATH3025A",
+    "source_id": "EBE_2026",
+    "page": "85"
+  },
+  {
+    "kind": "rule",
+    "id": "PRE_APPM3021",
+    "title": "APPM3021A",
+    "module": "APPM3021A",
+    "source_id": "EBE_2026",
+    "page": "78"
+  },
+  {
+    "kind": "rule",
+    "id": "CORE_APPM3021",
+    "title": "APPM3021A",
+    "module": "APPM3021A",
+    "source_id": "EBE_2026",
+    "page": "78"
+  },
+  {
+    "kind": "rule",
+    "id": "PRE_ELEN4000",
+    "title": "ELEN4000A",
+    "module": "ELEN4000A",
+    "source_id": "EBE_2026",
+    "page": "83"
+  },
+  {
+    "kind": "rule",
+    "id": "PRE_ELEN4001",
+    "title": "ELEN4001A",
+    "module": "ELEN4001A",
+    "source_id": "EBE_2026",
+    "page": "83"
+  },
+  {
+    "kind": "rule",
+    "id": "PRE_ELEN4002",
+    "title": "ELEN4002A",
+    "module": "ELEN4002A",
+    "source_id": "EBE_2026",
+    "page": "83"
+  },
+  {
+    "kind": "rule",
+    "id": "PRE_ELEN4003",
+    "title": "ELEN4003A",
+    "module": "ELEN4003A",
+    "source_id": "EBE_2026",
+    "page": "83"
+  },
+  {
+    "kind": "rule",
+    "id": "PRE_ELEN4006_EFA03",
+    "title": "ELEN4006A",
+    "module": "ELEN4006A",
+    "source_id": "EBE_2026",
+    "page": "83"
+  },
+  {
+    "kind": "rule",
+    "id": "PRE_ELEN4006_EFA04",
+    "title": "ELEN4006A",
+    "module": "ELEN4006A",
+    "source_id": "EBE_2026",
+    "page": "83"
+  },
+  {
+    "kind": "rule",
+    "id": "PRE_ELEN4010",
+    "title": "ELEN4010A",
+    "module": "ELEN4010A",
+    "source_id": "EBE_2026",
+    "page": "83"
+  },
+  {
+    "kind": "rule",
+    "id": "PRE_ELEN4011",
+    "title": "ELEN4011A",
+    "module": "ELEN4011A",
+    "source_id": "EBE_2026",
+    "page": "83"
+  },
+  {
+    "kind": "rule",
+    "id": "PRE_ELEN4012",
+    "title": "ELEN4012A",
+    "module": "ELEN4012A",
+    "source_id": "EBE_2026",
+    "page": "83"
+  },
+  {
+    "kind": "rule",
+    "id": "PRE_ELEN4014",
+    "title": "ELEN4014A",
+    "module": "ELEN4014A",
+    "source_id": "EBE_2026",
+    "page": "83"
+  },
+  {
+    "kind": "rule",
+    "id": "PRE_ELEN4016",
+    "title": "ELEN4016A",
+    "module": "ELEN4016A",
+    "source_id": "EBE_2026",
+    "page": "83"
+  },
+  {
+    "kind": "rule",
+    "id": "PRE_ELEN4017",
+    "title": "ELEN4017A",
+    "module": "ELEN4017A",
+    "source_id": "EBE_2026",
+    "page": "83"
+  },
+  {
+    "kind": "rule",
+    "id": "PRE_ELEN4018",
+    "title": "ELEN4018A",
+    "module": "ELEN4018A",
+    "source_id": "EBE_2026",
+    "page": "84"
+  },
+  {
+    "kind": "rule",
+    "id": "PRE_ELEN4019",
+    "title": "ELEN4019A",
+    "module": "ELEN4019A",
+    "source_id": "EBE_2026",
+    "page": "84"
+  },
+  {
+    "kind": "rule",
+    "id": "PRE_ELEN4020",
+    "title": "ELEN4020A",
+    "module": "ELEN4020A",
+    "source_id": "EBE_2026",
+    "page": "84"
+  },
+  {
+    "kind": "rule",
+    "id": "PRE_ELEN4022",
+    "title": "ELEN4022A",
+    "module": "ELEN4022A",
+    "source_id": "EBE_2026",
+    "page": "84"
+  },
+  {
+    "kind": "rule",
+    "id": "PRE_ELEN4023",
+    "title": "ELEN4023A",
+    "module": "ELEN4023A",
+    "source_id": "EBE_2026",
+    "page": "84"
+  },
+  {
+    "kind": "rule",
+    "id": "PRE_ELEN4024",
+    "title": "ELEN4024A",
+    "module": "ELEN4024A",
+    "source_id": "EBE_2026",
+    "page": "84"
+  },
+  {
+    "kind": "rule",
+    "id": "PRE_ELEN4025",
+    "title": "ELEN4025A",
+    "module": "ELEN4025A",
+    "source_id": "EBE_2026",
+    "page": "84"
+  },
+  {
+    "kind": "rule",
+    "id": "CORE_MECN4020",
+    "title": "MECN4020A",
+    "module": "MECN4020A",
+    "source_id": "EBE_2026",
+    "page": "92"
+  },
+  {
+    "kind": "rule",
+    "id": "PROGRESS_TO_YEAR_2",
+    "title": "YEAR_2",
+    "module": "YEAR_2",
+    "source_id": "EBE_2026",
+    "page": "56"
+  },
+  {
+    "kind": "rule",
+    "id": "PROGRESS_TO_YEAR_3",
+    "title": "YEAR_3",
+    "module": "YEAR_3",
+    "source_id": "EBE_2026",
+    "page": "56"
+  },
+  {
+    "kind": "rule",
+    "id": "PROGRESS_TO_YEAR_4",
+    "title": "YEAR_4",
+    "module": "YEAR_4",
+    "source_id": "EBE_2026",
+    "page": "56"
+  },
+  {
+    "kind": "rule",
+    "id": "EXCLUSION_BSC_ENG",
+    "title": "BSC_ENG",
+    "module": "",
+    "source_id": "EBE_2026",
+    "page": "59"
+  },
+  {
+    "kind": "rule",
+    "id": "PRE_MATH1049",
+    "title": "MATH1049A",
+    "module": "MATH1049A",
+    "source_id": "CBO_MATH1049_2026",
+    "page": "1"
+  }
+]

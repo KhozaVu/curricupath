@@ -373,6 +373,7 @@ class PostgresCatalogueRepository:
                 for row in [*module_rows, *rule_rows]
                 if row.get("source_id")
             }
+            source_ids.add("EIE_REG_GRID_2026")
             source_rows = [
                 _source_record(row)
                 for row in connection.execute(

@@ -1,0 +1,60 @@
+/* Visible campus light: restrained drift over the photo, below reading panels. */
+.campus-light-trails { position:absolute; inset:0; overflow:hidden; pointer-events:none; }
+.campus-light-trail { --trail-colour:244,198,132; position:absolute; width:9px; height:9px; border-radius:50%; background:rgba(var(--trail-colour),.9); box-shadow:0 0 0 7px rgba(var(--trail-colour),.12),0 0 26px 8px rgba(var(--trail-colour),.22); animation:campus-light-drift 12s ease-in-out infinite alternate; }
+.campus-light-trail::before { content:""; position:absolute; width:140px; height:2px; right:4px; top:4px; transform-origin:right center; transform:rotate(-23deg); background:linear-gradient(90deg,transparent,rgba(var(--trail-colour),.6)); }
+.trail-amber { left:69%; top:25%; }
+.trail-blue { --trail-colour:160,204,250; left:48%; top:64%; animation-duration:15s; animation-delay:-6s; }
+.trail-pearl { --trail-colour:243,233,208; left:83%; top:46%; width:6px; height:6px; animation-duration:18s; animation-delay:-11s; }
+.campus-light-trails.is-paused .campus-light-trail { animation-play-state:paused; }
+.app-shell[data-theme="light"] .campus-light-trail { --trail-colour:161,104,45; box-shadow:0 0 0 7px rgba(var(--trail-colour),.16),0 0 20px 6px rgba(var(--trail-colour),.15); }
+.app-shell[data-theme="light"] .trail-blue { --trail-colour:43,104,171; }
+.app-shell[data-theme="light"] .trail-pearl { --trail-colour:138,96,58; }
+@keyframes campus-light-drift { from { transform:translate3d(-65px,30px,0); opacity:.65; } to { transform:translate3d(85px,-40px,0); opacity:1; } }
+@media (max-width:600px) { .campus-light-trail { width:7px; height:7px; } .campus-light-trail::before { width:85px; } .trail-amber { left:54%; top:32%; } .trail-blue { left:32%; top:72%; } .trail-pearl { left:72%; top:53%; } @keyframes campus-light-drift { from { transform:translate3d(-30px,20px,0); opacity:.7; } to { transform:translate3d(45px,-25px,0); opacity:1; } } }
+@media (prefers-reduced-motion:reduce) { .campus-light-trails { display:none; } }
+.app-shell[data-motion="reduced"] .campus-light-trails { display:none; }
+@media (max-width:600px) {
+ .app-shell[data-page="home"] .atmosphere .campus-light-trails { display:none; }
+}
+
+/* Scroll reveal: see useScrollReveal.js. Only opacity and transform move, both
+   compositor-run. The resting style is the natural one, so content is never hidden
+   without the animation engine. */
+@keyframes reveal-rise {
+  from { opacity:0; transform:translate3d(0,26px,0) scale(.985); }
+}
+@keyframes reveal-fade {
+  from { opacity:0; }
+}
+
+/* Native engine: progress is tied to scroll position, so it plays forward going down
+   and in reverse going up. "backwards" fill leaves hover and focus transforms intact. */
+@supports (animation-timeline: view()) {
+  #main-content[data-reveal-engine="css"] [data-reveal="scrub"] {
+    animation: reveal-rise cubic-bezier(.22,1,.36,1) backwards;
+    animation-timeline: view();
+    animation-range: entry calc(var(--reveal-i,0) * 5%) entry calc(55% + var(--reveal-i,0) * 5%);
+  }
+  #main-content[data-reveal-mode="fade"][data-reveal-engine="css"] [data-reveal="scrub"] {
+    animation-name: reveal-fade;
+  }
+}
+
+/* Observer engine (browsers without scroll timelines): same states, toggled both ways. */
+#main-content[data-reveal-engine="observer"] [data-reveal="out"] { opacity:0; transform:translate3d(0,24px,0); }
+#main-content[data-reveal-engine="observer"][data-reveal-mode="fade"] [data-reveal="out"] { transform:none; }
+#main-content[data-reveal-engine="observer"] [data-reveal] {
+  transition:opacity .5s cubic-bezier(.22,1,.36,1) calc(var(--reveal-i,0) * 70ms), transform .5s cubic-bezier(.22,1,.36,1) calc(var(--reveal-i,0) * 70ms);
+}
+/* The app disables transitions under reduced motion; the fade is deliberate. */
+.app-shell[data-motion="reduced"] #main-content[data-reveal-engine="observer"] [data-reveal] {
+  transition:opacity .4s ease calc(var(--reveal-i,0) * 70ms) !important;
+}
+/* Under reduced motion the shell cancels all animation; keep this one as a plain fade. */
+@supports (animation-timeline: view()) {
+  .app-shell[data-motion="reduced"] #main-content[data-reveal-engine="css"] [data-reveal="scrub"] {
+    animation: reveal-fade linear backwards !important;
+    animation-timeline: view() !important;
+    animation-range: entry 0% entry 50% !important;
+  }
+}

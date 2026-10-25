@@ -2,21 +2,21 @@
 
 from __future__ import annotations
 
+import csv
 import re
+from pathlib import Path
 from contextvars import ContextVar
 from typing import Any, Literal, Protocol, Sequence
 
+from app.advisor.declared_names import rewrite_declared_names
+from app.advisor.intent import PROGRAMME_NAMES, asks_whether_student_can_take
 from app.advisor.eligibility import ModuleFactState
 from app.advisor.intent import IntentExtractor, ParsedAdvisorRequest
+from app.advisor.wits_modules import module_options
 from app.advisor.elective_careers import ELECTIVE_CAREER_DIRECTIONS
 from app.advisor.module_matching import score_module_relevance
 from app.advisor.module_resolution import _normalise_name
 from app.advisor.normalisation import normalise_text
-from app.advisor.ranking import (
-    DeterministicPublicCourseRanker,
-    PublicCourseRanker,
-    RankingUnavailableError,
-)
 from app.backend import CurricuPathService
 from app.data.sessions import ConversationContext
 
@@ -41,13 +41,10 @@ class AdvisorEngine:
         service: CurricuPathService,
         extractor: IntentExtractor,
         semantic_matcher: SemanticCourseMatcher | None = None,
-        public_course_ranker: PublicCourseRanker | None = None,
     ) -> None:
         self.service = service
         self.extractor = extractor
         self.semantic_matcher = semantic_matcher
-        self.public_course_ranker = public_course_ranker
-        self._fallback_course_ranker = DeterministicPublicCourseRanker()
 
     def advise(
         self,
@@ -63,23 +60,34 @@ class AdvisorEngine:
         module_history_confirmed: bool | None = None,
         repeating_modules: set[str] | None = None,
         allow_clarification: bool = True,
+        manual_review_reasons: tuple[str, ...] = (),
+        profile_interests: Sequence[str] = (),
+        profile_year: int | None = None,
     ) -> dict[str, Any]:
         """Answer one message. With clarification disabled the engine never asks a question:
         an ambiguous module name is resolved to its best-scoring candidate, and anything
         else it cannot determine becomes a final unresolved answer."""
 
         token = _ALLOW_CLARIFICATION.set(allow_clarification)
+        reasons_token = _DECLARED_REVIEW_REASONS.set(tuple(manual_review_reasons))
         try:
             result = self._advise(
                 message, programme_code, completed_modules, current_modules, planned_modules,
                 context, ranking_mode, module_states=module_states,
                 module_history_confirmed=module_history_confirmed,
                 repeating_modules=repeating_modules,
+                profile_interests=profile_interests, profile_year=profile_year,
             )
         finally:
             _ALLOW_CLARIFICATION.reset(token)
+            _DECLARED_REVIEW_REASONS.reset(reasons_token)
         if not allow_clarification and result.get("status") in CLARIFICATION_STATUSES:
             return unresolved_without_clarification(result.get("intent", "unknown"))
+        note = PROGRAMME_NOTE.get()
+        if note and result.get("intent") in {
+            "curriculum_list", "programme_information", "credit_information", "eligibility", "eligible_modules", "module_recommendations",
+        } and result.get("answer"):
+            result["answer"] = f"{note} {result['answer']}"
         return result
 
     def _advise(
@@ -95,13 +103,41 @@ class AdvisorEngine:
         module_states: dict[str, ModuleFactState] | None = None,
         module_history_confirmed: bool | None = None,
         repeating_modules: set[str] | None = None,
+        profile_interests: Sequence[str] = (),
+        profile_year: int | None = None,
     ) -> dict[str, Any]:
+        answer_code = _programme_answer(message)
+        programme_reply = bool(answer_code and context is not None and context.pending_intent)
+        if programme_reply:
+            message = answer_code  # a button or one-word reply to "Which programme are you in?"
+        message = self._rewrite_declared_names(
+            message, programme_code or (context.programme_code if context else None)
+        )
         current_request = self.extractor.extract(message)
+        if context is not None and context.pending_intent and current_request.intent != "unknown":
+            # General guard. While a question is open, a message the offline parser cannot read as a
+            # request of its own is an answer to that question, whatever intent a model guessed for
+            # it (a model reads a bare "Completed" as a question about courses, "EFA03" as a lookup).
+            offline = getattr(self.extractor, "_fallback", self.extractor)
+            if offline.extract(message).intent == "unknown":
+                current_request = current_request.model_copy(update={"intent": "unknown"})
+        if programme_reply:
+            # Whatever intent a model guessed for "EFA03", this only answers the open question.
+            current_request = current_request.model_copy(
+                update={"intent": "unknown", "module_code": None, "programme_code": answer_code}
+            )
+        if current_request.intent in {"eligible_modules", "module_recommendations"}:
+            updates = {}
+            if current_request.intent == "module_recommendations" and not (current_request.interests or current_request.career_preferences):
+                updates["interests"] = list(profile_interests)
+            if not current_request.year_of_study and current_request.requirement_type != "elective_pool" and profile_year:
+                updates["year_of_study"] = profile_year
+            current_request = current_request.model_copy(update=updates)
         pending_fact_reply = _is_pending_fact_reply(current_request, context, message)
         parsed = _merge_context(current_request, context)
-        if pending_fact_reply and context is not None and current_request.module_code:
-            # A reply that names the pending modules answers the open check; it does not
-            # start a new one about the first module it mentions.
+        if pending_fact_reply and context is not None:
+            # A reply that answers the open check does not start a new one: not about the first
+            # module it mentions, and not about whatever intent a model guessed for a short reply.
             parsed = parsed.model_copy(
                 update={"module_code": context.module_code, "intent": "eligibility"}
             )
@@ -111,6 +147,15 @@ class AdvisorEngine:
             or parsed.programme_code
             or ""
         ).upper() or None
+        profile_programme = (programme_code or "").upper()
+        asked_programme = (current_request.programme_code or "").upper()
+        PROGRAMME_NOTE.set(
+            f"You asked about {_PROGRAMME_TITLES.get(asked_programme, asked_programme)} "
+            f"({asked_programme}), so I'm using that and not your profile's "
+            f"{_PROGRAMME_TITLES.get(profile_programme, profile_programme)} ({profile_programme})."
+            if asked_programme and profile_programme and asked_programme != profile_programme
+            else None
+        )
         parsed = self._prefer_exact_module_name(message, parsed, programme)
         completed = _merge_modules(completed_modules, parsed.completed_modules)
         current = _merge_modules(current_modules, parsed.current_modules)
@@ -118,6 +163,14 @@ class AdvisorEngine:
         effective_module_states = {
             code.upper(): state for code, state in (module_states or {}).items()
         }
+        repeating = {code.upper() for code in (repeating_modules or set())}
+        clash_cleared: set[str] = set()
+        # Modules the student says they failed: a known fact, so they never need asking about.
+        for failed in parsed.not_completed_modules:
+            _apply_module_fact(
+                failed.upper(), "not_completed", completed, current, planned,
+                effective_module_states, repeating, clash_cleared,
+            )
         clarification_applied: dict[str, str] | None = None
         clarification_applied_all: list[dict[str, str]] = []
         answered_facts: dict[str, str] = {}
@@ -132,6 +185,8 @@ class AdvisorEngine:
                     current,
                     planned,
                     effective_module_states,
+                    repeating,
+                    clash_cleared,
                 )
         if pending_fact_reply and context is not None:
             pending_codes = tuple(
@@ -155,6 +210,8 @@ class AdvisorEngine:
                     current,
                     planned,
                     effective_module_states,
+                    repeating,
+                    clash_cleared,
                 )
                 answered_facts[fact_code] = fact_state
                 clarification_applied_all.append(
@@ -166,17 +223,34 @@ class AdvisorEngine:
                 )
             clarification_applied = clarification_applied_all[0]
 
+        if parsed.intent in {"eligible_modules", "module_recommendations"}:
+            if not programme:
+                return _clarification(parsed, "Which Wits programme are you in: EFA03 or EFA04?", programme, _PROGRAMME_OPTIONS)
+            return module_options(
+                self.service, parsed, programme, completed, current, planned,
+                module_states=effective_module_states,
+                module_history_confirmed=module_history_confirmed,
+                repeating_modules=repeating,
+                manual_review_reasons=_DECLARED_REVIEW_REASONS.get(),
+            )
+        if not pending_fact_reply and not parsed.module_code:
+            linked = self._wits_career_answer(message, parsed, programme)
+            if linked is not None:
+                return linked
+            unknown_goal = self._unknown_career_goal(message)
+            if unknown_goal:
+                return self._unknown_career_answer(parsed, unknown_goal)
         if parsed.intent == "greeting":
             return _success(
                 parsed,
                 "Hello. I can check module eligibility, show a curriculum year, "
-                "find verified public courses, or explore career paths.",
+                "recommend Wits modules for your interests, or explore Wits career paths.",
             )
         if parsed.intent == "help":
             return _success(
                 parsed,
                 "Try asking 'Can I take ELEN4001A?', 'Show EFA04 year 4 "
-                "electives', or 'Find an electric circuits course'.",
+                "electives', or 'Which third-year modules am I eligible for?'.",
             )
         if parsed.intent == "profile_courses":
             return self._profile_courses(parsed, programme, completed, current)
@@ -196,8 +270,9 @@ class AdvisorEngine:
                 planned,
                 effective_module_states,
                 module_history_confirmed,
-                repeating_modules or set(),
+                repeating,
                 clarification_attempted=pending_fact_reply,
+                clash_cleared=clash_cleared,
                 clarification_applied=clarification_applied,
                 clarification_applied_all=clarification_applied_all,
                 answered_facts=answered_facts,
@@ -220,21 +295,14 @@ class AdvisorEngine:
                     parsed,
                     "Which programme are you in: EFA03 or EFA04?",
                     programme,
+                    _PROGRAMME_OPTIONS,
                 )
             if parsed.requirement_type == "elective_pool" and (
                 parsed.interests or parsed.career_preferences
             ):
-                return self._elective_recommendations(
-                    message,
-                    parsed,
-                    programme,
-                    completed,
-                    current,
-                    planned,
-                    effective_module_states,
-                    module_history_confirmed,
-                    repeating_modules or set(),
-                )
+                return module_options(self.service, parsed, programme, completed, current, planned,
+                    module_states=effective_module_states, module_history_confirmed=module_history_confirmed,
+                    repeating_modules=repeating, manual_review_reasons=_DECLARED_REVIEW_REASONS.get())
             modules = self.service.modules(programme, parsed.year_of_study)
             if parsed.requirement_type:
                 modules = [
@@ -259,12 +327,16 @@ class AdvisorEngine:
             }
         if parsed.intent == "career_path" and _asks_career_outcomes(message):
             return self._career_information(message, parsed)
-        if parsed.intent in {"public_course_search", "career_path"}:
-            return self._course_recommendations(message, parsed, ranking_mode)
+        if parsed.intent == "career_path":
+            if not programme:
+                return _clarification(parsed, "Which Wits programme are you in: EFA03 or EFA04?", programme, _PROGRAMME_OPTIONS)
+            return module_options(self.service, parsed.model_copy(update={"intent": "module_recommendations"}), programme, completed, current, planned,
+                module_states=effective_module_states, module_history_confirmed=module_history_confirmed,
+                repeating_modules=repeating, manual_review_reasons=_DECLARED_REVIEW_REASONS.get())
         return _clarification(
             parsed,
-            "I only answer from the CurricuPath curriculum and verified-course data. "
-            "Try module eligibility, curriculum requirements, public courses, or careers.",
+            "I answer from the Wits curriculum and recorded course outlines. "
+            "Try module eligibility, curriculum requirements, Wits electives, or careers.",
             programme,
         )
 
@@ -544,6 +616,152 @@ class AdvisorEngine:
             ),
         )
 
+    def _known_career_phrases(self) -> list[str]:
+        """Every career wording the advisor has evidence for (aliases, Wits lists, elective links)."""
+
+        cache = self.__dict__.setdefault("_career_phrase_cache", [])
+        if cache:
+            return cache
+        phrases = {a.phrase for a in self.service.repository.get_aliases() if a.tag_type == "career"}
+        for code in ("EFA03", "EFA04"):
+            profile = self.service.programme_profile(code) or {}
+            phrases |= {c.lower() for c in profile.get("career_opportunities", [])}
+        for directions in ELECTIVE_CAREER_DIRECTIONS.values():
+            for direction in directions:
+                phrases.add(str(direction.get("display_name", "")).lower())
+        cache.extend(sorted(p for p in phrases if p))
+        return cache
+
+    def _unknown_career_goal(self, message: str) -> str | None:
+        """A career the student names that CurricuPath has no evidence about, else None."""
+
+        text = message.lower()
+        if not re.search(r"\b(?:electives?|career|become|path|pick|choose|job|work)\b", text):
+            return None
+        match = re.search(
+            r"\b(?:for an?|to become an?|become an?|career (?:in|as)|work (?:in|as)|job (?:in|as)|"
+            r"to be an?|path (?:to|into))\s+([a-z][a-z\- ]{2,40}?)\s*(?:career|path|role|job)?\s*(?:[?.!,]|$)",
+            text,
+        )
+        if not match:
+            return None
+        goal = match.group(1).strip()
+        if re.search(r"\b(?:student|year|module|elective|course|programme|degree)\b", goal):
+            return None
+        core = re.sub(r"\s+(?:engineer|engineering|specialist|technician)$", "", goal).strip()
+        for known in self._known_career_phrases():
+            if core and (core in known or known in goal):
+                return None
+        return goal
+
+    def _wits_career_links(self) -> list[dict[str, str]]:
+        cache = self.__dict__.setdefault("_wits_links_cache", [])
+        if not cache:
+            path = Path(self.service.source_root) / "data" / "processed" / "wits_career_elective_links.csv"
+            if path.exists():
+                with path.open(newline="", encoding="utf-8") as handle:
+                    cache.extend(csv.DictReader(handle))
+        return cache
+
+    def _wits_career_answer(
+        self, message: str, parsed: ParsedAdvisorRequest, programme: str | None
+    ) -> dict[str, Any] | None:
+        """Electives linked to a Wits-listed career named in an elective or career question."""
+
+        text = " ".join(normalise_text(message).split())
+        if not re.search(r"\b(?:electives?|career|become|pick|choose|path|job|work)\b", text):
+            return None
+        links = self._wits_career_links()
+        careers = sorted({row["wits_career"] for row in links}, key=len, reverse=True)
+        named = next(
+            (
+                career for career in careers
+                if any(
+                    re.search(rf"\b{re.escape(form)}s?\b", text)
+                    for form in {career.lower(), career.lower().replace("engineer", "engineering")}
+                    # "information engineering" names the programme, not the career
+                    if form not in PROGRAMME_NAMES
+                )
+            ),
+            None,
+        )
+        if named is None:
+            return None
+        directions = {
+            code: {d["career_tag"] for d in items} for code, items in ELECTIVE_CAREER_DIRECTIONS.items()
+        }
+        programmes = [programme] if programme else ["EFA03", "EFA04"]
+        parts, modules = [], []
+        for code in programmes:
+            row = next((r for r in links if r["programme_code"] == code and r["wits_career"] == named), None)
+            if row is None:
+                continue
+            tags = {t for t in row["career_tags"].split(";") if t}
+            year4 = {m["course_code"]: m for m in self.service.modules(code, 4)}
+            chosen = [year4[c] for c in sorted(year4) if directions.get(c, set()) & tags]
+            title = _PROGRAMME_TITLES.get(code, code)
+            if chosen:
+                listed = ", ".join(f"{m['course_code']} ({m['course_name']})" for m in chosen)
+                parts.append(f"For {title} ({code}), the Year 4 electives linked to {named} are {listed}.")
+                modules.extend(chosen)
+            else:
+                parts.append(f"No {title} ({code}) Year 4 elective is specifically linked to {named}.")
+        if not parts:
+            other = sorted({r["programme_code"] for r in links if r["wits_career"] == named})
+            parts.append(
+                f"Wits lists {named} as a career for {', '.join(_PROGRAMME_TITLES[c] for c in other)}, "
+                f"not for {_PROGRAMME_TITLES.get(programme, programme)}."
+            )
+        answer = " ".join(parts) + (
+            " These links are proposed from the module content and have not been confirmed by "
+            "the School. Whether you can take each elective depends on your module history."
+        )
+        result = _success(parsed.model_copy(update={"intent": "curriculum_list"}), answer)
+        result["modules"] = modules
+        result["programme_code"] = programme
+        result["career_subject"] = {"wits_career": named, "links_status": "developer_proposed"}
+        return result
+
+    def _unknown_career_answer(self, parsed: ParsedAdvisorRequest, goal: str) -> dict[str, Any]:
+        lines = []
+        for code in ("EFA03", "EFA04"):
+            profile = self.service.programme_profile(code)
+            if profile:
+                careers = ", ".join(profile["career_opportunities"])
+                lines.append(f"{profile['programme_name']} ({code}): {careers}.")
+        answer = (
+            f"I don't have verified information on whether Electrical or Information Engineering "
+            f"leads to a career as {goal.title()}, so I won't recommend electives for it. "
+            "Careers listed by Wits for each programme: " + " ".join(lines) + " You can ask me "
+            "about electives for one of these careers, or check with the School of EIE."
+        )
+        result = _success(parsed, answer)
+        result["intent"] = "career_path"
+        result["career_unknown"] = goal
+        return result
+
+    def _catalogue_modules(self, programme: str | None) -> list[dict[str, Any]]:
+        """Modules of one programme, or of both when the programme is not yet known."""
+
+        cache = self.__dict__.setdefault("_module_cache", {})
+        key = (programme or "").upper()
+        if key not in cache:
+            codes = (
+                [key]
+                if key
+                else [str(p["programme_code"]) for p in self.service.repository.list_programmes()]
+            )
+            cache[key] = [m for code in codes for m in self.service.repository.list_modules(code)]
+        return cache[key]
+
+    def _rewrite_declared_names(self, message: str, programme: str | None) -> str:
+        if not asks_whether_student_can_take(message):
+            return message  # a career or information question keeps its module titles
+        try:
+            return rewrite_declared_names(message, self._catalogue_modules(programme))
+        except Exception:  # never let name reading break the advisor
+            return message
+
     def _prefer_exact_module_name(
         self,
         message: str,
@@ -554,11 +772,13 @@ class AdvisorEngine:
 
         if parsed.module_code or parsed.intent not in {
             "unknown",
-            "public_course_search",
+            "module_recommendations",
             "programme_information",
         }:
             return parsed
         normalized = normalise_text(message)
+        if parsed.intent == "module_recommendations" and (parsed.requirement_type or re.search(r"\b(?:recommend|suggest|enjoy|interests?|interested|like|love|want|find|electives|modules|courses)\b", normalized)):
+            return parsed
         module_information_request = any(
             phrase in normalized
             for phrase in (
@@ -596,7 +816,7 @@ class AdvisorEngine:
         # A partial title shared by several modules ("signals", "Software Development")
         # becomes a module lookup so resolution can ask which one, but only for a short
         # query or an explicit module-information phrase, never for free-text requests.
-        if parsed.intent in {"unknown", "public_course_search"} and (
+        if parsed.intent in {"unknown"} and (
             module_information_request or len(_module_query_words(message)) <= 3
         ):
             return parsed.model_copy(update={"intent": "module_information"})
@@ -628,6 +848,7 @@ class AdvisorEngine:
         clarification_applied: dict[str, str] | None = None,
         clarification_applied_all: list[dict[str, str]] | None = None,
         answered_facts: dict[str, str] | None = None,
+        clash_cleared: set[str] | None = None,
     ) -> dict[str, Any]:
         if not parsed.module_code:
             parsed, clarification = self._resolve_module_name(
@@ -637,7 +858,10 @@ class AdvisorEngine:
                 return clarification
         if not programme:
             return _clarification(
-                parsed, "Which programme are you in: EFA03 or EFA04?", programme
+                parsed,
+                "Which programme are you in: EFA03 or EFA04?",
+                programme,
+                _PROGRAMME_OPTIONS,
             )
         result = self.service.eligibility(
             parsed.module_code,
@@ -645,12 +869,21 @@ class AdvisorEngine:
             completed,
             current,
             planned,
-            _manual_review_reasons(message),
+            _manual_review_reasons(message) + _DECLARED_REVIEW_REASONS.get(),
             module_states,
             module_history_confirmed,
             repeating_modules=repeating_modules,
+            clash_cleared_modules=clash_cleared,
         )
         clarification = result.get("clarification") or {}
+        titles = {
+            str(m["course_code"]).upper(): str(m["course_name"])
+            for m in self._catalogue_modules(programme)
+        }
+        result["declared_not_completed"] = [
+            f"{code} ({titles[code]})" if code in titles else code
+            for code in parsed.not_completed_modules
+        ]
         # A reply that supplies at least one new status keeps the check going, so every
         # unknown module is eventually asked about; a reply that supplies none ends it.
         made_progress = bool(clarification_applied_all)
@@ -665,7 +898,10 @@ class AdvisorEngine:
                 module_code=result["course_code"],
                 programme_code=programme,
                 pending_fact_course_code=clarification.get("target_predicate"),
-                pending_fact_gate=_last_trace_gate(result.get("rule_trace", [])),
+                # The asking gate, not the last gate run: with the clash gate on, every
+                # gate runs and the last one is not necessarily the one asking.
+                pending_fact_gate=clarification.get("gate")
+                or _last_trace_gate(result.get("rule_trace", [])),
                 clarification_attempted=False,
                 pending_fact_course_codes=tuple(
                     clarification.get("target_predicates") or ()
@@ -816,289 +1052,6 @@ class AdvisorEngine:
             programme,
         )
 
-    def _elective_recommendations(
-        self,
-        message: str,
-        parsed: ParsedAdvisorRequest,
-        programme: str,
-        completed: set[str],
-        current: set[str],
-        planned: set[str],
-        module_states: dict[str, ModuleFactState] | None,
-        module_history_confirmed: bool | None,
-        repeating_modules: set[str],
-    ) -> dict[str, Any]:
-        year = parsed.year_of_study or 4
-        memberships = [
-            module
-            for module in self.service.modules(programme, year)
-            if module["requirement_type"] == "elective_pool"
-        ]
-        requested_tags = [*parsed.interests, *parsed.career_preferences]
-        semantic_scores: dict[str, float] = {}
-        matching_mode = "controlled_vocabulary"
-        if self.semantic_matcher is not None:
-            try:
-                semantic_scores = self.semantic_matcher.module_scores(
-                    message,
-                    [module["course_code"] for module in memberships],
-                )
-            except (AttributeError, RuntimeError):
-                semantic_scores = {}
-            else:
-                if semantic_scores:
-                    matching_mode = "hybrid_semantic"
-
-        academic_history_supplied = bool(
-            completed
-            or current
-            or planned
-            or module_states
-            or repeating_modules
-            or module_history_confirmed is True
-        )
-        candidates: list[dict[str, Any]] = []
-        for membership in memberships:
-            detail = self.service.module(membership["course_code"])
-            if detail is None:
-                continue
-            relevance = score_module_relevance(
-                requested_tags,
-                detail,
-                semantic_scores.get(membership["course_code"]),
-            )
-            if academic_history_supplied:
-                eligibility: dict[str, Any] = {
-                    "assessed": True,
-                    **self.service.eligibility(
-                        membership["course_code"],
-                        programme,
-                        completed,
-                        current,
-                        planned,
-                        module_states=module_states,
-                        module_history_confirmed=module_history_confirmed,
-                        repeating_modules=repeating_modules,
-                    ),
-                }
-            else:
-                eligibility = {
-                    "assessed": False,
-                    "eligible": None,
-                    "reasons": [
-                        "Enter completed, current, and planned modules to check prerequisites."
-                    ],
-                    "needs_clarification": True,
-                }
-            candidates.append(
-                {
-                    **membership,
-                    "course_information": detail["course_information"],
-                    "sources": detail["sources"],
-                    "eligibility": eligibility,
-                    **relevance,
-                }
-            )
-
-        ranked = sorted(
-            candidates,
-            key=lambda item: (-item["score"], item["course_code"]),
-        )
-        # Relevance and registration eligibility answer different questions. Keep
-        # strong interest matches visible, then label whether each can be taken now.
-        relevant = [item for item in ranked if item["score"] > 0]
-        selection_count = next(
-            (
-                item["selection_count"]
-                for item in memberships
-                if item.get("selection_count")
-            ),
-            3,
-        )
-        matches = relevant[:selection_count]
-        if not matches:
-            response = _clarification(
-                parsed,
-                "Which subject or career should your electives focus on?",
-                programme,
-            )
-            response["_candidate_log"] = _elective_candidate_log(ranked, set())
-            return response
-
-        selected_codes = {
-            item["course_code"]
-            for item in matches
-            if not academic_history_supplied
-            or item["eligibility"]["available_to_take"]
-        }
-        interest_names = ", ".join(tag.replace("_", " ") for tag in requested_tags)
-        titles = ", ".join(
-            f"{item['course_code']} ({item['course_name']})" for item in matches
-        )
-        if academic_history_supplied:
-            eligible_count = sum(
-                item["eligibility"]["available_to_take"] is True for item in matches
-            )
-            completed_count = sum(
-                item["eligibility"]["completed"] is True for item in matches
-            )
-            if eligible_count:
-                eligibility_note = (
-                    f" {eligible_count} of these {len(matches)} matches are currently "
-                    "available to take; each result shows its status and requirements."
-                )
-            elif completed_count == len(matches):
-                eligibility_note = " All of these matches are already marked as completed."
-            elif completed_count:
-                eligibility_note = (
-                    f" {completed_count} of these matches are already completed, and none "
-                    "of the remaining matches currently pass all declared eligibility rules."
-                )
-            else:
-                eligibility_note = (
-                    " These are the strongest interest matches, but none currently pass "
-                    "all declared eligibility rules. Review each result's unmet requirements."
-                )
-        else:
-            eligibility_note = (
-                " These are interest matches; add your module history to verify prerequisites."
-            )
-        return {
-            "intent": parsed.intent,
-            "status": "ok",
-            "answer": (
-                f"For {programme} Year {year}, the strongest elective matches for "
-                f"{interest_names} are {titles}.{eligibility_note}"
-            ),
-            "recommendations": matches,
-            "programme_code": programme,
-            "year_of_study": year,
-            "requirement_type": "elective_pool",
-            "matching_mode": matching_mode,
-            "recommendation_kind": "interest_suggestions",
-            "_candidate_log": _elective_candidate_log(ranked, selected_codes),
-            "conversation_context": ConversationContext().as_dict(),
-        }
-
-    def _course_recommendations(
-        self,
-        message: str,
-        parsed: ParsedAdvisorRequest,
-        requested_ranking_mode: Literal["auto", "deterministic", "prototype"],
-    ) -> dict[str, Any]:
-        if requested_ranking_mode == "prototype" and not parsed.workload_preference:
-            return _clarification(
-                parsed,
-                "How much course load would you prefer: light, moderate, or heavy?",
-                options=("Light workload", "Moderate workload", "Heavy workload"),
-            )
-        if requested_ranking_mode == "prototype" and not parsed.difficulty_preference:
-            return _clarification(
-                parsed,
-                "Which difficulty level would you prefer: beginner or intermediate?",
-                options=("Beginner", "Intermediate"),
-            )
-        candidates = self.service.courses(None, None, None, 100)
-        if requested_ranking_mode == "prototype":
-            candidates = _controlled_preference_candidates(candidates, parsed)
-        if parsed.difficulty_preference:
-            candidates = [
-                course
-                for course in candidates
-                if course["level"] == parsed.difficulty_preference
-            ]
-        semantic_scores: dict[str, float] = {}
-        matching_mode = "deterministic"
-        if self.semantic_matcher is not None:
-            try:
-                semantic_scores = self.semantic_matcher.course_scores(
-                    message,
-                    [course["course_id"] for course in candidates],
-                )
-            except RuntimeError:
-                semantic_scores = {}
-            else:
-                if semantic_scores:
-                    matching_mode = "hybrid_semantic"
-        use_learned_ranker = requested_ranking_mode in {"auto", "prototype"}
-        ranker = (
-            self.public_course_ranker
-            if use_learned_ranker and self.public_course_ranker is not None
-            else self._fallback_course_ranker
-        )
-        if (
-            ranker is not self._fallback_course_ranker
-            and getattr(ranker, "requires_semantic", False)
-            and any(course["course_id"] not in semantic_scores for course in candidates)
-        ):
-            ranker = self._fallback_course_ranker
-        try:
-            scored = [
-                ranker.score(
-                    message,
-                    parsed,
-                    course,
-                    semantic_scores.get(course["course_id"]),
-                )
-                for course in candidates
-            ]
-        except RankingUnavailableError:
-            ranker = self._fallback_course_ranker
-            scored = [
-                ranker.score(
-                    message,
-                    parsed,
-                    course,
-                    semantic_scores.get(course["course_id"]),
-                )
-                for course in candidates
-            ]
-        if ranker is not self._fallback_course_ranker and parsed.workload_preference:
-            scored = _apply_prototype_workload_preference(
-                scored, parsed.workload_preference
-            )
-        ranking_mode = ranker.mode
-        ranked = sorted(
-            scored,
-            key=lambda item: (-item["score"], item["course_id"]),
-        )
-        matches = [item for item in ranked if item["score"] > 0][:5]
-        if not matches:
-            return _clarification(
-                parsed,
-                "Which subject or career should the course options focus on?",
-            )
-        selected_ids = {item["course_id"] for item in matches}
-        return {
-            "intent": parsed.intent,
-            "status": "ok",
-            "answer": _course_answer(matches),
-            "recommendations": matches,
-            "matching_mode": matching_mode,
-            "ranking_mode": ranking_mode,
-            "preferences_applied": {
-                "workload": parsed.workload_preference,
-                "difficulty": parsed.difficulty_preference,
-            },
-            "_candidate_log": [
-                {
-                    "item_type": "public_course",
-                    "item_id": item["course_id"],
-                    "eligible": True,
-                    "gate_outcomes": {
-                        "source_verification": "passed",
-                        "matching_mode": matching_mode,
-                        "ranking_mode": ranking_mode,
-                    },
-                    "score_components": item["score_components"],
-                    "final_score": item["score"],
-                    "selected": item["course_id"] in selected_ids,
-                }
-                for item in ranked
-            ],
-            "conversation_context": ConversationContext().as_dict(),
-        }
-
     def _career_information(
         self,
         message: str,
@@ -1107,16 +1060,11 @@ class AdvisorEngine:
         """Describe possible career directions, with courses as supporting evidence."""
 
         elective = self._career_elective(message, parsed)
-        courses = self.service.courses(None, None, None, 100)
         if elective is not None:
             directions = ELECTIVE_CAREER_DIRECTIONS[elective["course_code"]]
             options = []
             for direction in directions:
-                supporting_courses = [
-                    course["title"]
-                    for course in courses
-                    if direction["career_tag"] in course["career_tags"]
-                ][:3]
+                supporting_courses = []
                 options.append({**direction, "supporting_courses": supporting_courses})
 
             names = ", ".join(option["display_name"] for option in options)
@@ -1135,57 +1083,7 @@ class AdvisorEngine:
                 "conversation_context": ConversationContext().as_dict(),
             }
 
-        interests = set(parsed.interests)
-        careers = set(parsed.career_preferences)
-        related_courses = [
-            course
-            for course in courses
-            if interests.intersection(course["interest_tags"])
-            or careers.intersection(course["career_tags"])
-        ]
-        career_tags = {
-            tag
-            for course in related_courses
-            for tag in course["career_tags"]
-        }
-        if not career_tags:
-            career_tags = careers
-
-        options = []
-        for career_tag in sorted(career_tags):
-            supporting_courses = [
-                course["title"]
-                for course in related_courses
-                if career_tag in course["career_tags"]
-            ][:3]
-            options.append(
-                {
-                    "career_tag": career_tag,
-                    "display_name": _career_display_name(career_tag),
-                    "description": _career_description(career_tag),
-                    "supporting_courses": supporting_courses,
-                }
-            )
-
-        if not options:
-            return _clarification(
-                parsed,
-                "Which career direction should I explore: data science, machine-learning engineering, or another supported path?",
-            )
-
-        names = ", ".join(option["display_name"] for option in options)
-        return {
-            "intent": parsed.intent,
-            "status": "ok",
-            "answer": (
-                f"Possible career directions associated with {_display_tags(parsed.interests) or 'this course'} "
-                f"include {names}. These are related pathways, not employment guarantees; "
-                "a single course is only one part of the required skills and experience."
-            ),
-            "career_options": options,
-            "matching_mode": "controlled_career_vocabulary",
-            "conversation_context": ConversationContext().as_dict(),
-        }
+        return _clarification(parsed, "Which Wits elective or programme should I explain career directions for?")
 
     def _career_elective(
         self,
@@ -1204,7 +1102,7 @@ class AdvisorEngine:
 
         matches = [
             match
-            for match in self.service.module_name_matches(message)
+            for match in self.service.module_name_matches(re.sub(r"\bmachine learning\b", "Introduction to Machine Learning", message, flags=re.I))
             if match.course_code in ELECTIVE_CAREER_DIRECTIONS
         ]
         if len(matches) != 1:
@@ -1260,8 +1158,23 @@ def _is_pending_fact_reply(
     if current_request.intent == "unknown" and current_request.module_code is None:
         return True
     mentioned = {code.upper() for code in _MODULE_CODE_PATTERN.findall(message.upper())}
-    pending = {code.upper() for code in context.pending_fact_course_codes}
-    return bool(mentioned) and len(pending) > 1 and mentioned <= pending
+    pending = {
+        code.upper()
+        for code in (context.pending_fact_course_codes or (context.pending_fact_course_code,))
+        if code
+    }
+    # A message that is a valid status for the pending question is the answer, whatever intent a
+    # language model guessed for it (Gemini reads a bare "Completed" as a question about courses).
+    if (
+        mentioned <= pending
+        and _parse_module_fact_replies(message, tuple(sorted(pending)), context.pending_fact_gate)
+    ):
+        return True
+    has_status = any(
+        match.lastgroup not in {"code", "rest"}
+        for match in _STATUS_TOKEN.finditer(normalise_text(message))
+    )
+    return bool(mentioned) and mentioned <= pending and (len(pending) > 1 or has_status)
 
 
 _MODULE_CODE_PATTERN = re.compile(r"\b[A-Z]{4}\d{4}A?\b")
@@ -1274,9 +1187,14 @@ def _parse_module_fact_replies(
 ) -> dict[str, ModuleFactState]:
     """Map a reply to one status per pending module; unparsed modules are left out."""
 
+    if gate == "timetable_clash":
+        return _parse_clash_replies(normalise_text(message), pending_codes)
     if len(pending_codes) <= 1:
         state = _parse_module_fact_reply(message, gate)
-        return {pending_codes[0]: state} if state and pending_codes else {}
+        if state:
+            return {pending_codes[0]: state} if pending_codes else {}
+        # A sentence that names the module ("I have completed MATH2014A", "MATH2014A not done").
+        return _parse_grouped_module_statuses(normalise_text(message), pending_codes, gate)
     normalized = normalise_text(message)
     if normalized == "all completed":
         return {code: "completed" for code in pending_codes}
@@ -1291,10 +1209,38 @@ _STATUS_TOKEN = re.compile(
     r"|haven t|have not|hasn t|has not|never|incomplete|no|none)\b)"
     r"|(?P<planned>\b(?:planned concurrently|planning(?: to take(?: it)?(?: concurrently)?)?"
     r"|planned|concurrently)\b)"
+    r"|(?P<repeating>\b(?:repeating|repeat|redoing)\b)"
     r"|(?P<current>\b(?:currently (?:taking|enrolled)|current|taking it now|in progress)\b)"
     r"|(?P<completed>\b(?:completed|passed|done|finished|yes)\b)"
     r"|(?P<code>\b[a-z]{4}\d{4}a?\b)"
 )
+
+
+_NONE_OF_THESE = {
+    "none", "none of these", "none of them", "no", "neither", "not taking any",
+    "not taking them", "none of the above", "nope",
+}
+
+
+def _parse_clash_replies(normalized: str, pending_codes: tuple[str, ...]) -> dict[str, str]:
+    """Statuses for clash partners: repeating, current, planned, or not taking ('none')."""
+
+    pending = tuple(code.upper() for code in pending_codes)
+    if normalized in _NONE_OF_THESE:
+        return {code: "not_taking" for code in pending}
+    facts = _parse_grouped_module_statuses(normalized, pending, "timetable_clash")
+    if not facts and len(pending) == 1:
+        # A single pending module may be answered with a bare status ("Repeating").
+        match = next(
+            (m for m in _STATUS_TOKEN.finditer(normalized) if m.lastgroup not in {"code", "rest"}),
+            None,
+        )
+        if match is not None:
+            facts = {pending[0]: "not_completed" if match.lastgroup == "not" else match.lastgroup}
+    return {
+        code: ("not_taking" if state == "not_completed" else state)
+        for code, state in facts.items()
+    }
 
 
 def _parse_grouped_module_statuses(
@@ -1314,6 +1260,8 @@ def _parse_grouped_module_statuses(
     allowed = {"completed", "not_completed"}
     if gate in {"corequisite", "exclusion"}:
         allowed |= {"current", "planned"}
+    if gate == "timetable_clash":
+        allowed = {"repeating", "current", "planned", "not_completed"}
     facts: dict[str, ModuleFactState] = {}
     group: list[str] = []
     carry: str | None = None
@@ -1401,14 +1349,28 @@ def _parse_module_fact_reply(
 
 def _apply_module_fact(
     course_code: str,
-    state: ModuleFactState,
+    state: str,
     completed: set[str],
     current: set[str],
     planned: set[str],
     module_states: dict[str, ModuleFactState],
+    repeating: set[str] | None = None,
+    clash_cleared: set[str] | None = None,
 ) -> None:
-    """Apply one clarification fact consistently across legacy and typed profiles."""
+    """Apply one clarification fact consistently across legacy and typed profiles.
 
+    'repeating' and 'not_taking' come only from the timetable-clash question. They never
+    change a module's completed/not-completed state, so they cannot alter prerequisite results.
+    """
+
+    if state == "repeating":
+        if repeating is not None:
+            repeating.add(course_code)
+        return
+    if state == "not_taking":
+        if clash_cleared is not None:
+            clash_cleared.add(course_code)
+        return
     completed.discard(course_code)
     current.discard(course_code)
     planned.discard(course_code)
@@ -1590,7 +1552,7 @@ def _merge_context(
         intent == "unknown"
         or (
             context.pending_intent in {"eligibility", "module_information"}
-            and intent in {"module_information", "public_course_search"}
+            and intent in {"module_information", "module_recommendations"}
         )
     ):
         intent = context.pending_intent
@@ -1637,11 +1599,7 @@ def _eligibility_answer(result: dict[str, Any]) -> str:
             "It will not be recommended as a module for you to take again."
         )
     if result.get("decision") == "needs_clarification":
-        opening = (
-            f"I need more information before deciding whether {result['course_code']} "
-            "is eligible."
-        )
-        clarification_question = (result.get("clarification") or {}).get("question")
+        return _clarification_answer(result)
     elif result.get("decision") == "manual_review_required":
         opening = (
             f"{result['course_code']} requires manual academic review because the "
@@ -1671,10 +1629,18 @@ def _eligibility_answer(result: dict[str, Any]) -> str:
         requirements.get("corequisites", []),
         "These may be completed already, current, or planned concurrently.",
     )
+    declared = result.get("declared_not_completed") or []
+    declared_text = (
+        "You told me you have not completed " + ", ".join(declared) + ", so I counted "
+        + ("it" if len(declared) == 1 else "them") + " as not completed."
+        if declared and result.get("decision") != "eligible"
+        else None
+    )
     return " ".join(
         part
         for part in (
             opening,
+            declared_text,
             clarification_question,
             *non_requirement_reasons,
             prerequisite_text,
@@ -1682,6 +1648,71 @@ def _eligibility_answer(result: dict[str, Any]) -> str:
         )
         if part
     )
+
+
+def _programme_answer(message: str) -> str | None:
+    """EFA03 or EFA04 when the whole message only names a programme, else None."""
+
+    text = message.strip().strip(".!?")
+    code = re.fullmatch(r"(?:(?:electrical|information) engineering\s*)?\(?\s*(EFA0[34])\s*\)?", text, re.IGNORECASE)
+    if code:
+        return code.group(1).upper()
+    return {
+        "ee": "EFA03", "electrical": "EFA03", "electrical engineering": "EFA03",
+        "ie": "EFA04", "information": "EFA04", "information engineering": "EFA04",
+    }.get(text.lower())
+
+
+_PROGRAMME_OPTIONS = ("Electrical Engineering (EFA03)", "Information Engineering (EFA04)")
+_PROGRAMME_TITLES = {"EFA03": "Electrical Engineering", "EFA04": "Information Engineering"}
+# Set when the question names a different programme from the student's profile.
+PROGRAMME_NOTE: ContextVar[str | None] = ContextVar("programme_note", default=None)
+_MODULE_WITH_NAME = re.compile(r"\b([A-Z]{4}\d{4}A?) \(([^)]+)\)")
+_GATE_ROLE = {
+    "prerequisite": ("must be completed before you can register", "mean"),
+    "corequisite": ("can be completed, current, or planned alongside this module", "mean"),
+    "exclusion": ("cannot be combined with this module", "mean"),
+    "timetable_clash": ("share a timetable slot with this module", "mean"),
+}
+
+
+def _clarification_answer(result: dict[str, Any]) -> str:
+    """Say what is missing, why it matters, and exactly what to reply."""
+
+    clarification = result.get("clarification") or {}
+    requirements = result.get("requirements", {})
+    names: dict[str, str] = {}
+    for items in requirements.values():
+        for requirement in items:
+            for code, title in _MODULE_WITH_NAME.findall(requirement.get("description", "")):
+                names.setdefault(code, title)
+    codes = list(clarification.get("target_predicates") or [])
+    labels = [f"{code} ({names[code]})" if code in names else code for code in codes]
+    role = _GATE_ROLE.get(clarification.get("gate"), ("affect this decision", "mean"))[0]
+    if len(labels) == 1:
+        missing = f"{labels[0]}, which {role}"
+    elif labels:
+        missing = f"{', '.join(labels)}. These {role}"
+    else:
+        missing = "one of your modules"
+    met = [
+        requirement["description"]
+        for kind in ("prerequisites", "corequisites")
+        for requirement in requirements.get(kind, [])
+        if requirement.get("satisfied")
+    ]
+    parts = [
+        f"I can't decide yet whether you can take {result['course_code']}, because "
+        f"I don't know your status for {missing}.",
+        clarification.get("question"),
+    ]
+    if met:
+        parts.append(f"Already met: {'; '.join(met)}.")
+    parts.append(
+        "To skip questions like this, list the modules you have completed, are "
+        "taking or plan to take in Profile setup."
+    )
+    return " ".join(part for part in parts if part)
 
 
 def _manual_review_reasons(message: str) -> tuple[str, ...]:
@@ -1794,7 +1825,7 @@ def _career_description(career_tag: str) -> str:
         "cybersecurity": "Work involving the protection of systems, networks, and information.",
     }.get(
         career_tag,
-        "A related direction represented by the verified public-course catalogue.",
+        "A related direction represented by the recorded Wits elective mapping.",
     )
 
 
@@ -1854,6 +1885,10 @@ def _module_query_words(message: str) -> list[str]:
 
 CLARIFICATION_STATUSES = frozenset({"clarification_required", "needs_clarification"})
 _ALLOW_CLARIFICATION: ContextVar[bool] = ContextVar("allow_clarification", default=True)
+# Circumstances declared in the student's profile (not the message) that need academic review.
+_DECLARED_REVIEW_REASONS: ContextVar[tuple[str, ...]] = ContextVar(
+    "declared_review_reasons", default=()
+)
 
 
 def unresolved_without_clarification(intent: str) -> dict[str, Any]:

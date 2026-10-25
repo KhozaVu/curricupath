@@ -1,0 +1,33 @@
+{
+  "same_source_set": true,
+  "source_count": 22,
+  "verified_date": "23 October 2026",
+  "corrected_keys": [
+    "wits",
+    "empowered",
+    "khalil",
+    "tamas",
+    "nile",
+    "jiang",
+    "chawana",
+    "islam",
+    "ibrahim",
+    "joren",
+    "qulac",
+    "abstention",
+    "grras",
+    "sokolova"
+  ],
+  "academic_links": "Clickable titles lead to DOI, publisher, conference or author-paper records.",
+  "retained_technical_keys": [
+    "fastapi",
+    "react",
+    "alembic",
+    "sqlalchemy",
+    "pgvector",
+    "bge",
+    "gemini",
+    "structured"
+  ],
+  "limits": "Historical access dates are retained as recorded; no additional access history is inferred."
+}

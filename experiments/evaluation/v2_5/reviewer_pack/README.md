@@ -69,3 +69,19 @@ Record your confirmed hours and independent-review role only after agreeing to
 participate, following [evaluation_reviewer_request.md](../../../../docs/evaluation_reviewer_request.md).
 Questions about a rule's source are welcome; developers should provide the source
 location, not an answer or a preferred label.
+
+## Ambiguity Cases (if you review them)
+
+For each row of `ambiguity_cases_blinded.csv`, decide what a careful advisor should do with the query,
+using only the handbook and the curriculum files in this pack. Please do not run or look at the
+CurricuPath application.
+
+- `reviewer_required_clarification`: `true` if a careful advisor should ask the student a question
+  before answering (for example a bare topic word that could mean several modules); otherwise `false`.
+- `fixed_simulated_reply`: if you answered `true`, write the exact reply a student would plausibly
+  give to that question. It is sent once, word for word.
+- `reviewer_accepted_final_outcomes_json`: a list of acceptable final answers. Each item names the
+  interpretation and, where relevant, the module the answer should be about, for example
+  `[{"intent": "module_information", "module_code": "ELEN3012A"}]`. List several items if more than one
+  answer is acceptable. Choose the closest intent from: `module_information`, `eligibility`, `curriculum_list`, `programme_information`, `programme_comparison`, `credit_information`, `profile_courses`, `public_course_search`, `career_path`, `greeting`, `help`, `unknown`. Full format: `data_dictionary.md`, section "Ambiguity cases".
+- `reviewer_ids` and `approval_state`: as for the eligibility cases.

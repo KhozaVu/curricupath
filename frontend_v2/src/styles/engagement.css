@@ -1,0 +1,53 @@
+/* The possibility studio: an interactive editorial spread, with quiet motion. */
+.home-studio-link { display:inline-flex; align-items:center; gap:18px; min-height:44px; margin-top:12px; padding:10px 0; color:var(--hero-ink); background:transparent; border:0; border-bottom:1px solid var(--hero-edge); font:inherit; font-size:14px; cursor:pointer; }
+.studio-heading h2:focus { outline:2px solid var(--atlas-metal); outline-offset:6px; border-radius:4px; }
+.interest-studio { margin:48px 0; --studio-accent:#bda2e7; }
+.studio-networks { --studio-accent:#86bcc6; }
+.studio-embedded { --studio-accent:#d5ad8a; }
+.studio-heading { display:flex; justify-content:space-between; align-items:end; gap:24px; }
+.studio-heading h2 { font:400 clamp(34px,3.4vw,46px)/1.1 "Instrument Serif",Georgia,serif; margin:12px 0 0; }
+.studio-heading > p { color:var(--text-muted); max-width:28ch; font-size:14px; line-height:1.7; background:var(--atlas-paper); padding:12px 16px; border-radius:12px; }
+.studio-choices { display:flex; gap:10px; flex-wrap:wrap; margin-top:24px; }
+.studio-choices button, .feedback-options button { display:inline-flex; align-items:center; justify-content:center; gap:10px; min-height:44px; padding:10px 16px; border:1px solid var(--atlas-rule); border-radius:28px; background:var(--atlas-paper); color:var(--text-primary); font:inherit; font-size:13px; cursor:pointer; }
+.studio-choices button[aria-pressed="true"] { background:var(--studio-accent); color:#162032; border-color:var(--studio-accent); }
+.studio-choices .studio-reset { border-color:transparent; background:transparent; color:var(--text-muted); }
+.studio-storage { display:table; color:var(--text-muted); font-size:12px; margin:12px 0 22px; min-height:18px; background:var(--atlas-paper); padding:8px 12px; border-radius:8px; }
+.studio-composition { display:grid; grid-template-columns:1.05fr 1fr; border:1px solid var(--atlas-rule); border-radius:20px; overflow:hidden; background:var(--atlas-paper); box-shadow:var(--atlas-shadow); }
+.studio-poster { position:relative; padding:28px 32px 32px; overflow:hidden; color:#f5f0e8; background:radial-gradient(ellipse at 90% 8%,#425069 0,transparent 58%),#142033; }
+.studio-poster::before { content:""; position:absolute; inset:0; pointer-events:none; background-image:linear-gradient(#e3d8c50a 1px,transparent 1px),linear-gradient(90deg,#e3d8c50a 1px,transparent 1px); background-size:36px 36px; mask-image:linear-gradient(#000,transparent); }
+.studio-folio { position:relative; font:12px/1.5 "JetBrains Mono",monospace; letter-spacing:1px; color:#d4d1dc; }
+.studio-poster .topic-artwork { height:205px; width:100%; margin:8px 0 18px; --topic-color:var(--studio-accent); --topic-ground:#142033; }
+.studio-poster h3 { position:relative; font:400 clamp(34px,3.5vw,48px)/1.12 "Instrument Serif",Georgia,serif; margin:0 0 18px; max-width:17ch; }
+.studio-poster h3 em { display:block; font-weight:400; color:var(--studio-accent); }
+.studio-poster > p { position:relative; font-size:14px; line-height:1.7; color:#d0d5de; max-width:40ch; }
+.studio-browse { position:relative; display:flex; align-items:center; gap:16px; margin-top:26px; padding:12px 0; min-height:44px; border:0; border-bottom:1px solid #e3d8c555; background:transparent; color:#f5f0e8; font:inherit; font-size:14px; text-align:left; cursor:pointer; }
+.studio-course-panel { padding:28px; min-width:0; }
+.studio-course-heading { display:flex; align-items:center; justify-content:space-between; gap:16px; }
+.studio-course-heading > span:last-child { color:var(--text-muted); font-size:12px; white-space:nowrap; }
+.studio-course-note { color:var(--text-muted); font-size:13px; line-height:1.7; margin:18px 0; }
+.studio-course { position:relative; padding:20px 0; border-top:1px solid var(--atlas-rule); }
+.studio-course-open { position:relative; display:flex; flex-direction:column; gap:10px; width:100%; padding:0 24px 0 0; border:0; background:transparent; text-align:left; color:var(--text-primary); cursor:pointer; }
+.studio-course-open > span { font-size:12px; color:var(--text-muted); text-transform:capitalize; }
+.studio-course-open strong { font:400 26px/1.18 "Instrument Serif",Georgia,serif; }
+.studio-course-open small { font-size:12px; color:var(--text-muted); }
+.studio-course-open > svg { position:absolute; right:0; top:32px; color:var(--atlas-metal); }
+.studio-save { display:inline-flex; align-items:center; gap:8px; min-height:44px; margin-top:8px; padding:8px 12px; border:1px solid var(--atlas-rule); border-radius:10px; background:transparent; color:var(--text-primary); font:inherit; font-size:12px; cursor:pointer; }
+.studio-save[aria-pressed="true"] { color:var(--atlas-metal); background:var(--atlas-raised); }
+.studio-smallprint { display:block; font-size:12px; color:var(--text-muted); line-height:1.6; margin-top:12px; }
+.milestone-context { color:var(--text-muted); font-size:13px; line-height:1.6; }
+.milestone-copy { min-width:0; flex:1; }
+.milestone-copy .text-button { font-size:12px; min-height:44px; padding:8px 0; }
+.visit-feedback { display:grid; grid-template-columns:1fr 1.1fr; gap:32px; margin:48px 0 16px; padding:32px 0; border-top:1px solid var(--atlas-rule); }
+.visit-feedback h2 { font:400 34px/1.15 "Instrument Serif",Georgia,serif; margin:12px 0; }
+.visit-feedback p { font-size:12px; line-height:1.6; color:var(--text-muted); }
+.feedback-options { display:flex; flex-wrap:wrap; gap:10px; }
+.feedback-options button[aria-pressed="true"] { background:var(--atlas-raised); border-color:var(--atlas-metal); }
+.feedback-notice { min-height:40px; }
+@media (hover:hover) and (pointer:fine) {
+ .studio-course-open:hover strong { color:var(--atlas-metal); }
+ .studio-choices button:hover, .feedback-options button:hover, .studio-save:hover { border-color:var(--atlas-metal); }
+ .studio-browse:hover { color:var(--studio-accent); }
+}
+@media (max-width:1100px) { .studio-composition { grid-template-columns:1fr 1.1fr; } .studio-course-panel { padding:24px; } .studio-poster { padding:24px; } }
+@media (max-width:960px) { .studio-composition { grid-template-columns:1fr; } .studio-poster .topic-artwork { width:44%; height:185px; float:right; margin:12px 0 12px 12px; } .studio-poster h3 { margin-top:30px; } .studio-poster > p { max-width:34ch; } .studio-browse { clear:both; } .visit-feedback { grid-template-columns:1fr; gap:12px; } }
+@media (max-width:600px) { .interest-studio { margin:36px 0; } .studio-heading { display:block; } .studio-heading > p { max-width:none; } .studio-choices { gap:8px; } .studio-choices button { font-size:12px; padding:10px 12px; } .studio-poster .topic-artwork { float:none; width:100%; height:165px; margin:12px 0; } .studio-poster h3 { margin-top:12px; font-size:38px; } .studio-course-panel { padding:22px; } .studio-course-open strong { font-size:27px; } .visit-feedback { margin-top:36px; } .visit-feedback h2 { font-size:32px; } .milestone-state { white-space:normal; max-width:60px; } }

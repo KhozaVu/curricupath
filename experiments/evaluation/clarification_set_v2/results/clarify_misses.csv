@@ -1,0 +1,9 @@
+case_id,fact_type,reply,reference,got,status,answer
+CL001,prereq_single,Completed,eligible,none,clarification_required,"I need more information before deciding whether ELEN3000A is eligible. COMS2004A, ELEN2003A, ELEN2016A share a timetable slot with this modu"
+CL005,prereq_single,I have completed ELEN2005A,eligible,none,clarification_required,"I need more information before deciding whether ELEN3002A is eligible. ELEN2020A, ELEN2021A share a timetable slot with this module. Are you"
+CL009,prereq_single,I have completed it,eligible,none,clarification_required,"I need more information before deciding whether ELEN3003A is eligible. ELEN2017A, ELEN2021A, PHYS2007A share a timetable slot with this modu"
+CL013,prereq_single,Completed,eligible,none,clarification_required,"I need more information before deciding whether ELEN3009A is eligible. COMS2004A, ELEN2005A, MATH2014A share a timetable slot with this modu"
+CL017,prereq_single,I have completed ELEN2005A,eligible,none,clarification_required,"I need more information before deciding whether ELEN3012A is eligible. ELEN2017A, PHYS2007A share a timetable slot with this module. Are you"
+CL025,prereq_multi,All completed,eligible,none,clarification_required,"I need more information before deciding whether ELEN3002A is eligible. ELEN2020A, ELEN2021A share a timetable slot with this module. Are you"
+CL037,coreq,Planned concurrently,eligible,none,clarification_required,"I need more information before deciding whether ELEN3000A is eligible. COMS2004A, ELEN2003A, ELEN2016A share a timetable slot with this modu"
+CL039,coreq,Currently taking it,eligible,none,clarification_required,"I need more information before deciding whether ELEN3000A is eligible. COMS2004A, ELEN2003A, ELEN2016A share a timetable slot with this modu"

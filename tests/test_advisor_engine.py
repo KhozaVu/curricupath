@@ -4,6 +4,8 @@ from __future__ import annotations
 
 from pathlib import Path
 
+import pytest
+
 from app.advisor.engine import AdvisorEngine
 from app.advisor.elective_careers import ELECTIVE_CAREER_DIRECTIONS
 from app.advisor.intent import DeterministicIntentExtractor
@@ -276,16 +278,11 @@ def test_programme_comparison_bypasses_public_course_ranking() -> None:
     assert "optical-wireless specialisation" in result["answer"]
 
 
-def test_advisor_ranks_verified_electric_circuit_courses() -> None:
+def test_advisor_asks_programme_for_wits_interest_suggestions() -> None:
     result = _engine().advise("I want an electric circuits course")
-
-    assert result["status"] == "ok"
-    assert result["recommendations"]
-    assert all(
-        "electric_circuits" in course["interest_tags"]
-        for course in result["recommendations"]
-    )
-    assert all(course["score"] > 0 for course in result["recommendations"])
+    assert result["intent"] == "module_recommendations"
+    assert result["status"] == "clarification_required"
+    assert "EFA03 or EFA04" in result["answer"]
 
 
 def test_machine_learning_career_question_returns_career_directions_not_course_list() -> None:
@@ -354,16 +351,13 @@ def test_every_fourth_year_elective_has_controlled_career_directions() -> None:
         assert "recommendations" not in result
 
 
-def test_advisor_can_add_semantic_matching_without_replacing_fixed_scoring() -> None:
-    result = _engine(FakeSemanticMatcher()).advise(
-        "I want an electric circuits course"
-    )
-
-    assert result["matching_mode"] == "hybrid_semantic"
-    assert all(
-        course["score_components"]["semantic"] == 0.8
-        for course in result["recommendations"]
-    )
+def test_wits_suggestions_do_not_query_public_semantic_candidates() -> None:
+    class NoPublicMatcher:
+        def course_scores(self,*args):
+            raise AssertionError("Retired public matcher queried")
+    result = _engine(NoPublicMatcher()).advise("Recommend EFA04 electives for machine learning",module_history_confirmed=False)
+    assert result["unresolved_modules"]
+    assert all("course_id" not in row for row in result["unresolved_modules"])
 
 
 def test_advisor_requests_programme_for_eligibility() -> None:
@@ -442,13 +436,13 @@ def test_efa04_machine_learning_interest_ranks_matching_elective_first() -> None
     )
 
     assert result["status"] == "ok"
-    assert len(result["recommendations"]) == 3
-    assert result["recommendations"][0]["course_code"] == "ELEN4025A"
+    assert len(result["unresolved_modules"]) == 3
+    assert result["unresolved_modules"][0]["course_code"] == "ELEN4025A"
     assert {
-        item["course_code"] for item in result["recommendations"][1:]
+        item["course_code"] for item in result["unresolved_modules"][1:]
     } == {"ELEN4010A", "ELEN4020A"}
-    assert result["recommendations"][0]["matched_tags"] == ["machine_learning"]
-    assert result["recommendations"][0]["eligibility"]["assessed"] is False
+    assert result["unresolved_modules"][0]["matched_tags"] == ["machine_learning"]
+    assert result["unresolved_modules"][0]["eligibility"]["assessed"] is True
 
 
 def test_natural_elective_interest_question_uses_profile_programme() -> None:
@@ -458,11 +452,11 @@ def test_natural_elective_interest_question_uses_profile_programme() -> None:
         context=ConversationContext(pending_intent="eligibility"),
     )
 
-    assert result["intent"] == "curriculum_list"
+    assert result["intent"] == "eligible_modules"
     assert result["status"] == "ok"
     assert result["programme_code"] == "EFA04"
     assert result["year_of_study"] == 4
-    assert result["recommendations"][0]["course_code"] == "ELEN4025A"
+    assert result["unresolved_modules"][0]["course_code"] == "ELEN4025A"
 
 
 def test_profile_course_summary_groups_completed_and_current_modules() -> None:
@@ -489,12 +483,12 @@ def test_efa03_interest_recommendation_defaults_to_fourth_year() -> None:
 
     assert result["status"] == "ok"
     assert result["year_of_study"] == 4
-    assert result["recommendations"][0]["course_code"] == "ELEN4023A"
+    assert result["unresolved_modules"][0]["course_code"] == "ELEN4023A"
     assert all(
         item["programme_code"] == "EFA03"
         and item["year_of_study"] == 4
         and item["requirement_type"] == "elective_pool"
-        for item in result["recommendations"]
+        for item in result["unresolved_modules"]
     )
 
 
@@ -516,15 +510,15 @@ def test_interest_matches_remain_visible_when_history_blocks_all() -> None:
     )
 
     assert result["status"] == "ok"
-    assert result["recommendation_kind"] == "interest_suggestions"
-    assert len(result["recommendations"]) == 3
-    assert result["recommendations"][0]["course_code"] == "ELEN4025A"
+    assert result["recommendation_kind"] == "eligible_wits_modules"
+    assert len(result["unresolved_modules"]) == 3
+    assert result["unresolved_modules"][0]["course_code"] == "ELEN4025A"
     assert all(
         item["eligibility"]["assessed"] is True
         and item["eligibility"]["eligible"] is False
-        for item in result["recommendations"]
+        for item in result["unresolved_modules"]
     )
-    assert "none currently pass all declared eligibility rules" in result["answer"]
+    assert "need missing module facts" in result["answer"]
 
 
 def test_module_eligibility_without_code_asks_for_the_code() -> None:
@@ -738,7 +732,28 @@ def test_unrecognised_clarification_stops_without_guessing() -> None:
     assert second["conversation_context"] == ConversationContext().as_dict()
 
 
-def test_one_clarification_limit_stops_when_another_fact_is_unknown() -> None:
+def test_a_reply_that_resolves_one_fact_keeps_asking_about_the_rest() -> None:
+    engine = _engine()
+    first = engine.advise(
+        "Can I take ELEN4001A in EFA03?",
+        module_history_confirmed=False,
+    )
+    second = engine.advise(
+        "ELEN3000A completed",
+        context=ConversationContext.from_dict(first["conversation_context"]),
+        module_history_confirmed=False,
+    )
+
+    assert first["clarification_question"].startswith(
+        "Which of these have you completed: ELEN3000A, MATH3025A?"
+    )
+    assert second["status"] == "clarification_required"
+    assert second["clarification_exhausted"] is False
+    assert second["clarification_question"] == "Have you completed MATH3025A?"
+    assert second["clarification_applied"]["course_code"] == "ELEN3000A"
+
+
+def test_a_bare_status_is_not_guessed_when_several_modules_are_pending() -> None:
     engine = _engine()
     first = engine.advise(
         "Can I take ELEN4001A in EFA03?",
@@ -750,11 +765,153 @@ def test_one_clarification_limit_stops_when_another_fact_is_unknown() -> None:
         module_history_confirmed=False,
     )
 
-    assert first["clarification_question"] == "Have you completed ELEN3000A?"
     assert second["status"] == "clarification_unresolved"
     assert second["clarification_exhausted"] is True
-    assert second["clarification_question"] is None
-    assert "clarification limit" in second["answer"]
+
+
+def _multi_fact_first_turn(engine):
+    return engine.advise(
+        "Can I take ELEN3013A in EFA04?",
+        module_history_confirmed=False,
+    )
+
+
+def test_every_unknown_prerequisite_is_asked_about_in_one_question() -> None:
+    first = _multi_fact_first_turn(_engine())
+
+    assert first["status"] == "clarification_required"
+    assert first["clarification_question"].startswith(
+        "Which of these have you completed: ELEN2020A, ELEN2005A, MATH2014A?"
+    )
+    assert first["clarification_options"] == ["All completed", "None completed"]
+    assert first["conversation_context"]["pending_fact_course_codes"] == [
+        "ELEN2020A",
+        "ELEN2005A",
+        "MATH2014A",
+    ]
+
+
+def test_one_reply_can_give_a_status_for_each_module_and_keeps_the_original_target() -> None:
+    engine = _engine()
+    first = _multi_fact_first_turn(engine)
+    second = engine.advise(
+        "ELEN2020A completed, ELEN2005A completed, MATH2014A not completed",
+        context=ConversationContext.from_dict(first["conversation_context"]),
+        module_history_confirmed=False,
+    )
+
+    assert second["course_code"] == "ELEN3013A"
+    assert second["decision"] == "ineligible"
+    assert {
+        (fact["course_code"], fact["state"])
+        for fact in second["clarification_applied_all"]
+    } == {
+        ("ELEN2020A", "completed"),
+        ("ELEN2005A", "completed"),
+        ("MATH2014A", "not_completed"),
+    }
+
+
+def test_partial_replies_keep_earlier_answers_and_ask_only_about_what_is_left() -> None:
+    engine = _engine()
+    first = _multi_fact_first_turn(engine)
+    second = engine.advise(
+        "ELEN2020A completed",
+        context=ConversationContext.from_dict(first["conversation_context"]),
+        module_history_confirmed=False,
+    )
+    third = engine.advise(
+        "ELEN2005A completed and MATH2014A completed",
+        context=ConversationContext.from_dict(second["conversation_context"]),
+        module_history_confirmed=False,
+    )
+
+    assert second["clarification_question"].startswith(
+        "Which of these have you completed: ELEN2005A, MATH2014A?"
+    )
+    assert second["clarification_exhausted"] is False
+    assert third["clarification_question"].startswith("What is your status for ELEN3012A")
+    assert ("ELEN2020A", "completed") in ConversationContext.from_dict(
+        third["conversation_context"]
+    ).answered_facts
+
+
+@pytest.mark.parametrize(
+    ("reply", "expected"),
+    [
+        (
+            "ELEN2020A and ELEN2005A are completed the rest are not",
+            {"ELEN2020A": "completed", "ELEN2005A": "completed", "MATH2014A": "not_completed"},
+        ),
+        (
+            "I have completed ELEN2020A and ELEN2005A but not MATH2014A",
+            {"ELEN2020A": "completed", "ELEN2005A": "completed", "MATH2014A": "not_completed"},
+        ),
+        (
+            "the rest are not, ELEN2005A completed",
+            {"ELEN2005A": "completed", "ELEN2020A": "not_completed", "MATH2014A": "not_completed"},
+        ),
+        (
+            "completed: ELEN2020A, MATH2014A. not completed: ELEN2005A",
+            {"ELEN2020A": "completed", "MATH2014A": "completed", "ELEN2005A": "not_completed"},
+        ),
+        ("ELEN2020A yes, ELEN2005A no", {"ELEN2020A": "completed", "ELEN2005A": "not_completed"}),
+        ("not sure", {}),
+        ("ELEN2020A planned", {}),
+    ],
+)
+def test_prerequisite_replies_are_read_in_natural_groupings(reply, expected) -> None:
+    from app.advisor.engine import _parse_module_fact_replies
+
+    codes = ("ELEN2020A", "ELEN2005A", "MATH2014A")
+
+    assert _parse_module_fact_replies(reply, codes, "prerequisite") == expected
+
+
+def test_grouped_reply_resolves_the_check_end_to_end() -> None:
+    engine = _engine()
+    first = _multi_fact_first_turn(engine)
+    second = engine.advise(
+        "ELEN2020A and ELEN2005A are completed the rest are not",
+        context=ConversationContext.from_dict(first["conversation_context"]),
+        module_history_confirmed=False,
+    )
+
+    assert second["course_code"] == "ELEN3013A"
+    assert second["decision"] == "ineligible"
+    assert len(second["clarification_applied_all"]) == 3
+
+
+def test_all_completed_button_answers_every_pending_module() -> None:
+    engine = _engine()
+    first = _multi_fact_first_turn(engine)
+    second = engine.advise(
+        "All completed",
+        context=ConversationContext.from_dict(first["conversation_context"]),
+        module_history_confirmed=False,
+    )
+    third = engine.advise(
+        "Planned concurrently",
+        context=ConversationContext.from_dict(second["conversation_context"]),
+        module_history_confirmed=False,
+    )
+
+    assert len(second["clarification_applied_all"]) == 3
+    assert third["decision"] == "eligible"
+    assert third["conversation_context"] == ConversationContext().as_dict()
+
+
+def test_a_reply_with_no_recognised_status_still_ends_the_check() -> None:
+    engine = _engine()
+    first = _multi_fact_first_turn(engine)
+    second = engine.advise(
+        "not sure",
+        context=ConversationContext.from_dict(first["conversation_context"]),
+        module_history_confirmed=False,
+    )
+
+    assert second["status"] == "clarification_unresolved"
+    assert second["clarification_exhausted"] is True
 
 
 def test_measurement_systems_accepts_completed_third_year_curriculum() -> None:
@@ -860,8 +1017,9 @@ def test_embedded_complete_course_name_resolves_longest_title() -> None:
 def test_public_course_wording_is_not_reclassified_as_module_information() -> None:
     result = _engine().advise("I want an electric circuits course")
 
-    assert result["intent"] == "public_course_search"
-    assert result["recommendations"]
+    assert result["intent"] == "module_recommendations"
+    assert result["status"] == "clarification_required"
+    assert "recommendations" not in result
 
 
 def test_pending_eligibility_uses_follow_up_module_and_programme() -> None:
@@ -900,3 +1058,329 @@ def test_lowercase_module_and_programme_codes_are_normalised() -> None:
     assert result["course_code"] == "ELEN2017A"
     assert result["programme_code"] == "EFA04"
     assert "no curriculum module record" not in " ".join(result["reasons"])
+
+
+@pytest.mark.parametrize(
+    ("reply", "expected"),
+    [
+        ("I have completed MATH1048A", {"MATH1048A": "completed"}),
+        ("MATH1048A not done", {"MATH1048A": "not_completed"}),
+        ("Completed", {"MATH1048A": "completed"}),
+        ("I am not sure", {}),
+    ],
+)
+def test_a_single_pending_module_accepts_a_sentence_that_names_it(reply, expected) -> None:
+    from app.advisor.engine import _parse_module_fact_replies
+
+    assert _parse_module_fact_replies(reply, ("MATH1048A",), "prerequisite") == expected
+
+
+def test_single_question_end_to_end_with_a_named_reply() -> None:
+    engine = _engine()
+    first = engine.advise("Can I take MATH1049A in EFA04?", module_history_confirmed=False)
+    second = engine.advise(
+        "I have completed MATH1048A",
+        context=ConversationContext.from_dict(first["conversation_context"]),
+        module_history_confirmed=False,
+    )
+
+    assert first["status"] == "clarification_required"
+    assert second["decision"] == "eligible"
+
+
+class _MisreadingExtractor(DeterministicIntentExtractor):
+    """Mimics a language model that guesses an unrelated intent for a bare quick-reply word."""
+
+    def extract(self, text):
+        parsed = super().extract(text)
+        if text.strip().lower() in {"completed", "all completed", "planned concurrently"}:
+            return parsed.model_copy(update={"intent": "profile_courses"})
+        return parsed
+
+
+def test_quick_reply_is_the_answer_even_when_a_model_guesses_another_intent() -> None:
+    repository = CsvCatalogueRepository(PROCESSED_DATA)
+    service = CurricuPathService(repository, str(PROJECT_ROOT))
+    engine = AdvisorEngine(service, _MisreadingExtractor(repository.data.aliases))
+
+    first = engine.advise("Can I take MATH1049A in EFA04?", module_history_confirmed=False)
+    second = engine.advise(
+        "Completed",
+        context=ConversationContext.from_dict(first["conversation_context"]),
+        module_history_confirmed=False,
+    )
+
+    assert first["status"] == "clarification_required"
+    assert second["decision"] == "eligible"
+    assert second["clarification_applied"]["state"] == "completed"
+
+
+def test_a_real_question_with_the_word_completed_is_not_taken_as_the_answer() -> None:
+    engine = _engine()
+    first = engine.advise("Can I take MATH1049A in EFA04?", module_history_confirmed=False)
+    second = engine.advise(
+        "Which modules have I completed?",
+        context=ConversationContext.from_dict(first["conversation_context"]),
+        module_history_confirmed=False,
+    )
+
+    assert second.get("clarification_applied") in (None, {})
+
+
+def test_a_declared_failed_module_settles_the_answer_without_asking_about_others() -> None:
+    result = _engine().advise(
+        "can I take ELEN4012 having failed ELEN3009?",
+        programme_code="EFA04",
+        module_history_confirmed=False,
+    )
+
+    assert result["decision"] == "ineligible"
+    assert result["status"] == "not_eligible"
+    assert "ELEN3009A" in result["answer"]
+    assert result.get("clarification_question") in (None, "")
+
+
+@pytest.mark.parametrize(
+    ("message", "course", "decision", "told_me"),
+    [
+        ("can I take ELEN4012 having failed Software Development II?", "ELEN4012A", "ineligible", "ELEN3009A"),
+        ("I failed Software Development II. Can I take Control II?", "ELEN4016A", None, None),
+        ("Software Development II (failed), can I take ELEN4012A?", "ELEN4012A", "ineligible", "ELEN3009A"),
+        ("Can I take Control II? I haven't passed Control I and Software Development II", "ELEN4016A", "ineligible", "ELEN3016A"),
+    ],
+)
+def test_module_titles_given_a_status_are_facts_and_not_the_target(message, course, decision, told_me) -> None:
+    result = _engine().advise(message, programme_code="EFA04", module_history_confirmed=False)
+
+    assert result["course_code"] == course
+    if decision:
+        assert result["decision"] == decision
+    if told_me:
+        assert told_me in result["answer"]
+
+
+def test_a_title_that_is_not_exact_is_never_guessed() -> None:
+    from app.advisor.declared_names import rewrite_declared_names
+
+    modules = [{"course_code": "ELEN3009A", "course_name": "Software Development II"},
+               {"course_code": "ELEN2020A", "course_name": "Software Development I"}]
+
+    assert rewrite_declared_names("I failed Software Development, can I take X?", modules) == \
+        "I failed Software Development, can I take X?"
+    assert rewrite_declared_names("I failed Software Development II and Software Development I.", modules) == \
+        "I failed ELEN3009A and ELEN2020A."
+
+
+def test_career_questions_keep_their_module_titles() -> None:
+    result = _engine().advise(
+        "If I am taking the power systems course, what future careers should I expect?"
+    )
+
+    assert result["intent"] == "career_path"
+    assert result["career_subject"]["course_code"] == "ELEN4018A"
+
+
+def _elective_codes(result):
+    return {module["course_code"] for key in ["modules","unresolved_modules","other_modules"] for module in result.get(key, [])}
+
+
+def test_elective_lists_differ_by_programme_from_the_profile_or_the_question() -> None:
+    engine = _engine()
+    ee = engine.advise("what electives can I take in fourth year", programme_code="EFA03")
+    ie = engine.advise("what electives can I take in fourth year", programme_code="EFA04")
+    ee_by_question = engine.advise("what electives can EE students take in fourth year")
+    ie_by_question = engine.advise("what electives can information engineering students take in fourth year")
+
+    assert _elective_codes(ee) and _elective_codes(ie) and _elective_codes(ee) != _elective_codes(ie)
+    assert _elective_codes(ee_by_question) == _elective_codes(ee)
+    assert _elective_codes(ie_by_question) == _elective_codes(ie)
+
+
+def test_a_programme_named_in_the_question_wins_over_the_profile_and_says_so() -> None:
+    result = _engine().advise(
+        "what electives can I take as an information engineering student in fourth year",
+        programme_code="EFA03",
+    )
+
+    assert "Information Engineering (EFA04)" in result["answer"]
+    assert "not your profile's Electrical Engineering (EFA03)" in result["answer"]
+    assert result["eligibility_summary"]["checked"] == 7
+
+
+def test_missing_programme_is_asked_with_buttons_and_every_reply_form_is_understood() -> None:
+    engine = _engine()
+    first = engine.advise("what electives can I take in fourth year")
+
+    assert first["status"] == "clarification_required"
+    assert first["clarification_options"] == ["Electrical Engineering (EFA03)", "Information Engineering (EFA04)"]
+    for reply, programme in [
+        ("Electrical Engineering (EFA03)", "EFA03"), ("Information Engineering (EFA04)", "EFA04"),
+        ("EFA03", "EFA03"), ("EE", "EFA03"), ("IE", "EFA04"), ("electrical", "EFA03"),
+    ]:
+        second = engine.advise(reply, context=ConversationContext.from_dict(first["conversation_context"]))
+        assert second["status"] == "ok" and second["programme_code"] == programme, reply
+
+
+def test_an_interest_request_is_not_mistaken_for_a_programme_statement() -> None:
+    result = _engine().advise(
+        "I like electrical engineering, recommend electives about power", programme_code="EFA03"
+    )
+
+    assert "interest-matching electives" in result["answer"]
+
+
+class _GuessesModuleLookup(DeterministicIntentExtractor):
+    """Mimics a model that labels a bare programme reply as a module lookup."""
+
+    def extract(self, text):
+        parsed = super().extract(text)
+        if text.strip().upper() in {"EFA03", "EFA04"}:
+            return parsed.model_copy(update={"intent": "module_information"})
+        return parsed
+
+
+def test_a_programme_reply_answers_the_question_even_when_a_model_guesses_a_module_lookup() -> None:
+    repository = CsvCatalogueRepository(PROCESSED_DATA)
+    engine = AdvisorEngine(
+        CurricuPathService(repository, str(PROJECT_ROOT)),
+        _GuessesModuleLookup(repository.data.aliases),
+    )
+    first = engine.advise("what electives can I take in fourth year")
+    second = engine.advise(
+        "Electrical Engineering (EFA03)",
+        context=ConversationContext.from_dict(first["conversation_context"]),
+    )
+
+    assert second["status"] == "ok"
+    assert second["programme_code"] == "EFA03"
+    assert second["eligibility_summary"]["checked"] == 6
+
+
+class _GuessesLookupForEverything:
+    """A model that labels every short reply a module lookup, wrapping the offline parser."""
+
+    def __init__(self, aliases) -> None:
+        self._fallback = DeterministicIntentExtractor(aliases)
+
+    def extract(self, text):
+        parsed = self._fallback.extract(text)
+        if len(text.split()) <= 3:
+            return parsed.model_copy(update={"intent": "module_information"})
+        return parsed
+
+
+def _guarded_engine():
+    repository = CsvCatalogueRepository(PROCESSED_DATA)
+    return AdvisorEngine(
+        CurricuPathService(repository, str(PROJECT_ROOT)),
+        _GuessesLookupForEverything(repository.data.aliases),
+    )
+
+
+@pytest.mark.parametrize(
+    ("first_message", "reply", "check"),
+    [
+        ("Can I take MATH1049A in EFA04?", "Completed", lambda r: r["decision"] == "eligible"),
+        ("Can I take MATH1049A in EFA04?", "Not completed", lambda r: r["decision"] == "ineligible"),
+        ("what electives can I take in fourth year", "EFA03", lambda r: r["programme_code"] == "EFA03" and r["status"] == "ok"),
+        ("what electives can I take in fourth year", "IE", lambda r: r["programme_code"] == "EFA04" and r["status"] == "ok"),
+    ],
+)
+def test_general_guard_keeps_answers_to_open_questions_whatever_a_model_guesses(first_message, reply, check) -> None:
+    engine = _guarded_engine()
+    first = engine.advise(first_message, module_history_confirmed=False)
+    second = engine.advise(
+        reply, context=ConversationContext.from_dict(first["conversation_context"]),
+        module_history_confirmed=False,
+    )
+
+    assert first["status"] == "clarification_required"
+    assert check(second)
+
+
+def test_general_guard_does_not_swallow_a_new_request_made_while_a_question_is_open() -> None:
+    engine = _engine()
+    first = engine.advise("Can I take MATH1049A in EFA04?", module_history_confirmed=False)
+    second = engine.advise(
+        "Show the EFA04 year 4 electives",
+        context=ConversationContext.from_dict(first["conversation_context"]),
+        programme_code="EFA04",
+    )
+
+    assert second["intent"] == "curriculum_list"
+    assert second["answer"].startswith("Found")
+
+
+def test_general_guard_keeps_a_corequisite_status_reply_whatever_a_model_guesses() -> None:
+    engine = _guarded_engine()
+    kwargs = {"completed_modules": {"MATH2014A"}, "module_history_confirmed": False}
+    first = engine.advise("Can I take ELEN3000A in EFA03?", **kwargs)
+    second = engine.advise(
+        "Planned concurrently",
+        context=ConversationContext.from_dict(first["conversation_context"]),
+        **kwargs,
+    )
+
+    assert first["status"] == "clarification_required"
+    assert second["decision"] == "eligible"
+    assert second["clarification_applied"]["state"] == "planned"
+
+
+@pytest.mark.parametrize(
+    "message",
+    [
+        "i would like to know which 4th year electives to pick for a Aeronautic Electrical?",
+        "which electives should I pick to become a marine engineer?",
+    ],
+)
+def test_an_unknown_career_is_named_and_not_answered_with_electives(message) -> None:
+    result = _engine().advise(message, programme_code="EFA04")
+
+    assert result["intent"] == "career_path"
+    assert "don't have verified information" in result["answer"]
+    assert "Electrical Engineering (EFA03):" in result["answer"]
+    assert "Information Engineering (EFA04):" in result["answer"]
+    assert not result.get("modules")
+
+
+def test_a_known_career_still_gets_elective_matches() -> None:
+    result = _engine().advise(
+        "which 4th year electives should I pick for a career in software engineering?",
+        programme_code="EFA04",
+    )
+
+    assert "career_unknown" not in result
+    assert "ELEN4010A" in result["answer"]
+
+
+@pytest.mark.parametrize(
+    ("message", "programme", "expected"),
+    [
+        ("which electives to pick for a power engineer?", "EFA03", {"ELEN4003A", "ELEN4018A", "ELEN4023A"}),
+        ("which 4th year electives should I pick to become a network engineer?", "EFA04", {"ELEN4017A"}),
+        ("which electives should I pick to become a computer engineer?", "EFA03", set()),
+    ],
+)
+def test_wits_careers_return_their_linked_electives_marked_as_proposed(message, programme, expected) -> None:
+    result = _engine().advise(message, programme_code=programme)
+
+    if result["intent"] == "module_recommendations":
+        rows=result.get("recommendations",[])+result["unresolved_modules"]+result["interest_matches"]
+        assert expected <= {m["course_code"] for m in rows}
+        assert all(m["reasons"] and m["matched_tags"] for m in rows)
+        assert all(m["eligibility"]["assessed"] for m in rows)
+        return
+    assert {m["course_code"] for m in result["modules"]} == expected
+    assert "not been confirmed by the School" in result["answer"]
+    assert result["career_subject"]["links_status"] == "developer_proposed"
+
+
+def test_every_wits_career_has_a_link_row_for_its_programme() -> None:
+    import csv as _csv
+
+    links = {(r["programme_code"], r["wits_career"]) for r in _csv.DictReader(
+        (PROCESSED_DATA / "wits_career_elective_links.csv").open(encoding="utf-8"))}
+    profiles = _csv.DictReader((PROCESSED_DATA / "programme_profiles.csv").open(encoding="utf-8"))
+    for profile in profiles:
+        for career in profile["career_opportunities"].split(";"):
+            assert (profile["programme_code"], career) in links

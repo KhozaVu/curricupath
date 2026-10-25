@@ -16,3 +16,10 @@ COMS1015A,CORE_ELEN2021,verified,EBE_2026,Alternative co-requisite option listed
 COMS1018A,CORE_ELEN2021,verified,EBE_2026,Alternative co-requisite option listed in handbook,Retain as external co-requisite and require declared current or planned status.
 MECN4034A,CORE_MECN4020,verified,EBE_2026,Alternative co-requisite option listed in handbook,Retain as external co-requisite and require declared current or planned status.
 MECN4035A,CORE_MECN4020,verified,EBE_2026,Alternative co-requisite option listed in handbook,Retain as external co-requisite and require declared current or planned status.
+MATH1042A,PRE_MATH2014,verified,EBE_2026,Alternative first-year mathematics prerequisite explicitly listed in the 2026 Faculty table.,Retain as external prerequisite and require declared completion.
+MATH1043A,PRE_MATH2014,verified,EBE_2026,Alternative first-year mathematics prerequisite explicitly listed in the 2026 Faculty table.,Retain as external prerequisite and require declared completion.
+MATH1042A,PRE_COMS2004,verified,EBE_2026,Alternative first-year mathematics prerequisite explicitly listed in the 2026 Faculty table.,Retain as external prerequisite and require declared completion.
+MATH1043A,PRE_COMS2004,verified,EBE_2026,Alternative first-year mathematics prerequisite explicitly listed in the 2026 Faculty table.,Retain as external prerequisite and require declared completion.
+MATH1042A,PRE_PHYS2007,verified,EBE_2026,Alternative first-year mathematics prerequisite explicitly listed in the 2026 Faculty table.,Retain as external prerequisite and require declared completion.
+MATH1043A,PRE_PHYS2007,verified,EBE_2026,Alternative first-year mathematics prerequisite explicitly listed in the 2026 Faculty table.,Retain as external prerequisite and require declared completion.
+MATH1042A,PRE_PHYS1033,verified,EBE_2026,Alternative first-year mathematics prerequisite explicitly listed in the 2026 Faculty table.,Retain as external prerequisite and require declared completion.

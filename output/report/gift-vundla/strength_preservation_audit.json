@@ -1,0 +1,111 @@
+{
+  "date": "2026-10-25",
+  "revision": "Abstract, introduction, conclusion and results writing",
+  "baseline_sha256": {
+    "shared_tables.tex": "829dd63107bdccd72f925653f8d99da4b2d77cd17d2917e6bc4d7f0a6b7ed888",
+    "shared_references.tex": "411796b8b2925276c44835b6e7a9737e08ecd528b3b9ecb3d015532c02d893b0",
+    "shared_results.json": "2267de0ff33dad850d6420345fedf5d6ef11b5ec4ef169ace2ccf8ce6c1f4fe2",
+    "matched_subset_audit.json": "4fdb0fae0c9d3b3ef7ff01e1333e9743aacfb5694a0c539616eca7d47b37bd25",
+    "shared_evidence.pdf": "1f001720facda036335e67a2c155ca6fcfb98a9b65c95f9fc16976b07c10ec70",
+    "shared_clarification.pdf": "160f110b9eced24b6c52eadbdcd841a450499e47d160f12d2c343d7db57c6e9f",
+    "Reflection_on_Group_Work.tex": "6f7e86db8886f5dd86abf90e3a44bc12e46eb16440209f95d169dc812029d230",
+    "Reflection_on_Group_Work.pdf": "6f29b00039cd8a901d7be797e5a171573f3d3bd569d53e16722102cd453cffc3",
+    "Appendix_B_Original_Unmarked_Project_Plan.pdf": "fa15c42819d24594719e6cd8106ebfe29a6d136e0f9c34c132812a6f9f76894d",
+    "Appendix_C_Application_Use_Cases.pdf": "e85226c98b42f533625e02f2005e454a092e12a8bbba89c7dc194064cab85016",
+    "Appendix_D_Integration_and_Verification.pdf": "258589b1d8f957771e79bce2e55d6bbb1031a39306595e3962f22d058f1cffe4",
+    "Appendix_E_Merged_Meeting_Minutes.pdf": "e666d78230b476b0c6c072f70242b140bc47785db8b5a706d248cecf0a0c1798",
+    "witseiepaper.cls": "b9732657392fa7f0fa856b120471c55bc53789da522917352ca3bc9c022774b4",
+    "KJN.sty": "5ee3196701a085e43d359f687de6e1b8088ac9a53845359025cf69c43c0bf2b2",
+    "preamble.tex": "4dbddb11c8c69aea23532375389ba8a8961a47dbdefadf4ef27fdda31bc35b7a",
+    "verification_run_2026-10-23.xml": "b875211e434ede3b8c04c4947ca2c24ee0667c5f8cdb33499e1635fd88d510b1",
+    "verification_scope.json": "68a1c82c48fbeeac6d7f8f3f9f410a0a7abaa40fa47d3fd286ac0b2758d2588b",
+    "worked_dialogue_diagnostic.json": "949fc818f9a2dde9ad3fa476e1e0782b961b2c50579dd50d1a17dd59b44a8f5c",
+    "failure_analysis.json": "4992d2ad3e5999dcea80f966c7bf6d7dc5ce5bc3252c6b3718b84b7542e66f50",
+    "report_evidence.json": "de4e33ffe15e55d416ebd6dddbbdc5d505a0a7b9f1d048eb67cf2031dbc41bb8"
+  },
+  "protected_asset_hash_checks": {
+    "shared_tables.tex": true,
+    "shared_references.tex": true,
+    "shared_results.json": true,
+    "matched_subset_audit.json": true,
+    "shared_evidence.pdf": true,
+    "shared_clarification.pdf": true,
+    "Reflection_on_Group_Work.tex": true,
+    "Reflection_on_Group_Work.pdf": true,
+    "Appendix_B_Original_Unmarked_Project_Plan.pdf": true,
+    "Appendix_C_Application_Use_Cases.pdf": true,
+    "Appendix_D_Integration_and_Verification.pdf": true,
+    "Appendix_E_Merged_Meeting_Minutes.pdf": true,
+    "witseiepaper.cls": true,
+    "KJN.sty": true,
+    "preamble.tex": true,
+    "verification_run_2026-10-23.xml": true,
+    "verification_scope.json": true,
+    "worked_dialogue_diagnostic.json": true,
+    "failure_analysis.json": true,
+    "report_evidence.json": true
+  },
+  "source_block_sha256": {
+    "table": [
+      "7c59f774b4e03772b7bd35cf08023a6dd2078206ad8784f42f590a96c4b9bb0f",
+      "4f00f62d34c2b2f99c8b73b8acff248ba1539f093b1d737858facd029a35c132"
+    ],
+    "figure": [
+      "5046205dc7bf85aa30c6c19e06c7726e11622c13f025c8d510a467ab2f502f31",
+      "ce67a59f5f5b36fed12ec271395e41669663cb50dbaddca313358f0d2f6671fd"
+    ],
+    "equation": [
+      "2d220a028bbeeb07fced85ade07561e96e6e74716fbc0f5d1581dd24feffa803",
+      "28ba1ff39a0192a2d47c0672ee38b3635ec52246ca2e36dca7e1721bb7dcf257"
+    ],
+    "thebibliography": [
+      "56f05a008b320d2fd6c8c5aebb24c6dba2ab8be9c3392078a16ca7db64dcd2dc"
+    ]
+  },
+  "unchanged_section_sha256": {
+    "LITERATURE REVIEW": {
+      "end": "DESIGN AND IMPLEMENTATION",
+      "normalised_sha256": "29816c9a8b6c10714d6cbe2f8fd5b0749aa9093235df9d92dc95b160693d4537"
+    },
+    "DESIGN AND IMPLEMENTATION": {
+      "end": "EXPERIMENTAL METHOD",
+      "normalised_sha256": "b8a768faa37ea9d6681fa033d878c93f5d20eb3c41077305d50a301a0f7bd1e2"
+    },
+    "EXPERIMENTAL METHOD": {
+      "end": "RESULTS",
+      "normalised_sha256": "5d4df77a9bd7742753fe7408385a32ab5b01de2c98e39c722ceb7d866464da84"
+    },
+    "DISCUSSION": {
+      "end": "CONCLUSION",
+      "normalised_sha256": "eff7352adef541a58a618310a9dbccc5bc3f0f2901b9d2bfb7a16fc158b7bcc9"
+    }
+  },
+  "authorised_prose_changes": [
+    "Abstract",
+    "Introduction",
+    "Results",
+    "Conclusion"
+  ],
+  "layout_changes": [
+    "Conclusion starts at the top of page 6",
+    "First literature paragraph kept together across columns"
+  ],
+  "source_blocks_preserved": true,
+  "results_numeric_vocabulary_preserved": true,
+  "citations_in_first_appearance_order": true,
+  "first_citation": "wits",
+  "main_pages": 6,
+  "all_six_final_pages_visually_inspected": true,
+  "body_typography_unchanged": true,
+  "latex_overfull_or_undefined": false,
+  "manual_review": "Claim scope, denominators, source-to-claim links, failure mechanisms and material limits checked. No independent validation or official GA acceptance inferred.",
+  "new_experiments_or_hosted_calls": false,
+  "outstanding": [
+    "Exact identity of supplied unmarked plan as original submission",
+    "Partner final manuscript uses current shared assets",
+    "Seven live-database comparisons unexecuted",
+    "Independent academic adjudication and participant evaluation not established"
+  ],
+  "combined_pages": 52,
+  "combined_render_and_link_checks": "All 52 pages match their current components; all links preserve destinations"
+}

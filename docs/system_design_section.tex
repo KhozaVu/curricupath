@@ -1,0 +1,84 @@
+\section{SYSTEM DESIGN AND IMPLEMENTATION}
+
+\subsection{Architecture Overview}
+CurricuPath is a web-based academic advisor for Wits EFA03 and EFA04
+students. Language-model components help interpret wording, while
+deterministic curriculum rules make eligibility decisions. A request passes
+through message interpretation, catalogue resolution, rule evaluation,
+response checking and presentation.
+
+The system returns an eligibility decision when evidence is sufficient, asks
+for clarification when a required student fact is missing, or refers the case
+for manual academic review when evidence is incomplete, conflicting or
+requires discretion. The back end is a Python FastAPI service and the user
+interface is a React application.
+
+\subsection{Data and Evidence}
+CSV files provide curriculum modules, rules, source records, aliases and
+module outlines, derived from the 2026 EBE handbook \cite{wits2026ebe} and
+School registration workbooks. Each rule stores its source and page
+reference, and each source record carries a verification status that shows
+whether it can support an eligibility decision. Curriculum requirements are
+stored as nested all-of and any-of expressions, so each condition can be
+checked and cited separately.
+
+At run time the catalogue is held in PostgreSQL; if the database is
+unavailable, the service falls back to the validated CSV files. Session
+information, such as profile facts and pending clarification questions, is
+temporary and expires with the session.
+
+\subsection{Request Interpretation}
+A deterministic parser identifies the request type, module, programme and
+year from module codes, names, programme abbreviations and controlled
+aliases. It also reads statuses the student states, such as ``I failed
+ELEN3009A'' or ``I am taking Control I'', which a language model cannot set.
+In the deployed advisor, Gemini (\texttt{gemini-3.5-flash-lite}) reads each
+message but may only supply a request type the parser could not identify; it
+cannot introduce a module code or programme the student did not name. In the
+reported evaluation, Gemini was used only as a fallback for unresolved
+messages.
+
+Ambiguous module names or a missing programme lead to a clarification
+question. While a question is open, a short reply is treated as its answer
+rather than as a new request. For unresolved messages, spelling correction
+and catalogue matching are applied before Gemini suggests a module or
+programme, and every suggestion is checked against the catalogue. If Gemini
+is unavailable, the deterministic path continues and a warning is recorded.
+
+\subsection{Eligibility and Clarification}
+Eligibility is evaluated through ordered checks for source verification,
+programme membership, prerequisites, corequisites, exclusions and timetable
+clashes. Each condition is marked satisfied, unsatisfied or unknown, and an
+unknown condition is never treated as satisfied. The rule engine returns
+\textit{eligible}, \textit{ineligible}, \textit{needs clarification} or
+\textit{manual review required}, together with the relevant rule and source.
+
+Two checks are enabled by configuration and were enabled for the
+evaluation: School registration-grid requirements, which take priority over
+handbook requirements for the same module and rule type, and timetable
+clashes, which use pairs listed in the School workbooks and apply to
+repeated, current or planned modules. When a required fact is missing, one
+question covers every unknown module in the failed rule; answers persist
+for the session, and further questions are asked only while each reply adds
+information. Declared concessions, transfer credits and similar
+circumstances are referred for manual academic review.
+
+\subsection{Response Checks and Technology Selection}
+Before a response is shown, deterministic checks confirm that the decision,
+module codes and cited rules match the rule-engine result; a failing response
+is designed to be replaced by a fixed template. Course recommendations show
+each option's eligibility status and unmet requirements, so ineligible
+options are labelled rather than hidden.
+
+Python reads the School workbooks directly and keeps the rule engine, data
+import and evaluation scripts in one environment. FastAPI's typed request
+models reject malformed profiles before they reach the rule engine and
+generate API documentation \cite{fastapiDocs}. React holds the profile,
+pending questions and evidence views on the client \cite{reactDocs}.
+PostgreSQL stores linked curriculum, rule and source records, mapped by
+SQLAlchemy and versioned with Alembic \cite{sqlalchemyDocs,alembicDocs}.
+pgvector keeps Hugging Face embeddings next to the records they describe for
+similarity search \cite{pgvectorDocs,huggingFaceEmbeddings}; these support
+retrieval and recommendation, never eligibility. Gemini returns structured
+output \cite{googleStructuredOutput}, and a request may lower, but never
+raise, the server's language-model setting.

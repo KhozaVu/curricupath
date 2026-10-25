@@ -5,13 +5,19 @@ from __future__ import annotations
 import json
 from dataclasses import asdict
 from pathlib import Path
+import re
 from typing import Any, Protocol
 
 from app.advisor.eligibility import (
     ModuleFactState,
     StudentProfile,
+    _condition_for_rule,
+    _scope_applies,
+    apply_grid_requirement_overrides,
     check_eligibility,
     load_clash_rules,
+    load_grid_requirement_rules,
+    normalise_rule_course_code,
     programme_year_course_map,
     requirement_satisfied,
 )
@@ -68,13 +74,21 @@ class CurricuPathService:
         source_root: str,
         *,
         timetable_clash_gate_enabled: bool = False,
+        school_grid_requirements_enabled: bool = False,
     ) -> None:
         self.repository = repository
         self.source_root = source_root
         self.timetable_clash_gate_enabled = timetable_clash_gate_enabled
+        self.school_grid_requirements_enabled = school_grid_requirements_enabled
         clash_path = Path(source_root) / "data" / "rules" / "grid_clash_rules.csv"
         self.clash_rules = (
             load_clash_rules(clash_path) if timetable_clash_gate_enabled else ()
+        )
+        grid_path = Path(source_root) / "data" / "rules" / "grid_rules.json"
+        self.grid_requirement_rules = (
+            load_grid_requirement_rules(grid_path)
+            if school_grid_requirements_enabled
+            else ()
         )
 
     def health(self) -> dict[str, str]:
@@ -149,16 +163,21 @@ class CurricuPathService:
         return self.repository.get_course(course_id.upper())
 
     def summary(self) -> dict[str, Any]:
-        return {
-            **self.repository.catalogue_summary(),
-            "storage_backend": self.repository.backend_name,
-        }
+        retired = {"recommendable_courses", "providers", "categories", "semantic_public_course_search_enabled"}
+        summary = {**{k:v for k,v in self.repository.catalogue_summary().items() if k not in retired}, "storage_backend": self.repository.backend_name}
+        summary["verified_sources"] = sum(r.get("verification_status")=="verified" for r in self.repository.evidence().get("sources",[]) if r.get("document_type") != "public_course_provider")
+        return summary
 
     def career_paths(self) -> list[dict[str, Any]]:
         return self.repository.career_paths()
 
     def evidence(self) -> dict[str, Any]:
-        return self.repository.evidence()
+        result = self.repository.evidence()
+        result["summary"] = self.summary()
+        result["sources"] = [r for r in result["sources"] if r.get("document_type") != "public_course_provider"]
+        result["source_status_counts"] = {state:sum(r.get("verification_status")==state for r in result["sources"]) for state in {r.get("verification_status") for r in result["sources"]}}
+        result["summary"]["verified_sources"] = sum(r.get("verification_status")=="verified" for r in result["sources"])
+        return result
 
     def missing_cbos(self) -> list[dict[str, Any]]:
         return self.repository.list_missing_cbos()
@@ -172,6 +191,49 @@ class CurricuPathService:
     ) -> list[dict[str, Any]]:
         return self.repository.list_courses(category, interest, career, limit)
 
+    def programme_graph(self, programme_code: str) -> dict[str, Any]:
+        """Modules of a programme and the recorded prerequisite/corequisite links between them.
+
+        Built from the same rule rows (and, when enabled, the same School-grid overrides) that the
+        eligibility gates use. Nothing is inferred: a module with no recorded rule has no edge, and
+        grouped conditions such as "all Year 3 modules" are not expanded into edges.
+        """
+
+        programme = programme_code.upper()
+        nodes: dict[str, dict[str, Any]] = {}
+        for module in self.repository.list_modules(programme):
+            code = str(module["course_code"]).upper()
+            nodes.setdefault(code, {
+                "course_code": code,
+                "course_name": module.get("course_name"),
+                "year_of_study": module.get("year_of_study"),
+                "requirement_type": module.get("requirement_type"),
+            })
+        edges: list[dict[str, str]] = []
+        seen: set[tuple[str, str, str]] = set()
+        for target in nodes:
+            _, rules, _ = self.repository.eligibility_context(target)
+            if self.school_grid_requirements_enabled:
+                rules = apply_grid_requirement_overrides(
+                    rules, self.grid_requirement_rules, target, programme
+                )
+            for rule in rules:
+                kind = rule.get("rule_type")
+                if kind not in {"prerequisite", "corequisite"}:
+                    continue
+                if not _scope_applies(rule.get("scope", ""), programme):
+                    continue
+                condition, error = _condition_for_rule(rule)
+                if error:
+                    continue
+                for source in _codes_in_condition(condition):
+                    key = (source, target, kind)
+                    if source in nodes and source != target and key not in seen:
+                        seen.add(key)
+                        edges.append({"from": source, "to": target, "kind": kind,
+                                      "rule_id": rule.get("rule_id", "")})
+        return {"programme_code": programme, "nodes": list(nodes.values()), "edges": edges}
+
     def eligibility(
         self,
         course_code: str,
@@ -184,6 +246,7 @@ class CurricuPathService:
         module_history_confirmed: bool | None = None,
         *,
         repeating_modules: set[str] | None = None,
+        clash_cleared_modules: set[str] | None = None,
     ) -> dict[str, Any]:
         code = self._resolve_module_code(course_code)
         profile = StudentProfile(
@@ -193,6 +256,9 @@ class CurricuPathService:
             planned_modules=frozenset(value.upper() for value in planned_modules),
             repeating_modules=frozenset(
                 value.upper() for value in (repeating_modules or set())
+            ),
+            clash_cleared_modules=frozenset(
+                value.upper() for value in (clash_cleared_modules or set())
             ),
             manual_review_reasons=manual_review_reasons,
             module_states={
@@ -210,9 +276,21 @@ class CurricuPathService:
             source_root=self.source_root,
             clash_rules=self.clash_rules,
             enable_timetable_clashes=self.timetable_clash_gate_enabled,
+            grid_requirement_rules=self.grid_requirement_rules,
+            enable_school_grid_requirements=self.school_grid_requirements_enabled,
         )
         completed = code in profile.completed_modules
-        requirements = self._requirement_summary(profile, rules, modules)
+        effective_rules = (
+            apply_grid_requirement_overrides(
+                rules,
+                self.grid_requirement_rules,
+                code,
+                profile.programme_code,
+            )
+            if self.school_grid_requirements_enabled
+            else rules
+        )
+        requirements = self._requirement_summary(profile, effective_rules, modules)
         return {
             "course_code": code,
             "programme_code": profile.programme_code,
@@ -232,7 +310,131 @@ class CurricuPathService:
             "module_states": dict(profile.module_states or {}),
             "module_history_confirmed": profile.module_history_confirmed,
             "requirements": requirements,
+            "requirement_modules": self._requirement_modules(
+                profile, effective_rules, modules
+            ),
+            **self._evidence_for_result(code, result, effective_rules, sources),
         }
+
+    def _evidence_for_result(
+        self,
+        code: str,
+        result: Any,
+        rules: list[dict[str, str]],
+        sources: list[dict[str, str]],
+    ) -> dict[str, Any]:
+        """Rules and sources behind an eligibility answer, so the UI can cite them."""
+
+        shown = []
+        for rule in rules:
+            if rule.get("target_course_code") != code or rule.get("rule_type") not in {
+                "prerequisite",
+                "corequisite",
+                "exclusion",
+            }:
+                continue
+            presented = self._present_rule(rule)
+            shown.append(
+                {
+                    "rule_id": str(presented.get("rule_id", "")),
+                    "rule_type": str(presented.get("rule_type", "")),
+                    "source_id": str(presented.get("source_id", "")),
+                    "handbook_page": str(presented.get("handbook_page") or ""),
+                    "plain_language": str(presented.get("plain_language", "")),
+                }
+            )
+        used = {rule["source_id"] for rule in shown if rule.get("source_id")}
+        clash_ids = {
+            rule_id
+            for step in result.rule_trace
+            if step.gate == "timetable_clash"
+            for rule_id in step.rule_ids
+        }
+        for clash in self.clash_rules:
+            if clash.get("rule_id") not in clash_ids:
+                continue
+            ids = [value for value in clash.get("source_ids", "").split(";") if value]
+            used.update(ids)
+            shown.append(
+                {
+                    "rule_id": clash["rule_id"],
+                    "rule_type": "timetable_clash",
+                    "source_id": ids[0] if ids else "",
+                    "plain_language": (
+                        f"{clash.get('target_course_code', '')} clashes in the timetable "
+                        f"with {clash.get('repeating_course', '')} "
+                        f"({clash.get('clash_type', 'timetable')} clash)."
+                    ),
+                }
+            )
+        return {
+            "rules": shown,
+            "sources": [
+                {
+                    key: str(source.get(key) or "")
+                    for key in (
+                        "source_id",
+                        "title",
+                        "publisher",
+                        "url",
+                        "verification_status",
+                        "locator",
+                    )
+                }
+                for source in sources
+                if source.get("source_id") in used
+            ],
+        }
+
+    def _requirement_modules(
+        self,
+        profile: StudentProfile,
+        rules: list[dict[str, str]],
+        modules: list[dict[str, str]],
+    ) -> dict[str, list[dict[str, Any]]]:
+        """Each module named by a prerequisite/corequisite rule, with whether it is met."""
+
+        available_by_type = {
+            "prerequisite": set(profile.completed_modules),
+            "corequisite": (
+                set(profile.completed_modules)
+                | set(profile.current_modules)
+                | set(profile.planned_modules)
+            ),
+        }
+        programme_year_courses = programme_year_course_map(modules)
+        out: dict[str, list[dict[str, Any]]] = {
+            "prerequisites": [],
+            "corequisites": [],
+        }
+        for rule_type, key in (
+            ("prerequisite", "prerequisites"),
+            ("corequisite", "corequisites"),
+        ):
+            for rule in rules:
+                if rule.get("rule_type") != rule_type or not _scope_applies(
+                    rule.get("scope", ""), profile.programme_code
+                ):
+                    continue
+                try:
+                    condition = json.loads(rule["condition_json"])
+                except (KeyError, json.JSONDecodeError):
+                    continue
+                for code in _condition_codes(condition):
+                    if any(item["code"] == code for item in out[key]):
+                        continue
+                    out[key].append(
+                        {
+                            "code": code,
+                            "name": self._module_name(code),
+                            "met": requirement_satisfied(
+                                code,
+                                available_by_type[rule_type],
+                                programme_year_courses,
+                            ),
+                        }
+                    )
+        return out
 
     def _requirement_summary(
         self,
@@ -283,6 +485,10 @@ class CurricuPathService:
                 )
         return summary
 
+    def _module_name(self, course_code: str) -> str:
+        module = self.repository.get_module(course_code)
+        return module["course_name"] if module else ""
+
     def _module_label(self, course_code: str) -> str:
         module = self.repository.get_module(course_code)
         if module is None:
@@ -316,6 +522,20 @@ class CurricuPathService:
         if not code.endswith("A") and self.repository.get_module(suffixed) is not None:
             return suffixed
         return code
+
+
+def _condition_codes(condition: object) -> list[str]:
+    """Module codes named anywhere in a rule condition, in source order."""
+
+    if isinstance(condition, str):
+        return [condition]
+    codes: list[str] = []
+    if isinstance(condition, dict):
+        for value in condition.values():
+            if isinstance(value, list):
+                for child in value:
+                    codes.extend(_condition_codes(child))
+    return list(dict.fromkeys(codes))
 
 
 def _scope_applies(scope: str, programme_code: str) -> bool:
@@ -387,3 +607,24 @@ def _plain_language_scope(scope: str) -> str:
     else:
         label = " and ".join(programmes)
     return f"For {label} students, "
+
+
+def _codes_in_condition(condition: object) -> list[str]:
+    """Module codes named anywhere in a nested all_of / any_of condition."""
+
+    found: dict[str, None] = {}
+
+    def walk(node: object) -> None:
+        if isinstance(node, str):
+            code = normalise_rule_course_code(node)
+            if code and re.fullmatch(r"[A-Z]{4}\d{4}[A-Z]", code):
+                found[code] = None
+        elif isinstance(node, dict):
+            for value in node.values():
+                walk(value)
+        elif isinstance(node, (list, tuple)):
+            for value in node:
+                walk(value)
+
+    walk(condition)
+    return list(found)

@@ -275,6 +275,9 @@ class CsvCatalogueRepository:
         source_ids = {
             row["source_id"] for row in [*modules, *rules] if row.get("source_id")
         }
+        # Optional School-grid overrides need their source in the same evidence context.
+        if "EIE_REG_GRID_2026" in self._sources:
+            source_ids.add("EIE_REG_GRID_2026")
         sources = [dict(self._sources[source_id]) for source_id in source_ids]
         return modules, rules, sources
 

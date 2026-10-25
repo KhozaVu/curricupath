@@ -1,13 +1,20 @@
 """Tests for the boundary between Gemini extraction and trusted app state."""
 
+from pathlib import Path
 from types import SimpleNamespace
 
+import pytest
+
+from app.data.repository import CsvCatalogueRepository
 from app.advisor.intent import (
     DeterministicIntentExtractor,
     GeminiIntentExtractor,
     ParsedAdvisorRequest,
 )
 from app.advisor.normalisation import Alias
+
+
+PROCESSED_DATA = Path(__file__).resolve().parents[1] / "data" / "processed"
 
 
 class _Models:
@@ -54,7 +61,7 @@ def test_programme_interest_course_request_means_fourth_year_electives() -> None
         "Suggest EFA04 courses for machine learning"
     )
 
-    assert result.intent == "curriculum_list"
+    assert result.intent == "module_recommendations"
     assert result.year_of_study == 4
     assert result.requirement_type == "elective_pool"
 
@@ -66,7 +73,7 @@ def test_interest_elective_question_is_not_single_module_eligibility() -> None:
         "What electives can I take if I'm interested in machine learning?"
     )
 
-    assert result.intent == "curriculum_list"
+    assert result.intent == "eligible_modules"
     assert result.module_code is None
     assert result.requirement_type == "elective_pool"
     assert result.interests == ["machine_learning"]
@@ -109,7 +116,7 @@ def test_explicit_public_course_wording_is_not_a_programme_curriculum_request() 
         "Find a public course for electrical engineering"
     )
 
-    assert result.intent == "public_course_search"
+    assert result.intent == "module_recommendations"
 
 
 def test_degree_and_career_questions_select_programme_information() -> None:
@@ -184,7 +191,7 @@ def test_gemini_output_is_limited_to_explicit_codes_and_controlled_tags() -> Non
     extractor._client = SimpleNamespace(
         models=_Models(
             ParsedAdvisorRequest(
-                intent="public_course_search",
+                intent="module_recommendations",
                 module_code="FAKE9999A",
                 programme_code="EFA04",
                 interests=["electric circuits", "invented_topic"],
@@ -227,3 +234,173 @@ def test_gemini_failure_opens_circuit_breaker_and_uses_fallback() -> None:
     assert first.intent == "eligibility"
     assert second.intent == "eligibility"
     assert models.calls == 1
+
+
+@pytest.mark.parametrize(
+    "message",
+    [
+        "Am I allowed to register for Control II?",
+        "Is Network Fundamentals open to me?",
+        "Can I sign up for ELEN4017A?",
+        "Can I enrol in Microprocessors next semester?",
+        "I study Electrical Engineering. Can I do Control II this year?",
+        "I want to take Renewable Energy, is that ok?",
+    ],
+)
+def test_registration_and_permission_wording_is_an_eligibility_question(message) -> None:
+    extractor = DeterministicIntentExtractor(CsvCatalogueRepository(PROCESSED_DATA).get_aliases())
+
+    assert extractor.extract(message).intent == "eligibility"
+
+
+@pytest.mark.parametrize(
+    "message",
+    ["Can I do anything about my marks?", "Can I do better in Control II?", "Who teaches ELEN4016A?"],
+)
+def test_permission_regex_does_not_capture_other_questions(message) -> None:
+    extractor = DeterministicIntentExtractor(CsvCatalogueRepository(PROCESSED_DATA).get_aliases())
+
+    assert extractor.extract(message).intent != "eligibility"
+
+
+def test_gemini_intent_extractor_uses_a_deadline_the_api_accepts() -> None:
+    from app.advisor.intent import MIN_REQUEST_TIMEOUT_MS
+
+    assert MIN_REQUEST_TIMEOUT_MS >= 10_000  # the API rejects shorter client deadlines
+
+
+def test_gemini_failure_warns_once_and_falls_back_to_the_offline_parser() -> None:
+    import warnings
+
+    class _Boom:
+        class models:
+            @staticmethod
+            def generate_content(**_kwargs):
+                raise RuntimeError("deadline too short")
+
+    offline = DeterministicIntentExtractor(())
+    extractor = GeminiIntentExtractor.__new__(GeminiIntentExtractor)
+    extractor._client = _Boom()
+    extractor._model, extractor._fallback = "m", offline
+    extractor._allowed_interests = extractor._allowed_careers = frozenset()
+    extractor._retry_after, extractor._warned = 0.0, False
+
+    with warnings.catch_warnings(record=True) as caught:
+        warnings.simplefilter("always")
+        result = extractor.extract("Can I take ELEN3013A?")
+
+    assert result.intent == "eligibility"
+    assert any("Gemini intent extraction failed" in str(w.message) for w in caught)
+
+
+def test_extractor_source_is_recorded_for_success_and_for_fallback() -> None:
+    from app.advisor.intent import EXTRACTOR_SOURCE
+
+    class _Fails:
+        class models:
+            @staticmethod
+            def generate_content(**_kwargs):
+                raise RuntimeError("503 unavailable")
+
+    class _Works:
+        class models:
+            @staticmethod
+            def generate_content(**_kwargs):
+                return SimpleNamespace(parsed=ParsedAdvisorRequest(intent="eligibility"))
+
+    def build(client):
+        extractor = GeminiIntentExtractor.__new__(GeminiIntentExtractor)
+        extractor._client, extractor._model = client, "m"
+        extractor._fallback = DeterministicIntentExtractor(())
+        extractor._allowed_interests = extractor._allowed_careers = frozenset()
+        extractor._retry_after, extractor._warned = 0.0, False
+        return extractor
+
+    EXTRACTOR_SOURCE.set(None)
+    build(_Works()).extract("Can I take ELEN3013A?")
+    assert EXTRACTOR_SOURCE.get() == "gemini"
+
+    import warnings
+
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore")
+        build(_Fails()).extract("Can I take ELEN3013A?")
+    assert EXTRACTOR_SOURCE.get() == "offline"
+
+
+@pytest.mark.parametrize(
+    ("message", "expected"),
+    [
+        ("can I take ELEN4012 having failed ELEN3009?", ["ELEN3009A"]),
+        ("I failed ELEN3009A and ELEN3012", ["ELEN3009A", "ELEN3012A"]),
+        ("ELEN3009 (failed), can I take ELEN4012A?", ["ELEN3009A"]),
+        ("not completed ELEN3000A, MATH3025A", ["ELEN3000A", "MATH3025A"]),
+        ("I passed ELEN3009A", []),
+        ("Can I take ELEN4012A?", []),
+    ],
+)
+def test_failed_or_not_completed_modules_are_read_from_the_message(message, expected) -> None:
+    from app.advisor.intent import extract_not_completed_modules
+
+    assert extract_not_completed_modules(message) == expected
+
+
+@pytest.mark.parametrize(
+    ("message", "target", "completed", "current", "planned", "failed"),
+    [
+        ("I failed ELEN3009A and ELEN3012. Can I take ELEN4011A?", "ELEN4011A", [], [], [], ["ELEN3009A", "ELEN3012A"]),
+        ("I have completed ELEN3009A. Can I take ELEN4012A?", "ELEN4012A", ["ELEN3009A"], [], [], []),
+        ("Can I take ELEN4012A? I completed ELEN3009A", "ELEN4012A", ["ELEN3009A"], [], [], []),
+        ("I am currently taking ELEN3012A, can I take ELEN3013A?", "ELEN3013A", [], ["ELEN3012A"], [], []),
+        ("I plan to take ELEN3012A. Can I take ELEN3013A?", "ELEN3013A", [], [], ["ELEN3012A"], []),
+        ("I have not completed ELEN3009A, can I take ELEN4012A?", "ELEN4012A", [], [], [], ["ELEN3009A"]),
+        ("Can I take ELEN3013A?", "ELEN3013A", [], [], [], []),
+    ],
+)
+def test_declared_statuses_are_read_and_the_target_is_the_module_being_asked_about(
+    message, target, completed, current, planned, failed
+) -> None:
+    extractor = DeterministicIntentExtractor(CsvCatalogueRepository(PROCESSED_DATA).get_aliases())
+    parsed = extractor.extract(message)
+
+    assert parsed.module_code == target
+    assert (parsed.completed_modules, parsed.current_modules, parsed.planned_modules) == (
+        completed, current, planned)
+    assert parsed.not_completed_modules == failed
+
+
+@pytest.mark.parametrize(
+    "message",
+    [
+        "what electives can I take",
+        "What electives can I take in fourth year?",
+        "which modules can I take",
+        "what compulsory modules do I have",
+    ],
+)
+def test_list_questions_with_can_i_take_ask_for_a_list_not_for_one_module(message) -> None:
+    extractor = DeterministicIntentExtractor(CsvCatalogueRepository(PROCESSED_DATA).get_aliases())
+
+    assert extractor.extract(message).intent == ("eligible_modules" if "can I take" in message or "can i take" in message else "curriculum_list")
+
+
+def test_can_i_take_a_named_module_is_still_an_eligibility_question() -> None:
+    extractor = DeterministicIntentExtractor(CsvCatalogueRepository(PROCESSED_DATA).get_aliases())
+
+    assert extractor.extract("Can I take ELEN4010A?").intent == "eligibility"
+    assert extractor.extract("Can I take the elective ELEN4010A?").intent == "eligibility"
+
+
+def test_gemini_cannot_invent_a_combined_year_request():
+    fallback=DeterministicIntentExtractor((Alias("machine learning","machine_learning","interest"),))
+    extractor=GeminiIntentExtractor.__new__(GeminiIntentExtractor)
+    extractor._client=SimpleNamespace(models=_Models(ParsedAdvisorRequest(intent="module_recommendations",year_of_study=3,include_electives=True,interests=["machine_learning"])))
+    extractor._model="test-model"
+    extractor._fallback=fallback
+    extractor._allowed_interests=frozenset({"machine_learning"})
+    extractor._allowed_careers=frozenset()
+    extractor._retry_after=0.0
+    result=extractor.extract("Recommend electives for machine learning")
+    assert result.include_electives is False
+    assert result.year_of_study is None
+    assert result.requirement_type=="elective_pool"

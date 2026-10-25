@@ -1,0 +1,13 @@
+arm,population,n,correct,accuracy,acc_ci_low,acc_ci_high,unresolved,wrong_decision,unsafe_eligible_on_ineligible,unsafe_denominator,questions_asked,question_rate
+clarify,ask,33,33,1.0,0.8957,1.0,0,0,0,16,33,1.0
+clarify,control,33,33,1.0,0.8957,1.0,0,0,0,16,0,0.0
+clarify,irrelevant,6,6,1.0,0.6097,1.0,0,0,0,0,0,0.0
+no_clarification,ask,33,0,0.0,0.0,0.1043,33,0,0,16,0,0.0
+no_clarification,control,33,33,1.0,0.8957,1.0,0,0,0,16,0,0.0
+no_clarification,irrelevant,6,6,1.0,0.6097,1.0,0,0,0,0,0,0.0
+assume_absent,ask,33,13,0.3939,0.2468,0.5632,9,11,3,16,0,0.0
+assume_absent,control,33,30,0.9091,0.7643,0.9686,3,0,0,16,0,0.0
+assume_absent,irrelevant,6,6,1.0,0.6097,1.0,0,0,0,0,0,0.0
+oracle,ask,33,33,1.0,0.8957,1.0,0,0,0,16,0,0.0
+oracle,control,33,33,1.0,0.8957,1.0,0,0,0,16,0,0.0
+oracle,irrelevant,6,6,1.0,0.6097,1.0,0,0,0,0,0,0.0

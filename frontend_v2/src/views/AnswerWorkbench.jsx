@@ -1,0 +1,26 @@
+import {ReviewHandoff} from "./ReviewHandoff";
+import React, { useState } from 'react';
+import { evidenceRecords,contextKey } from '../academicWorkspace.mjs';
+import { EvidencePanel } from './EvidencePanel';
+import { answerText } from '../workspaceModel.mjs';
+import { CopyButton,downloadText } from './shared';
+
+export function AnswerWorkbench({message,currentContext,onEdit,onSources,onShowInPlan,onSave}) {
+  const data=message.data;const stale=!message.contextKey || message.contextKey!==currentContext;
+  const records=evidenceRecords(data);
+  const missing=data.unresolved_predicates || data.eligibility?.unresolved_predicates || [];
+  const [showEvidence,setShowEvidence]=useState(false);
+  return <section className="answer-workbench">
+    <div className={`answer-context-state ${stale?'is-historical':''}`} role="status"><strong>{stale?'Historical context · re-evaluate before acting':'Context matches your current declarations'}</strong><small>{message.createdAt?new Intl.DateTimeFormat('en-ZA',{dateStyle:'medium',timeStyle:'short'}).format(new Date(message.createdAt)):'Answer time not recorded'}</small></div>
+    <section className="answer-sources" aria-label="Sources for this answer"><h3>Sources</h3>{records.length?<ul>{records.map((r,i)=><li key={`${r.id}-${r.rule}-${r.page}-${i}`}><strong>{r.id}</strong>{r.title && <span> · {r.title}</span>}{r.rule && <small> · rule {r.rule}</small>}{r.page && <small> · handbook page {r.page}</small>}{r.locator && <small> · {r.locator}</small>}{r.status && <small> · {String(r.status).replaceAll('_',' ')}</small>}{r.url && <a href={r.url} target="_blank" rel="noreferrer"> open</a>}</li>)}</ul>:<p className="helper-text">This answer did not cite a specific document.</p>}</section>
+    {(data.clarification_question || (missing.length>0 && String(data.status||'').startsWith('clarification'))) && <section className="clarification-workspace"><h3>What still needs clarification?</h3>{data.clarification_question && <p>{data.clarification_question}</p>}{missing.length>0 && <ul>{missing.map((item,index)=><li key={index}>{typeof item==='string'?item:JSON.stringify(item)}</li>)}</ul>}<button className="secondary-button" onClick={onEdit}>Review facts before answering</button><p className="helper-text">Edit your declarations or answer the recorded clarification options below. Profile changes start a fresh context; previous answers remain historical.</p></section>}
+    <ReviewHandoff result={data} profile={message.profileContext} recordedAt={message.createdAt} historical={stale}/>
+    <div className="workspace-toolbar"><button className="text-button" onClick={()=>setShowEvidence(!showEvidence)} aria-expanded={showEvidence}>{showEvidence?'Hide evidence summary':'Read the evidence summary'}</button><button className="text-button" onClick={()=>onSources(data)}>Inspect full source trail</button><button className="secondary-button" onClick={()=>onSave(message)}>Save this answer</button>{data.course_code && <button className="secondary-button" onClick={()=>onShowInPlan([data.course_code],true)}>Inspect in Plan</button>}</div>
+    {showEvidence && <EvidencePanel data={data} compact />}
+  </section>;
+}
+
+export function AnswerLibrary({answers,onRemove,onClear,onSources,profile}) {
+  const [confirm,setConfirm]=useState(false);
+  return <details className="answer-library"><summary>Saved answer library <span>{answers.length} on this device</span></summary><p>Answers retain their original declared context and supplied evidence. Re-evaluate academic guidance when that context changes.</p>{answers.map(answer=><section className="saved-answer" key={answer.id}><div className="section-label"><h3>{answer.question || 'Saved guidance'}</h3><button className="text-button" onClick={()=>onRemove(answer.id)}>Remove saved answer</button></div><p className="helper-text">{answer.contextKey===contextKey(profile)?'Matches current declared context':'Historical or unrecorded context'} · saved {new Intl.DateTimeFormat('en-ZA',{dateStyle:'medium'}).format(new Date(answer.savedAt))}</p><p>{answer.text}</p><details><summary>Original declarations and evidence</summary><pre>{JSON.stringify(answer.profileContext,null,2)}</pre><EvidencePanel data={answer.data} compact /></details><div className="workspace-toolbar"><CopyButton label="Copy saved answer" text={answerText(answer)}/><button className="text-button" onClick={()=>onSources(answer.data)}>Inspect saved source trail</button><button className="text-button" onClick={()=>downloadText('curricupath-saved-answer.txt',`${answer.question}\n${answerText(answer)}\n\nOriginal declared context:\n${JSON.stringify(answer.profileContext,null,2)}`)}>Export saved answer</button></div></section>)}{!answers.length && <p>No saved answers yet. Save a recorded response after asking a question.</p>}{answers.length>0 && <>{confirm?<div className="workspace-warning"><p>Clear every saved answer from this browser?</p><button className="secondary-button" onClick={()=>{onClear();setConfirm(false);}}>Confirm clear saved answers</button><button className="text-button" onClick={()=>setConfirm(false)}>Keep answers</button></div>:<button className="text-button" onClick={()=>setConfirm(true)}>Clear saved answer library</button>}</>}</details>;
+}

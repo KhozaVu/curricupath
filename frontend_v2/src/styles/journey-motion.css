@@ -1,0 +1,47 @@
+/* A single visual anchor; academic content is never hidden by scroll position. */
+/* Workspace transitions own entrance timing; avoid compounded legacy reveals. */
+.page-content > .view-heading, .home-page > .home-focus-grid,
+.topic-discovery, .advisor-intro { animation:none; }
+.app-shell[data-motion-level='subtle'] .drawer { animation-name:veil-arrive; }
+.app-shell[data-motion-level='subtle'] .drawer-backdrop.is-closing .drawer,
+.app-shell[data-motion-level='subtle'] .inspector.is-closing { animation-name:veil-depart; }
+.campus-journey { display:grid; grid-template-columns:1fr 1fr; gap:clamp(24px,4vw,64px); position:relative; margin:48px 0; }
+.journey-scene { position:sticky; top:32px; align-self:start; height:min(76vh,720px); min-height:400px; overflow:hidden; border-radius:var(--radius-panel); border:1px solid var(--border-default); background:#101b2d; }
+.journey-scene-photo { position:absolute; inset:0; background:linear-gradient(0deg,rgba(8,17,30,.9),transparent 65%),url('/assets/wits-arm-evening.jpeg') center/cover; }
+.journey-scene-caption { position:absolute; inset:auto 28px 32px; color:#f0f3f8; }
+.journey-scene-caption span { display:block; font-size:10px; letter-spacing:2px; margin-bottom:20px; }
+.journey-scene-caption strong { font:400 clamp(28px,3vw,46px)/1.1 var(--font-display,serif); }
+.journey-chapter { min-height:50vh; display:flex; flex-direction:column; align-items:flex-start; justify-content:center; padding:32px 0; border-bottom:1px solid var(--border-default); }
+.journey-chapter:last-child { border-bottom:0; }
+.journey-chapters { background:var(--surface-base); border:1px solid var(--border-default); border-radius:var(--radius-panel); padding:0 clamp(20px,3vw,40px); }
+.journey-chapter h2 { font-size:clamp(32px,4vw,58px); line-height:1.06; letter-spacing:-1px; margin:20px 0; }
+.journey-chapter h2 em { color:var(--text-secondary); font-weight:400; }
+.journey-chapter p { color:var(--text-secondary); line-height:1.8; max-width:38ch; }
+.journey-chapter button { margin-top:18px; }
+.journey-records { display:flex; flex-wrap:wrap; gap:22px; margin:16px 0; }
+.journey-records span { font-size:11px; color:var(--text-secondary); }
+.journey-records strong { display:block; font-size:28px; color:var(--text-primary); margin-bottom:6px; }
+@keyframes campus-arrive { from { transform:scale(1.025); } to { transform:scale(1); } }
+@keyframes campus-copy-arrive { from { opacity:.15; translate:0 12px; } to { opacity:1; translate:0 0; } }
+@media (prefers-reduced-motion:no-preference) {
+  .app-shell[data-motion-level='expressive'] .campus-hero-photo { animation:campus-arrive 700ms var(--motion-ease) both; }
+  .app-shell[data-motion-level='expressive'] .home-heading > * { animation:campus-copy-arrive 480ms var(--motion-ease) both; }
+  .app-shell[data-motion-level='expressive'] .home-heading > h1 { animation-delay:60ms; }
+  .app-shell[data-motion-level='expressive'] .home-heading > p { animation-delay:120ms; }
+  .app-shell[data-motion-level='expressive'] .home-heading > .hero-next-step { animation-delay:180ms; }
+  @supports (animation-timeline:view()) {
+    @keyframes campus-depth { from { transform:scale(1.06); } to { transform:scale(1); } }
+    .app-shell[data-motion-level='expressive'] .campus-journey { view-timeline-name:--campus-journey; }
+    .app-shell[data-motion-level='expressive'] .journey-scene-photo { animation:campus-depth linear both; animation-timeline:--campus-journey; animation-range:entry 0% exit 100%; }
+  }
+}
+.app-shell[data-motion-level='off'] .journey-scene { position:relative; top:auto; }
+.app-shell[data-visibility='hidden'] .campus-hero-photo,
+.app-shell[data-visibility='hidden'] .home-heading > * { animation-play-state:paused; }
+@media(max-width:900px) {
+  .campus-journey { grid-template-columns:1fr; gap:12px; }
+  .journey-scene { position:relative; top:auto; height:280px; min-height:0; }
+  .journey-chapter { min-height:0; padding:28px 8px; }
+  .app-shell .journey-scene-photo { animation:none !important; }
+}
+@media(prefers-reduced-motion:reduce) { .journey-scene { position:relative; top:auto; } }

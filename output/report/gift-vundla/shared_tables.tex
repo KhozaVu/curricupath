@@ -1,0 +1,39 @@
+\begin{table}[tb]
+\caption{Correct decisions (\%) on the frozen 40-case subset.}
+\label{tab:shared_evidence}
+\centering
+\small
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{p{29mm}rrr}
+\hline
+System & \shortstack{Handbook\\sufficient\\21/63} & \shortstack{School evidence\\required\\19/57} & \shortstack{All\\40/120}\\
+\hline
+Handbook RAG & 28.6\% & 31.6\% & 30.0\%\\
+Structured-rules LLM & 38.1\% & 49.1\% & 43.3\%\\
+Rules-only, before grid & 100.0\% & 68.4\% & 85.0\%\\
+CurricuPath, before grid & 87.3\% & 68.4\% & 78.3\%\\
+Rules-only, after grid* & 100.0\% & 100.0\% & 100.0\%\\
+CurricuPath, after grid* & 87.3\% & 100.0\% & 93.3\%\\
+\hline
+\end{tabular}
+\par\smallskip\noindent Headers show cases/inputs. *Development-informed results.
+\end{table}
+
+\begin{table}[tb]
+\caption{Classification performance and safety on the common 40-case subset.}
+\label{tab:shared_safety}
+\centering
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{lrr}
+\hline
+System & Mean Macro-F1 & Unsafe (\%)\\
+\hline
+CurricuPath* & 0.976 & 0.0\\
+No clarification* & 0.976 & 0.0\\
+Rules-only* & 1.000 & 0.0\\
+Structured-rules LLM & 0.333 & 16.7\\
+Handbook RAG & 0.278 & 38.5\\
+\hline
+\end{tabular}
+\par\smallskip\noindent Mean Macro-F1 averages three wording-specific scores. Unsafe rate is the percentage of non-eligible inputs predicted eligible. *Grid-aware deterministic conditions.
+\end{table}

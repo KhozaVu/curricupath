@@ -10,3 +10,24 @@ tmp/
 pgvector-master/
 data/raw/*
 !data/raw/.gitkeep
+
+# Local credentials, dependency backups and build logs.
+.env.*
+!.env.example
+node_modules.before-*/
+*.log
+
+# Reference handouts stay local; the final report embeds its required appendices.
+/to use/
+
+# Keep the current report and editable sources, not draft snapshots or renders.
+/output/report/gift-vundla/archive_*/
+/output/report/gift-vundla/revision*/
+/output/report/gift-vundla/merge_visual_check/
+/output/report/gift-vundla/*.aux
+/output/report/gift-vundla/*.out
+/output/report/gift-vundla/*.png
+/output/report/gift-vundla/*.before_author_number.*
+/output/report/gift-vundla/baseline_comparison.pdf
+/output/report/gift-vundla/clarification.pdf
+/output/report/gift-vundla/decision_flow.pdf

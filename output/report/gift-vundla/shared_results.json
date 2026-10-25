@@ -1,0 +1,181 @@
+{
+  "sufficiency": [
+    {
+      "system": "handbook_rag",
+      "label": "Handbook RAG",
+      "correct": [
+        18,
+        18,
+        36
+      ],
+      "denominators": [
+        63,
+        57,
+        120
+      ]
+    },
+    {
+      "system": "structured_rules_llm",
+      "label": "Structured-rules LLM",
+      "correct": [
+        24,
+        28,
+        52
+      ],
+      "denominators": [
+        63,
+        57,
+        120
+      ]
+    },
+    {
+      "system": "rules_only_before_grid",
+      "label": "Rules-only, before grid",
+      "correct": [
+        63,
+        39,
+        102
+      ],
+      "denominators": [
+        63,
+        57,
+        120
+      ]
+    },
+    {
+      "system": "curricupath_before_grid",
+      "label": "CurricuPath, before grid",
+      "correct": [
+        55,
+        39,
+        94
+      ],
+      "denominators": [
+        63,
+        57,
+        120
+      ]
+    },
+    {
+      "system": "rules_only_after_grid",
+      "label": "Rules-only, after grid*",
+      "correct": [
+        63,
+        57,
+        120
+      ],
+      "denominators": [
+        63,
+        57,
+        120
+      ]
+    },
+    {
+      "system": "curricupath_after_grid",
+      "label": "CurricuPath, after grid*",
+      "correct": [
+        55,
+        57,
+        112
+      ],
+      "denominators": [
+        63,
+        57,
+        120
+      ]
+    }
+  ],
+  "classification": [
+    {
+      "arm": "curricupath",
+      "n_per_wording": 40,
+      "mean_macro_f1": 0.9761340287656077,
+      "macro_f1_by_wording": [
+        0.9824561403508771,
+        0.972972972972973,
+        0.972972972972973
+      ],
+      "unsafe_numerator": 0,
+      "unsafe_denominator": 78,
+      "raw_sha256": {
+        "low": "ab9a2c08b6fff85f4e4f05fb20cf436cba3089b690677ab56f02ae8ea68d9606",
+        "medium": "20436de25181a4de8d70dbb866608e5b1cf333a752be77ef7b5cd0e5d1da6d40",
+        "high": "0b6da6b001c1f8a02e01cca5f31795b03ac4a8a99c0a6088aa14afe1be903df1"
+      },
+      "stage": "results_post_grid_final"
+    },
+    {
+      "arm": "curricupath_no_clarification",
+      "n_per_wording": 40,
+      "mean_macro_f1": 0.9761340287656077,
+      "macro_f1_by_wording": [
+        0.9824561403508771,
+        0.972972972972973,
+        0.972972972972973
+      ],
+      "unsafe_numerator": 0,
+      "unsafe_denominator": 78,
+      "raw_sha256": {
+        "low": "106c16ce1263f83166661963f506cf52a7e55c44cbb8180ee27016afa8841f18",
+        "medium": "f74022f41d8bf0e220e5c166104ad170ed294edb984799f9a47ec904928dd9aa",
+        "high": "0e081fe8788b74630df334b92fd46083494e32e2b6291e1a6f81d4f446134382"
+      },
+      "stage": "results_post_grid_final"
+    },
+    {
+      "arm": "rules_only",
+      "n_per_wording": 40,
+      "mean_macro_f1": 1.0,
+      "macro_f1_by_wording": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "unsafe_numerator": 0,
+      "unsafe_denominator": 78,
+      "raw_sha256": {
+        "low": "cd723f852e1a45843910a1cda870fb8867055ec43b11415a64f1a547c4ced6ab",
+        "medium": "194867b2a300947bd2eef0f9120402a01f865d90309bb4fdf774b87de6db704e",
+        "high": "49bbe721a5a72eaa8876c22a5e7d6eeddcdbad5fd69609b2da7ba83084eb7ee0"
+      },
+      "stage": "results_post_grid_final"
+    },
+    {
+      "arm": "structured_rules_llm",
+      "n_per_wording": 40,
+      "mean_macro_f1": 0.3334923128401389,
+      "macro_f1_by_wording": [
+        0.35946275946275946,
+        0.3508626639061422,
+        0.29015151515151516
+      ],
+      "unsafe_numerator": 13,
+      "unsafe_denominator": 78,
+      "raw_sha256": {
+        "low": "d506f4869766c58fc163fb8de6ed1919acd72bd8b6bb36bde482809d1329e00a",
+        "medium": "5741ef279b9d3fbc918f83785b7df55715ad22bee33f2aea73ab958fc328a120",
+        "high": "db19cf9be0ac5223ead62d2c05ff208280f5de2fbbe99d47586af5b642d5ae1d"
+      },
+      "stage": "results"
+    },
+    {
+      "arm": "handbook_rag",
+      "n_per_wording": 40,
+      "mean_macro_f1": 0.27838854382332645,
+      "macro_f1_by_wording": [
+        0.3253968253968254,
+        0.3232608695652174,
+        0.1865079365079365
+      ],
+      "unsafe_numerator": 30,
+      "unsafe_denominator": 78,
+      "raw_sha256": {
+        "low": "a53f6668e71cc76c07d36b479779eea6033771c352472d06f34115376dd5d422",
+        "medium": "149dc4ed7aed6fd1a5aeb23c74085f6421cac59eb27317b029832ec9e2ca5e78",
+        "high": "5fd66f22ca6e7fe22093441f3dc88ed16314d0e6aab98433a68922179f054a7b"
+      },
+      "stage": "results"
+    }
+  ],
+  "scope_note": "All classification arms restricted to same frozen40 per wording; original LLM and post-grid deterministic evidence stages retained. RAG mean0.2783885, CP/no-clarification0.976134. Supersedes mixed-size0.973 and screenshot0.280."
+}

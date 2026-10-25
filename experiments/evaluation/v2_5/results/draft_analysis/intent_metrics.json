@@ -1,0 +1,220 @@
+{
+  "by_category": {
+    "ambiguous_module_name": {
+      "ci95": [
+        0.0,
+        0.2775401687666166
+      ],
+      "correct": 0,
+      "n": 10,
+      "rate": 0.0
+    },
+    "career_path": {
+      "ci95": [
+        0.3126695474501864,
+        0.8318224187964902
+      ],
+      "correct": 6,
+      "n": 10,
+      "rate": 0.6
+    },
+    "clarification_follow_up": {
+      "ci95": [
+        0.5655085052479191,
+        1.0
+      ],
+      "correct": 5,
+      "n": 5,
+      "rate": 1.0
+    },
+    "conversation_control": {
+      "ci95": [
+        0.5655085052479191,
+        1.0
+      ],
+      "correct": 5,
+      "n": 5,
+      "rate": 1.0
+    },
+    "curriculum_list": {
+      "ci95": [
+        0.7961107336956521,
+        1.0
+      ],
+      "correct": 15,
+      "n": 15,
+      "rate": 1.0
+    },
+    "eligibility": {
+      "ci95": [
+        0.8388698745050667,
+        1.0
+      ],
+      "correct": 20,
+      "n": 20,
+      "rate": 1.0
+    },
+    "module_information": {
+      "ci95": [
+        0.7961107336956521,
+        1.0
+      ],
+      "correct": 15,
+      "n": 15,
+      "rate": 1.0
+    },
+    "public_course_search": {
+      "ci95": [
+        0.7961107336956521,
+        1.0
+      ],
+      "correct": 15,
+      "n": 15,
+      "rate": 1.0
+    },
+    "unknown_or_out_of_scope": {
+      "ci95": [
+        0.3755282641185388,
+        0.9637768390302125
+      ],
+      "correct": 4,
+      "n": 5,
+      "rate": 0.8
+    }
+  },
+  "extractor": "DeterministicIntentExtractor (no Gemini)",
+  "intent_accuracy": {
+    "ci95": [
+      0.7671626666784216,
+      0.906940968088377
+    ],
+    "correct": 85,
+    "n": 100,
+    "rate": 0.85
+  },
+  "latency_ms": {
+    "max": 4.538,
+    "median": 0.205
+  },
+  "misses": [
+    {
+      "case_id": "INTENT067",
+      "category": "career_path",
+      "expected": "career_path",
+      "predicted": "public_course_search"
+    },
+    {
+      "case_id": "INTENT070",
+      "category": "career_path",
+      "expected": "career_path",
+      "predicted": "public_course_search"
+    },
+    {
+      "case_id": "INTENT072",
+      "category": "career_path",
+      "expected": "career_path",
+      "predicted": "programme_information"
+    },
+    {
+      "case_id": "INTENT073",
+      "category": "career_path",
+      "expected": "career_path",
+      "predicted": "public_course_search"
+    },
+    {
+      "case_id": "INTENT081",
+      "category": "ambiguous_module_name",
+      "expected": "module_information",
+      "predicted": "unknown"
+    },
+    {
+      "case_id": "INTENT082",
+      "category": "ambiguous_module_name",
+      "expected": "module_information",
+      "predicted": "unknown"
+    },
+    {
+      "case_id": "INTENT083",
+      "category": "ambiguous_module_name",
+      "expected": "module_information",
+      "predicted": "unknown"
+    },
+    {
+      "case_id": "INTENT084",
+      "category": "ambiguous_module_name",
+      "expected": "module_information",
+      "predicted": "unknown"
+    },
+    {
+      "case_id": "INTENT085",
+      "category": "ambiguous_module_name",
+      "expected": "module_information",
+      "predicted": "unknown"
+    },
+    {
+      "case_id": "INTENT086",
+      "category": "ambiguous_module_name",
+      "expected": "module_information",
+      "predicted": "unknown"
+    },
+    {
+      "case_id": "INTENT087",
+      "category": "ambiguous_module_name",
+      "expected": "module_information",
+      "predicted": "public_course_search"
+    },
+    {
+      "case_id": "INTENT088",
+      "category": "ambiguous_module_name",
+      "expected": "module_information",
+      "predicted": "unknown"
+    },
+    {
+      "case_id": "INTENT089",
+      "category": "ambiguous_module_name",
+      "expected": "module_information",
+      "predicted": "unknown"
+    },
+    {
+      "case_id": "INTENT090",
+      "category": "ambiguous_module_name",
+      "expected": "module_information",
+      "predicted": "public_course_search"
+    },
+    {
+      "case_id": "INTENT099",
+      "category": "unknown_or_out_of_scope",
+      "expected": "unknown",
+      "predicted": "curriculum_list"
+    }
+  ],
+  "module_code_accuracy": {
+    "ci95": [
+      0.9010957324106112,
+      1.0
+    ],
+    "correct": 35,
+    "n": 35,
+    "rate": 1.0
+  },
+  "n_cases": 100,
+  "programme_code_accuracy": {
+    "ci95": [
+      0.8241154494176252,
+      1.0
+    ],
+    "correct": 18,
+    "n": 18,
+    "rate": 1.0
+  },
+  "status": "DRAFT: developer-authored, unreviewed cases; deterministic extractor only",
+  "year_of_study_accuracy": {
+    "ci95": [
+      0.7574992425007574,
+      1.0
+    ],
+    "correct": 12,
+    "n": 12,
+    "rate": 1.0
+  }
+}

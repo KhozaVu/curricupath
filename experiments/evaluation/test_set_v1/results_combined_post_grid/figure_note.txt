@@ -1,0 +1,1 @@
+CurricuPath and rules-only: School-grid requirements enabled after seeing these results (development-informed, labels share the grid source). LLM baselines: gemini-3.5-flash-lite, handbook and clash rules only, no grid rules (not like-for-like).

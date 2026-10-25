@@ -1,0 +1,10 @@
+{
+  "arm": "rules_only",
+  "level": "low",
+  "case_file_sha256": "c212469c91068e379668eac3b46d41920298532c16da7d269fbacf46ef723053",
+  "timetable_clash_gate": true,
+  "school_grid_requirements": true,
+  "runs_per_case": 1,
+  "intent_extraction": "deterministic",
+  "interpretation_fallback": "llm"
+}

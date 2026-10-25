@@ -1,0 +1,21 @@
+{
+  "captured_date": "22 October 2026",
+  "application": "CurricuPath local Downloads build",
+  "url": "http://127.0.0.1:8002/v2#advisor",
+  "profile": "Synthetic Electrical Engineering EFA03; no actual student record used",
+  "C1": {
+    "prompt": "Can I take MATH1049A in EFA03?",
+    "observed": "Have you completed MATH1048A?"
+  },
+  "C2": {
+    "reply": "Completed",
+    "observed": "Eligible - recorded requirements met; PRE_MATH1049"
+  },
+  "C3": {
+    "prompt": "Can I take MATH1049A in EFA03? I have not completed MATH1048A.",
+    "observed": "Not eligible - a requirement is unmet; PRE_MATH1049 not satisfied"
+  },
+  "status": "Illustrative UI capture; not a benchmark rerun, independent academic validation or official registration decision.",
+  "appendix_B_source": "C:\\Users\\giftv\\Downloads\\project_plan (1).pdf",
+  "appendix_B_sha256": "fa15c42819d24594719e6cd8106ebfe29a6d136e0f9c34c132812a6f9f76894d"
+}

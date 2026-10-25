@@ -1,0 +1,36 @@
+{
+  "total_pages": 52,
+  "main_paper_pages": 6,
+  "sections": [
+    {
+      "section": "Technical paper",
+      "start_page": 1,
+      "pages": 6
+    },
+    {
+      "section": "Appendix A - Team reflection and actual work distribution",
+      "start_page": 7,
+      "pages": 2
+    },
+    {
+      "section": "Appendix B - Original unmarked project plan",
+      "start_page": 9,
+      "pages": 11
+    },
+    {
+      "section": "Appendix C - Application use-case demonstrations",
+      "start_page": 20,
+      "pages": 3
+    },
+    {
+      "section": "Appendix D - Engine integration and verification",
+      "start_page": 23,
+      "pages": 3
+    },
+    {
+      "section": "Appendix E - Merged meeting minutes",
+      "start_page": 26,
+      "pages": 27
+    }
+  ]
+}

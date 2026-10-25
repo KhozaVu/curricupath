@@ -1,0 +1,27 @@
+{
+  "arm": "handbook_rag",
+  "level": "medium",
+  "case_file_sha256": "c212469c91068e379668eac3b46d41920298532c16da7d269fbacf46ef723053",
+  "timetable_clash_gate": true,
+  "school_grid_requirements": true,
+  "school_grid_facts_shared_with_both_llm_arms": true,
+  "structured_arm_receives_full_grid_rules": false,
+  "runs_per_case": 1,
+  "gemini_model": "gemini-3.5-flash-lite",
+  "top_k": 20,
+  "pace_seconds": 4.0,
+  "structured_rules_include_clash_rules": false,
+  "frozen_handbook_retrieval_cache_sha256": {
+    "experiments\\evaluation\\test_set_v1\\results\\raw\\handbook_rag__low.jsonl": "a53f6668e71cc76c07d36b479779eea6033771c352472d06f34115376dd5d422",
+    "experiments\\evaluation\\test_set_v1\\results\\raw\\handbook_rag__medium.jsonl": "149dc4ed7aed6fd1a5aeb23c74085f6421cac59eb27317b029832ec9e2ca5e78",
+    "experiments\\evaluation\\test_set_v1\\results\\raw\\handbook_rag__high.jsonl": "5fd66f22ca6e7fe22093441f3dc88ed16314d0e6aab98433a68922179f054a7b"
+  },
+  "new_hosted_embedding_calls": 0,
+  "input_sha256": {
+    "data\\rules\\grid_rules.json": "3d22f47fb275efc37e09d8651be91c7ece7fad4ea7079d4b9c8cb6532c9403cc",
+    "data\\rules\\grid_clash_rules.csv": "06e2f2fbe46d7ad92d0a2887075f5e083e3c3381a0df824a9fbce6d74623b5e6",
+    "data\\processed\\rules.csv": "d265ec3f5e069296830b2fd406e107d48f70ccf826c2d28da6f2a448ec6c1e05",
+    "experiments\\evaluation\\v2_5\\rag_prompt.md": "3b8d0d9773398572b5e749351e335051567bf55cc30d65f8bc6c3e39d85d28e7",
+    "experiments\\evaluation\\v2_5\\structured_rules_prompt.md": "854b872d95913e87dd380163d503f0061a4b9ed1d4970f29a5166c1b08188214"
+  }
+}

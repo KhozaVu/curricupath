@@ -1,0 +1,243 @@
+{
+  "arms": {
+    "curricupath": {
+      "answered_first_turn": {
+        "ci95": [
+          0.04325726318273798,
+          0.4223517050863101
+        ],
+        "correct": 2,
+        "n": 13,
+        "rate": 0.15384615384615385
+      },
+      "appropriate_clarification_rate": {
+        "ci95": null,
+        "correct": 0,
+        "n": 0,
+        "not_scorable": "needs reviewer fields (required_clarification, accepted_final_outcomes_json)",
+        "rate": null
+      },
+      "asked_clarification_first_turn": {
+        "ci95": [
+          0.5776482949136899,
+          0.9567427368172621
+        ],
+        "correct": 11,
+        "n": 13,
+        "rate": 0.8461538461538461
+      },
+      "final_interpretation_correct": {
+        "ci95": [
+          0.7718981569447083,
+          1.0
+        ],
+        "correct": 13,
+        "n": 13,
+        "rate": 1.0
+      },
+      "final_outcome_accepted": {
+        "ci95": null,
+        "correct": 0,
+        "n": 0,
+        "not_scorable": "needs reviewer fields (required_clarification, accepted_final_outcomes_json)",
+        "rate": null
+      },
+      "initial_intent_accuracy": {
+        "ci95": [
+          0.7718981569447083,
+          1.0
+        ],
+        "correct": 13,
+        "n": 13,
+        "rate": 1.0
+      },
+      "mean_turns_to_resolution": 1.0,
+      "n_cases": 13,
+      "refused_out_of_scope_first_turn": {
+        "ci95": [
+          0.0,
+          0.22810184305529166
+        ],
+        "correct": 0,
+        "n": 13,
+        "rate": 0.0
+      },
+      "second_attempt_success": {
+        "ci95": null,
+        "correct": 0,
+        "n": 0,
+        "not_scorable": "needs reviewer fields (required_clarification, accepted_final_outcomes_json)",
+        "rate": null
+      },
+      "silent_guess_rate": {
+        "ci95": null,
+        "correct": 0,
+        "n": 0,
+        "not_scorable": "needs reviewer fields (required_clarification, accepted_final_outcomes_json)",
+        "rate": null
+      },
+      "unhandled_error_rate": {
+        "ci95": [
+          0.0,
+          0.22810184305529166
+        ],
+        "correct": 0,
+        "n": 13,
+        "rate": 0.0
+      },
+      "unnecessary_clarification_rate": {
+        "ci95": null,
+        "correct": 0,
+        "n": 0,
+        "not_scorable": "needs reviewer fields (required_clarification, accepted_final_outcomes_json)",
+        "rate": null
+      },
+      "unresolved_clarification_rate": {
+        "ci95": [
+          0.5776482949136899,
+          0.9567427368172621
+        ],
+        "correct": 11,
+        "n": 13,
+        "rate": 0.8461538461538461
+      },
+      "unscripted_cases": [
+        "AMB001",
+        "AMB003",
+        "AMB004",
+        "AMB005",
+        "AMB006",
+        "AMB007",
+        "AMB008",
+        "AMB009",
+        "AMB010",
+        "AMB011",
+        "AMB012"
+      ]
+    },
+    "curricupath_no_clarification": {
+      "answered_first_turn": {
+        "ci95": [
+          0.6668546607175265,
+          0.9862899336203037
+        ],
+        "correct": 12,
+        "n": 13,
+        "rate": 0.9230769230769231
+      },
+      "appropriate_clarification_rate": {
+        "ci95": null,
+        "correct": 0,
+        "n": 0,
+        "not_scorable": "needs reviewer fields (required_clarification, accepted_final_outcomes_json)",
+        "rate": null
+      },
+      "asked_clarification_first_turn": {
+        "ci95": [
+          0.0,
+          0.22810184305529166
+        ],
+        "correct": 0,
+        "n": 13,
+        "rate": 0.0
+      },
+      "final_interpretation_correct": {
+        "ci95": [
+          0.7718981569447083,
+          1.0
+        ],
+        "correct": 13,
+        "n": 13,
+        "rate": 1.0
+      },
+      "final_outcome_accepted": {
+        "ci95": null,
+        "correct": 0,
+        "n": 0,
+        "not_scorable": "needs reviewer fields (required_clarification, accepted_final_outcomes_json)",
+        "rate": null
+      },
+      "initial_intent_accuracy": {
+        "ci95": [
+          0.7718981569447083,
+          1.0
+        ],
+        "correct": 13,
+        "n": 13,
+        "rate": 1.0
+      },
+      "mean_turns_to_resolution": 1.0,
+      "n_cases": 13,
+      "refused_out_of_scope_first_turn": {
+        "ci95": [
+          0.0,
+          0.22810184305529166
+        ],
+        "correct": 0,
+        "n": 13,
+        "rate": 0.0
+      },
+      "second_attempt_success": {
+        "ci95": null,
+        "correct": 0,
+        "n": 0,
+        "not_scorable": "needs reviewer fields (required_clarification, accepted_final_outcomes_json)",
+        "rate": null
+      },
+      "silent_guess_rate": {
+        "ci95": null,
+        "correct": 0,
+        "n": 0,
+        "not_scorable": "needs reviewer fields (required_clarification, accepted_final_outcomes_json)",
+        "rate": null
+      },
+      "unhandled_error_rate": {
+        "ci95": [
+          0.0,
+          0.22810184305529166
+        ],
+        "correct": 0,
+        "n": 13,
+        "rate": 0.0
+      },
+      "unnecessary_clarification_rate": {
+        "ci95": null,
+        "correct": 0,
+        "n": 0,
+        "not_scorable": "needs reviewer fields (required_clarification, accepted_final_outcomes_json)",
+        "rate": null
+      },
+      "unresolved_clarification_rate": {
+        "ci95": [
+          0.0,
+          0.22810184305529166
+        ],
+        "correct": 0,
+        "n": 13,
+        "rate": 0.0
+      },
+      "unscripted_cases": []
+    }
+  },
+  "draft": true,
+  "extraction": "deterministic",
+  "paired": {
+    "final_interpretation_correct": {
+      "both_correct": 13,
+      "exact_sign_test_p": 1.0,
+      "n_pairs": 13,
+      "neither": 0,
+      "only_with_clarification": 0,
+      "only_without_clarification": 0
+    },
+    "final_outcome_accepted": {
+      "both_correct": 0,
+      "exact_sign_test_p": null,
+      "n_pairs": 0,
+      "neither": 0,
+      "not_scorable": "needs reviewer fields (required_clarification, accepted_final_outcomes_json)",
+      "only_with_clarification": 0,
+      "only_without_clarification": 0
+    }
+  }
+}

@@ -1,0 +1,18 @@
+# Binary deliverables must retain their exact bytes on every platform.
+*.pdf binary
+*.zip binary
+*.woff binary
+*.woff2 binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+
+# Report provenance checks include source-file hashes as well as PDF hashes.
+output/report/** -text -whitespace
+
+# Generated vendor/shader bundles retain upstream whitespace.
+app/ui/assets_v2/** -whitespace
+
+# Two trailing spaces are valid Markdown line breaks.
+*.md whitespace=-blank-at-eol

@@ -25,7 +25,8 @@ SUPPORTED_INTENTS = frozenset(
         "programme_comparison",
         "credit_information",
         "curriculum_list",
-        "public_course_search",
+        "eligible_modules",
+        "module_recommendations",
         "career_path",
     }
 )
@@ -118,7 +119,7 @@ def classify_scope(
             reason_codes=["SUPPORTED_TOPIC_UNCLEAR_INTENT"],
             clarification_question=(
                 "Are you asking about module information, eligibility, curriculum "
-                "requirements, a verified public course, or a career path?"
+                "requirements, Wits elective suggestions, or a career path?"
             ),
         )
 
@@ -140,7 +141,7 @@ def out_of_scope_response(
         "answer": (
             "That request is outside CurricuPath's supported academic-advising "
             "functions. I can help with module information, curriculum requirements, "
-            "eligibility, verified public courses, programme comparisons, credits, "
+            "eligibility, Wits module recommendations, programme comparisons, credits, "
             "and supported career-path information."
         ),
         "scope": decision.model_dump(),

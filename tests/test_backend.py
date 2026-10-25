@@ -125,7 +125,7 @@ def test_health_and_catalogue_endpoints() -> None:
     assert 'id="root"' in page.text
     assert "CSV engine online" not in page.text
     assert 'type="module"' in page.text
-    assert 'src="/assets/app.js?v=20260922-2"' in page.text
+    assert 'src="/v2/assets/app.js?v=20261020-wits-modules"' in page.text
     assert client.get("/assets/app.js").status_code == 200
     assert client.get("/assets/app.css").status_code == 200
     assert client.get("/health").json() == {"status": "ok"}
@@ -225,7 +225,7 @@ def test_advisor_guides_completion_selection_and_groups_curriculum_years() -> No
 
     assert "Modules are separated by year" in script
     assert 'className="year-group"' in script
-    assert '[["completed", "Completed"], ["current", "Current"], ["planned", "Planned"]]' in script
+    assert '[["completed", "Completed"], ["current", "Current"], ["planned", "Planned"], ["repeating", "Repeating"]]' in script
 
 
 def test_advisor_chat_is_revealed_after_curriculum_setup() -> None:
@@ -247,19 +247,9 @@ def test_achievements_and_visual_course_ratings_are_available() -> None:
     assert 'className="stars-fill"' in script
 
 
-def test_course_filters_reach_the_service() -> None:
-    response = _client().get(
-        "/courses",
-        params={"category": "electronics_control", "interest": "electric_circuits"},
-    )
-
-    assert response.status_code == 200
-    assert response.json()[0] == {
-        "course_id": "CRS021",
-        "category": "electronics_control",
-        "interest": "electric_circuits",
-        "career": None,
-    }
+def test_public_course_routes_are_removed() -> None:
+    assert _client().get("/courses").status_code == 404
+    assert _client().get("/courses/CRS001").status_code == 404
 
 
 def test_semantic_search_endpoint_exposes_pgvector_results() -> None:
@@ -268,7 +258,7 @@ def test_semantic_search_endpoint_exposes_pgvector_results() -> None:
 
     response = client.post(
         "/search/semantic",
-        json={"query": "electric circuits", "item_type": "public_course"},
+        json={"query": "electric circuits", "item_type": "module"},
     )
 
     assert response.status_code == 200
@@ -463,17 +453,17 @@ def test_csv_discovery_endpoints_are_populated() -> None:
     client = TestClient(create_app())
 
     summary = client.get("/catalogue/summary").json()
-    assert summary["recommendable_courses"] >= 20
-    assert summary["public_course_ranking_mode"] == "deterministic"
-    assert summary["external_references"] == 17
-    assert client.get("/career-paths").json()
+    assert "recommendable_courses" not in summary
+    assert "public_course_ranking_mode" not in summary
+    assert summary["external_references"] == 24
+    assert client.get("/career-paths").status_code == 404
     evidence = client.get("/evidence").json()
     assert evidence["sources"]
     assert evidence["external_references"]
     assert evidence["missing_cbos"]
     assert evidence["orphan_cbos"][0]["course_code"] == "ELEN3020A"
     assert client.get("/cbos/missing").json()
-    assert client.get("/courses/CRS001").json()["source"]["verification_status"] == "verified"
+    assert client.get("/courses/CRS001").status_code == 404
 
 
 class FakeHandbookRagDemo:
@@ -551,3 +541,33 @@ def test_catalogue_summary_reports_handbook_rag_demo_availability(monkeypatch) -
         create_app(handbook_rag_demo=FakeHandbookRagDemo())
     ).get("/catalogue/summary").json()
     assert enabled["handbook_rag_demo_enabled"] is True
+
+
+def _v2_client():
+    from fastapi.testclient import TestClient
+    from scripts.run_evaluation import _curricupath_components
+
+    _, app = _curricupath_components()
+    return TestClient(app)
+
+
+def test_existing_page_is_unchanged_and_new_interface_is_served_beside_it() -> None:
+    with _v2_client() as client:
+        old = client.get("/")
+        new = client.get("/v2")
+
+    assert old.status_code == 200 and '/v2/assets/app.js' in old.text
+    assert new.status_code == 200 and '/v2/assets/app.js' in new.text
+
+
+def test_programme_graph_uses_recorded_rules_only() -> None:
+    with _v2_client() as client:
+        graph = client.get("/programmes/EFA04/graph").json()
+
+    codes = {node["course_code"] for node in graph["nodes"]}
+    assert {"ELEN3013A", "ELEN3012A", "ELEN2020A"} <= codes
+    assert all(edge["from"] in codes and edge["to"] in codes for edge in graph["edges"])
+    assert {"from": "ELEN2020A", "to": "ELEN3013A", "kind": "prerequisite"}.items() <= next(
+        e for e in graph["edges"] if e["from"] == "ELEN2020A" and e["to"] == "ELEN3013A"
+    ).items()
+    assert any(e["kind"] == "corequisite" and e["to"] == "ELEN3013A" for e in graph["edges"])

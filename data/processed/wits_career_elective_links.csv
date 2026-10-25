@@ -1,0 +1,18 @@
+programme_code,wits_career,career_tags,rationale,status
+EFA03,Antennas Engineering,rf_engineering;wireless_communications,High Frequency Techniques covers RF circuits and antennas.,developer_proposed
+EFA03,Computer Engineer,,No Year 4 EFA03 elective is specifically about computing.,developer_proposed
+EFA03,Control and Automation Engineer,control_engineering;automation_engineering,Control II covers control system analysis and design.,developer_proposed
+EFA03,High Voltage Engineer,high_voltage_engineering,High Voltage Engineering covers HV equipment and insulation.,developer_proposed
+EFA03,Machines and Drives Engineer,electrical_machines_engineering;electric_drives_engineering,Electromechanical Conversion covers machines and drives.,developer_proposed
+EFA03,Power Engineer,power_systems_engineering;high_voltage_engineering;renewable_energy_engineering;energy_systems_engineering,"Power Systems, High Voltage Engineering and Renewable Energy cover power generation and delivery.",developer_proposed
+EFA03,Power Systems Manager,power_systems_engineering;grid_planning,Power Systems covers system operation and planning.,developer_proposed
+EFA03,Telecommunications Engineer,wireless_communications,High Frequency Techniques covers wireless transmission.,developer_proposed
+EFA04,Computer Engineer,software_development;secure_software_engineering,Software Development III and Secure Computing cover computer systems software.,developer_proposed
+EFA04,Information Engineer,software_development;network_engineering;data_engineering,"Software, networking and data electives match the programme focus.",developer_proposed
+EFA04,Software Developer,software_development,Software Development III covers software design and testing.,developer_proposed
+EFA04,Software Engineer,software_development;secure_software_engineering,Software Development III and Secure Computing cover software engineering practice.,developer_proposed
+EFA04,Software Project Manager,systems_engineering,Software Development III covers team software projects.,developer_proposed
+EFA04,Software Systems Architect,systems_engineering;secure_software_engineering,Software Development III and Secure Computing cover system design and security.,developer_proposed
+EFA04,Network Engineer,network_engineering,Network Fundamentals covers computer networks.,developer_proposed
+EFA04,Telecommunications Engineer,telecommunications_engineering,Network Fundamentals covers communication networks.,developer_proposed
+EFA04,Information Technology Consultant,network_engineering;cybersecurity_engineering;data_engineering,"Networking, security and data electives match IT consulting work.",developer_proposed

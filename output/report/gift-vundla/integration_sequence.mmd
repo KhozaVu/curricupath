@@ -1,0 +1,30 @@
+sequenceDiagram
+title CurricuPath prerequisite clarification and re-evaluation
+participant Student
+participant ReactUI
+participant FastAPI
+participant SessionStore
+participant AdvisorEngine
+participant CatalogueRepository
+Student->>ReactUI: Ask about MATH1049A
+ReactUI->>FastAPI: POST /advisor with declared profile
+FastAPI->>SessionStore: Load conversation context
+SessionStore-->>FastAPI: Existing or empty conversation context
+FastAPI->>AdvisorEngine: Advise with interpreted request and context
+AdvisorEngine->>CatalogueRepository: Retrieve module rules and source status
+CatalogueRepository-->>AdvisorEngine: PRE_MATH1049 and verified source
+AdvisorEngine-->>FastAPI: Clarification required for MATH1048A
+FastAPI->>SessionStore: Save pending target and prerequisite
+FastAPI-->>ReactUI: Ask whether MATH1048A is completed
+ReactUI-->>Student: Display focused question
+Student->>ReactUI: Declare Completed
+ReactUI->>FastAPI: POST /advisor with reply and session ID
+FastAPI->>SessionStore: Restore pending prerequisite
+SessionStore-->>FastAPI: MATH1049A target and MATH1048A fact
+FastAPI->>AdvisorEngine: Apply reply and evaluate original target
+AdvisorEngine->>CatalogueRepository: Retrieve applicable rules and source status
+CatalogueRepository-->>AdvisorEngine: Source-linked requirements
+AdvisorEngine-->>FastAPI: Decision with rule checks and source trace
+FastAPI->>SessionStore: Save updated conversation context
+FastAPI-->>ReactUI: Structured response
+ReactUI-->>Student: Display decision and evidence
